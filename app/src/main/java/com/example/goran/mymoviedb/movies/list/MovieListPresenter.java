@@ -50,4 +50,9 @@ public class MovieListPresenter implements MovieListContract.Presenter {
     public void onClickMovie(int position) {
         listView.navigateToMovie(position);
     }
+
+    @Override
+    public void onBottomReached() {
+        loadMovies();
+    }
 }

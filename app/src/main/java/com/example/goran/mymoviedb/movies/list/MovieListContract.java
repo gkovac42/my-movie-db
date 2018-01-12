@@ -22,5 +22,7 @@ public interface MovieListContract {
         void loadMovies();
 
         void onClickMovie(int position);
+
+        void onBottomReached();
     }
 }

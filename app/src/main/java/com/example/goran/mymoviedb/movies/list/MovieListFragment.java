@@ -67,8 +67,8 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
             }
 
             @Override
-            public void onBottomReached(int position) {
-                presenter.loadMovies();
+            public void onBottomReached() {
+                presenter.onBottomReached();
 
             }
         });

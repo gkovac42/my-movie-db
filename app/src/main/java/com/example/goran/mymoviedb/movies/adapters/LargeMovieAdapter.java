@@ -69,7 +69,7 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
 
         if (position == movies.size() - 1){
 
-            listener.onBottomReached(position);
+            listener.onBottomReached();
 
         }
     }

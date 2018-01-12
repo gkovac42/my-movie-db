@@ -8,5 +8,5 @@ public interface AdapterListener {
 
     void onClick(int position);
 
-    void onBottomReached(int position);
+    void onBottomReached();
 }
