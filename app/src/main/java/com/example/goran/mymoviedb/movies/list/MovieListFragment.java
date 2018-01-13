@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +38,12 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
     private List<Movie> movieList;
     private LargeMovieAdapter adapter;
 
-    public static MovieListFragment newInstance() {
-        return new MovieListFragment();
+    public static MovieListFragment newInstance(int category) {
+        MovieListFragment fragment = new MovieListFragment();
+        Bundle args = new Bundle();
+        args.putInt("category", category);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Nullable
@@ -57,9 +62,10 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Log.i("CATEGORY", String.valueOf(getArguments().getInt("category")));
+
         movieList = new ArrayList<>();
         adapter = new LargeMovieAdapter(movieList);
-
         adapter.setListener(new AdapterListener() {
             @Override
             public void onClick(int position) {
@@ -69,7 +75,6 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
             @Override
             public void onBottomReached() {
                 presenter.onBottomReached();
-
             }
         });
 
@@ -82,12 +87,19 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
 
     }
 
+    @Override
+    public int getCategory() {
+        return getArguments().getInt("category");
+    }
+
+    @Override
     public void navigateToMovie(int position) {
         Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
         intent.putExtra("movie_id", movieList.get(position).getId());
         startActivity(intent);
     }
 
+    @Override
     public void addMoviesToAdapter(List<Movie> movies) {
         movieList.addAll(movies);
         adapter.notifyDataSetChanged();

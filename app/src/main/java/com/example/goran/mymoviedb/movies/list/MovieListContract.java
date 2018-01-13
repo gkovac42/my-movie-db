@@ -12,6 +12,8 @@ public interface MovieListContract {
 
     interface View {
 
+        int getCategory();
+
         void navigateToMovie(int movieId);
 
         void addMoviesToAdapter(List<Movie> movies);

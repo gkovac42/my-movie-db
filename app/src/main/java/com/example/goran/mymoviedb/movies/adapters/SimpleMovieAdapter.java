@@ -11,7 +11,6 @@ import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.Movie;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +24,7 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
     private List<Movie> movies;
     private ItemClickListener listener;
 
-    public SimpleMovieAdapter(ArrayList<Movie> movies) {
+    public SimpleMovieAdapter(List<Movie> movies) {
         this.movies = movies;
     }
 

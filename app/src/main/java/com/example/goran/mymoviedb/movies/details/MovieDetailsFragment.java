@@ -1,22 +1,28 @@
 package com.example.goran.mymoviedb.movies.details;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.goran.mymoviedb.R;
+import com.example.goran.mymoviedb.data.model.Genre;
 import com.example.goran.mymoviedb.data.model.Movie;
+import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,9 +31,14 @@ import butterknife.ButterKnife;
  * Created by Goran on 25.12.2017..
  */
 
-public class MovieDetailsFragment extends android.support.v4.app.Fragment {
+public class MovieDetailsFragment extends Fragment implements MovieDetailsContract.View {
 
     private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w600";
+
+    MovieDetailsContract.Presenter presenter;
+
+    private List<Movie> similarMovies;
+    private SimpleMovieAdapter adapter;
 
     @BindView(R.id.img_movie_poster)
     SimpleDraweeView imgPoster;
@@ -57,7 +68,8 @@ public class MovieDetailsFragment extends android.support.v4.app.Fragment {
     TextView txtRuntime;
     @BindView(R.id.txt_movie_homepage)
     TextView txtHomepage;
-
+    @BindView(R.id.recycler_movie_similar)
+    RecyclerView recyclerView;
 
     @Nullable
     @Override
@@ -75,83 +87,60 @@ public class MovieDetailsFragment extends android.support.v4.app.Fragment {
 
         int movieId = intent.getIntExtra("movie_id", 0);
 
+    }
+
+    @Override
+    public void displayMovieDetails(MovieDetails movieDetails) {
+        imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movieDetails.getPosterPath()));
+
+        txtReleaseDate.setText("Release Date: " + movieDetails.getReleaseDate());
 
 
-       /* Observable<MovieDetails> observable = apiHelper.getMovieDetails(movieId);
+        txtDesc.setText(movieDetails.getOverview());
 
 
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(movieDetails -> {
+        ArrayList<String> genres = new ArrayList<>();
 
-                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle((movieDetails.getTitle()
-                            + " (" + movieDetails.getReleaseDate().substring(0, 4) + ")"));
+        for (Genre genre : movieDetails.getGenres()) {
+            genres.add(genre.getName());
+        }
 
+        String g = TextUtils.join(",\n", genres);
 
-                    imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movieDetails.getPosterPath()));
+        txtGenre.setText(g);
 
-                    txtReleaseDate.setText("Release Date: " + movieDetails.getReleaseDate());
+        txtLanguage.setText("Language: " + movieDetails.getSpokenLanguages().get(0).getName());
 
+        txtRating.setText(String.valueOf(movieDetails.getVoteAverage()));
 
-                    txtDesc.setText(movieDetails.getOverview());
+        txtVotes.setText(String.valueOf(movieDetails.getVoteCount()));
 
+        txtPopularity.setText(String.valueOf(movieDetails.getPopularity()));
 
-                    ArrayList<String> genres = new ArrayList<>();
+        txtBudget.setText("Budget: " + String.valueOf(movieDetails.getBudget()) + "$");
+        txtRevenue.setText("Revenue: " + String.valueOf(movieDetails.getRevenue() + "$"));
+        txtRuntime.setText(String.valueOf(movieDetails.getRuntime()) + " min");
+        txtHomepage.setText("Homepage: " + movieDetails.getHomepage());
+        txtOriginalTitle.setText("Original Title: " + movieDetails.getOriginalTitle());
+        txtStatus.setText("Status: " + movieDetails.getStatus());
+    }
 
-                    for (Genre genre : movieDetails.getGenres()) {
-                        genres.add(genre.getName());
-                    }
+    @Override
+    public void displaySimilarMovies(List<Movie> movieList) {
 
-                    String g = TextUtils.join(",\n", genres);
+        similarMovies = new ArrayList<>();
+        similarMovies.addAll(movieList);
 
-                    txtGenre.setText(g);
-
-                    txtLanguage.setText("Language: " + movieDetails.getSpokenLanguages().get(0).getName());
-
-                    txtRating.setText(String.valueOf(movieDetails.getVoteAverage()));
-
-                    txtVotes.setText(String.valueOf(movieDetails.getVoteCount()));
-
-                    txtPopularity.setText(String.valueOf(movieDetails.getPopularity()));
-
-                    txtBudget.setText("Budget: " + String.valueOf(movieDetails.getBudget()) + "$");
-                    txtRevenue.setText("Revenue: " + String.valueOf(movieDetails.getRevenue()+ "$"));
-                    txtRuntime.setText(String.valueOf(movieDetails.getRuntime()) + " min");
-                    txtHomepage.setText("Homepage: " + movieDetails.getHomepage());
-                    txtOriginalTitle.setText("Original Title: " + movieDetails.getOriginalTitle());
-                    txtStatus.setText("Status: " + movieDetails.getStatus());
-
-                });
-*/
-        ArrayList<Movie> similarMovies = new ArrayList<>();
-
-        RecyclerView recyclerView = getView().findViewById(R.id.recycler_movie_similar);
-        SimpleMovieAdapter adapter = new SimpleMovieAdapter(similarMovies);
-
-        adapter.setListener(new SimpleMovieAdapter.ItemClickListener() {
-            @Override
-            public void onClick(int position) {
-                Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
-                intent.putExtra("movie_id", similarMovies.get(position).getId());
-                startActivity(intent);
-            }
+        adapter = new SimpleMovieAdapter(similarMovies);
+        adapter.notifyDataSetChanged();
+        adapter.setListener(position -> {
+            Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
+            intent.putExtra("movie_id", similarMovies.get(position).getId());
+            startActivity(intent);
         });
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
-
-        /*Observable<ListResponse> observable1 = apiHelper.getSimilarMovies(movieId, 1);
-
-        observable1.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(listResponse -> {
-                    similarMovies.addAll(listResponse.getMovies());
-                    adapter.notifyDataSetChanged();
-                });*/
-
-
     }
-
 }

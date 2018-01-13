@@ -21,6 +21,7 @@ import com.example.goran.mymoviedb.di.HomeActivityModule;
 import com.example.goran.mymoviedb.login.LoginActivity;
 import com.example.goran.mymoviedb.movies.list.MovieListFragment;
 import com.example.goran.mymoviedb.movies.search.MovieSearchFragment;
+import com.example.goran.mymoviedb.movies.util.Category;
 
 import javax.inject.Inject;
 
@@ -127,13 +128,13 @@ public class HomeActivity extends AppCompatActivity
                 presenter.onClickPlayingNow();
                 break;
             case R.id.nav_upcoming:
-
+                presenter.onClickUpcoming();
                 break;
             case R.id.nav_popular:
-
+                presenter.onClickPopular();
                 break;
             case R.id.nav_top_rated:
-
+                presenter.onClickTopRated();
                 break;
             case R.id.nav_search:
                 presenter.onClickSearch();
@@ -155,13 +156,30 @@ public class HomeActivity extends AppCompatActivity
         txtLogInOut.setText(R.string.nav_log_out);
     }
 
-
-    public void showPlayingNow() {
+    public void showPlayingNowFragment() {
         getSupportActionBar().setTitle(R.string.nav_playing_now);
-        showFragment(MovieListFragment.newInstance());
+        showFragment(MovieListFragment.newInstance(Category.NOW_PLAYING));
     }
 
-    public void showSearch() {
+    @Override
+    public void showUpcomingFragment() {
+        getSupportActionBar().setTitle("MyMovieDb - Upcoming");
+        showFragment(MovieListFragment.newInstance(Category.UPCOMING));
+    }
+
+    @Override
+    public void showPopularFragment() {
+        getSupportActionBar().setTitle("MyMovieDb - Popular");
+        showFragment(MovieListFragment.newInstance(Category.POPULAR));
+    }
+
+    @Override
+    public void showTopRatedFragment() {
+        getSupportActionBar().setTitle("MyMovieDb - Top Rated");
+        showFragment(MovieListFragment.newInstance(Category.TOP_RATED));
+    }
+
+    public void showSearchFragment() {
         getSupportActionBar().setTitle(R.string.nav_search);
         showFragment(new MovieSearchFragment());
     }

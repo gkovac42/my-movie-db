@@ -12,9 +12,15 @@ public interface HomeContract {
 
         void initUser();
 
-        void showPlayingNow();
+        void showPlayingNowFragment();
 
-        void showSearch();
+        void showUpcomingFragment();
+
+        void showPopularFragment();
+
+        void showTopRatedFragment();
+
+        void showSearchFragment();
 
         void navigateToLogin();
     }
@@ -27,8 +33,13 @@ public interface HomeContract {
 
         void onClickPlayingNow();
 
+        void onClickUpcoming();
+
+        void onClickPopular();
+
+        void onClickTopRated();
+
         void onClickSearch();
 
     }
-
 }

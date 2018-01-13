@@ -38,11 +38,26 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void onClickPlayingNow() {
-        homeView.showPlayingNow();
+        homeView.showPlayingNowFragment();
+    }
+
+    @Override
+    public void onClickUpcoming() {
+        homeView.showUpcomingFragment();
+    }
+
+    @Override
+    public void onClickPopular() {
+        homeView.showPopularFragment();
+    }
+
+    @Override
+    public void onClickTopRated() {
+        homeView.showTopRatedFragment();
     }
 
     @Override
     public void onClickSearch() {
-        homeView.showSearch();
+        homeView.showSearchFragment();
     }
 }
