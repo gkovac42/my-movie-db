@@ -1,44 +1,22 @@
 package com.example.goran.mymoviedb.movies.details;
 
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.support.v4.app.Fragment;
 
-import com.example.goran.mymoviedb.R;
-import com.example.goran.mymoviedb.data.model.singlemovie.Cast;
 import com.example.goran.mymoviedb.data.model.singlemovie.MovieCredits;
-import com.example.goran.mymoviedb.data.model.singlemovie.Crew;
-import com.example.goran.mymoviedb.data.remote.ApiHelper;
-import com.example.goran.mymoviedb.movies.adapters.CastAdapter;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.view.SimpleDraweeView;
-
-import java.util.ArrayList;
-
-import javax.inject.Inject;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Goran on 25.12.2017..
  */
 
-public class MovieCreditsFragment extends android.support.v4.app.Fragment {
+public class MovieCreditsFragment extends Fragment implements MovieCreditsContract.View {
+    @Override
+    public void displayCredits(MovieCredits movieCredits) {
 
-    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
+    }
 
-    @Inject
+    /*private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
+
     ApiHelper apiHelper;
 
     @Nullable
@@ -51,6 +29,7 @@ public class MovieCreditsFragment extends android.support.v4.app.Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
 
         Intent intent = getActivity().getIntent();
         int movieId = intent.getIntExtra("movie_id", 0);
@@ -108,5 +87,5 @@ public class MovieCreditsFragment extends android.support.v4.app.Fragment {
                     castAdapter.notifyDataSetChanged();
                 });
 
-    }
+    }*/
 }

@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.login;
 
-import com.example.goran.mymoviedb.data.Interactor;
+import com.example.goran.mymoviedb.data.LoginInteractor;
 import com.example.goran.mymoviedb.data.model.auth.User;
 import com.example.goran.mymoviedb.di.scope.ActivityScope;
 import com.example.goran.mymoviedb.login.util.UserInput;
@@ -12,15 +12,17 @@ import javax.inject.Inject;
  */
 
 @ActivityScope
-public class LoginPresenter implements LoginContract.Presenter {
+public class LoginPresenter implements LoginContract.Presenter, LoginInteractor.LoginListener {
 
-    private Interactor.Login loginInteractor;
+    private LoginContract.Model loginInteractor;
     private LoginContract.View loginView;
 
+    private String username;
+    private String password;
 
     @Inject
-    public LoginPresenter(Interactor.Login interactor, LoginContract.View view) {
-        this.loginInteractor = interactor;
+    public LoginPresenter(LoginContract.Model model, LoginContract.View view) {
+        this.loginInteractor = model;
         this.loginView = view;
     }
 
@@ -48,29 +50,29 @@ public class LoginPresenter implements LoginContract.Presenter {
 
             // if input is valid start login
         } else {
-            loginInteractor.initLogin(username, password, new Interactor.LoginListener() {
-                @Override
-                public void onLoginError() {
-                    loginView.displayLoginError();
-                }
-
-                @Override
-                public void onLoginSuccess(String sessionId) {
-
-                    // if checked save user data
-                    if (loginView.stayLoggedIn()) {
-                        User user = new User(username, password, sessionId);
-                        loginInteractor.encryptAndSaveUser(user);
-
-                        // if not checked delete user data if exists
-                    } else {
-                        loginInteractor.deleteCurrentUser();
-                    }
-                    // go to main app
-                    loginView.navigateToMain(username, sessionId);
-                }
-            });
+            this.username = username;
+            this.password = password;
+            loginInteractor.initLogin(username, password, this);
         }
+    }
+
+    @Override
+    public void onLoginError() {
+
+    }
+
+    @Override
+    public void onLoginSuccess(String sessionId) {
+        // if checked save user data
+        if (loginView.stayLoggedIn()) {
+            User user = new User(username, password, sessionId);
+            loginInteractor.encryptAndSaveUser(user);
+
+        } else {
+            loginInteractor.deleteCurrentUser();
+        }
+        loginView.navigateToMain(username, sessionId);
+
     }
 
     // for guests skip login and go straight to main app

@@ -24,4 +24,7 @@ public interface AppComponent {
 
     MovieListFragmentSubcomponent movieListFragmentSubcomponent(MovieListFragmentModule movieListFragmentModule);
 
+    MovieDetailsFragmentSubcomponent movieDetailsFragmentSubcomponent(MovieDetailsFragmentModule movieDetailsFragmentModule);
+
+    MovieCreditsFragmentSubcomponent movieCreditsFragmentSubcomponent(MovieCreditsFragmentModule movieCreditsFragmentModule);
 }

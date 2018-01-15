@@ -1,8 +1,8 @@
 package com.example.goran.mymoviedb.di;
 
-import com.example.goran.mymoviedb.data.Interactor;
 import com.example.goran.mymoviedb.data.LoginInteractor;
 import com.example.goran.mymoviedb.di.scope.ActivityScope;
+import com.example.goran.mymoviedb.login.LoginContract;
 import com.example.goran.mymoviedb.movies.home.HomeActivity;
 import com.example.goran.mymoviedb.movies.home.HomeContract;
 import com.example.goran.mymoviedb.movies.home.HomePresenter;
@@ -37,7 +37,7 @@ public class HomeActivityModule {
 
     @Provides
     @ActivityScope
-    Interactor.Login provideInteractor(LoginInteractor interactor) {
+    LoginContract.Model provideInteractor(LoginInteractor interactor) {
         return interactor;
     }
 }

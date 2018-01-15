@@ -1,5 +1,6 @@
 package com.example.goran.mymoviedb.movies.details;
 
+import com.example.goran.mymoviedb.data.MoviesInteractor;
 import com.example.goran.mymoviedb.data.model.Movie;
 import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
 
@@ -21,11 +22,19 @@ public interface MovieDetailsContract {
 
     interface Presenter {
 
-        void getMovieId();
+        void setMovieId(int id);
 
         void getMovieDetails();
 
         void getSimilarMovies();
+    }
+
+    interface Model {
+
+        void getMovieDetails(int movieId, MoviesInteractor.DetailsListener listener);
+
+        void getSimilarList(int movieId, MoviesInteractor.ListListener listener);
+
     }
 
 }

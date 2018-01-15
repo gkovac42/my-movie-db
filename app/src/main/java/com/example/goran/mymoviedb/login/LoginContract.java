@@ -1,5 +1,8 @@
 package com.example.goran.mymoviedb.login;
 
+import com.example.goran.mymoviedb.data.LoginInteractor;
+import com.example.goran.mymoviedb.data.model.auth.User;
+
 /**
  * Created by Goran on 10.1.2018..
  */
@@ -28,5 +31,18 @@ public interface LoginContract {
 
         void onClickGuest();
 
+    }
+
+    interface Model {
+
+        void initLogin(String username, String password, LoginInteractor.LoginListener listener);
+
+        void encryptAndSaveUser(User user);
+
+        User loadAndDecryptUser();
+
+        void deleteCurrentUser();
+
+        void disposeObservables();
     }
 }

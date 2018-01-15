@@ -7,6 +7,7 @@ import com.example.goran.mymoviedb.data.model.auth.RequestToken;
 import com.example.goran.mymoviedb.data.model.auth.User;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
 import com.example.goran.mymoviedb.di.scope.ActivityScope;
+import com.example.goran.mymoviedb.login.LoginContract;
 
 import javax.inject.Inject;
 
@@ -21,7 +22,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 @ActivityScope
-public class LoginInteractor implements Interactor.Login {
+public class LoginInteractor implements LoginContract.Model {
 
     private ApiHelper apiHelper;
     private UserManager userManager;
@@ -32,6 +33,13 @@ public class LoginInteractor implements Interactor.Login {
         this.apiHelper = apiHelper;
         this.userManager = userManager;
         this.compositeDisposable = new CompositeDisposable();
+    }
+
+    public interface LoginListener {
+
+        void onLoginError();
+
+        void onLoginSuccess(String sessionId);
     }
 
     @Override
@@ -56,7 +64,7 @@ public class LoginInteractor implements Interactor.Login {
     }
 
     @Override
-    public void initLogin(String username, String password, Interactor.LoginListener listener) {
+    public void initLogin(String username, String password, LoginListener listener) {
 
         // get requestToken, use flatmap to validate it with username & password and create session
 

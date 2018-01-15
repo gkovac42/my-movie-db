@@ -1,6 +1,5 @@
 package com.example.goran.mymoviedb.di;
 
-import com.example.goran.mymoviedb.data.Interactor;
 import com.example.goran.mymoviedb.data.MoviesInteractor;
 import com.example.goran.mymoviedb.di.scope.FragmentScope;
 import com.example.goran.mymoviedb.movies.list.MovieListContract;
@@ -37,7 +36,7 @@ public class MovieListFragmentModule {
 
     @Provides
     @FragmentScope
-    Interactor.Movies provideInteractor(MoviesInteractor interactor) {
+    MovieListContract.Model provideInteractor(MoviesInteractor interactor) {
         return interactor;
     }
 }

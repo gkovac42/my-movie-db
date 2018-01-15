@@ -13,16 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.Genre;
 import com.example.goran.mymoviedb.data.model.Movie;
 import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
+import com.example.goran.mymoviedb.di.MovieDetailsFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +39,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
 
     private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w600";
 
+    @Inject
     MovieDetailsContract.Presenter presenter;
 
     private List<Movie> similarMovies;
@@ -75,6 +80,11 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Fresco.initialize(getActivity());
+
+        (((BaseApplication) getActivity().getApplication()).getAppComponent())
+                .movieDetailsFragmentSubcomponent(new MovieDetailsFragmentModule(this))
+                .inject(this);
+
         return inflater.inflate(R.layout.fragment_movie_details, container, false);
     }
 
@@ -85,7 +95,11 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
 
         Intent intent = getActivity().getIntent();
 
-        int movieId = intent.getIntExtra("movie_id", 0);
+        presenter.setMovieId(intent.getIntExtra("movie_id", 0));
+
+        presenter.getMovieDetails();
+
+        presenter.getSimilarMovies();
 
     }
 

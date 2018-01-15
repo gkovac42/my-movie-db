@@ -1,7 +1,7 @@
 package com.example.goran.mymoviedb.movies.home;
 
-import com.example.goran.mymoviedb.data.Interactor;
 import com.example.goran.mymoviedb.di.scope.ActivityScope;
+import com.example.goran.mymoviedb.login.LoginContract;
 
 import javax.inject.Inject;
 
@@ -13,10 +13,10 @@ import javax.inject.Inject;
 public class HomePresenter implements HomeContract.Presenter {
 
     private HomeContract.View homeView;
-    private Interactor.Login loginInteractor;
+    private LoginContract.Model loginInteractor;
 
     @Inject
-    public HomePresenter(HomeContract.View homeView, Interactor.Login loginInteractor) {
+    public HomePresenter(HomeContract.View homeView, LoginContract.Model loginInteractor) {
         this.homeView = homeView;
         this.loginInteractor = loginInteractor;
     }

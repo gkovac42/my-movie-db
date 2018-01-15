@@ -3,9 +3,14 @@ package com.example.goran.mymoviedb.data;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.ListResponse;
+import com.example.goran.mymoviedb.data.model.Movie;
 import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
 import com.example.goran.mymoviedb.di.scope.FragmentScope;
+import com.example.goran.mymoviedb.movies.details.MovieDetailsContract;
+import com.example.goran.mymoviedb.movies.list.MovieListContract;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -19,7 +24,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 @FragmentScope
-public class MoviesInteractor implements Interactor.Movies {
+public class MoviesInteractor implements MovieListContract.Model, MovieDetailsContract.Model {
 
     private ApiHelper apiHelper;
     private CompositeDisposable compositeDisposable;
@@ -29,6 +34,21 @@ public class MoviesInteractor implements Interactor.Movies {
         this.apiHelper = apiHelper;
         compositeDisposable = new CompositeDisposable();
     }
+
+    public interface ListListener {
+
+        void onDataReady(List<Movie> movieList);
+
+        void onError();
+    }
+
+    public interface DetailsListener {
+
+        void onDataReady(MovieDetails movieDetails);
+
+        void onError();
+    }
+
 
     public Observable<ListResponse> getNowPlaying(int page) {
         return apiHelper.getNowPlayingMovies(page);
@@ -49,12 +69,8 @@ public class MoviesInteractor implements Interactor.Movies {
         return apiHelper.getTopRatedMovies(page);
     }
 
-    public Observable<ListResponse> getSimilar(int id, int page) {
-        return apiHelper.getSimilarMovies(id, page);
-    }
-
     @Override
-    public void getMovieList(Observable<ListResponse> listObservable, Interactor.ListListener listener) {
+    public void getMovieList(Observable<ListResponse> listObservable, ListListener listener) {
 
         listObservable.map(listResponse -> listResponse.getMovies())
                 .subscribeOn(Schedulers.io())
@@ -66,7 +82,8 @@ public class MoviesInteractor implements Interactor.Movies {
                         disposable -> compositeDisposable.add(disposable));
     }
 
-    public void getMovieDetails(int movieId, Interactor.DetailsListener listener) {
+    @Override
+    public void getMovieDetails(int movieId, DetailsListener listener) {
 
         Observable<MovieDetails> observable = apiHelper.getMovieDetails(movieId);
         observable.subscribeOn(Schedulers.io())
@@ -78,5 +95,19 @@ public class MoviesInteractor implements Interactor.Movies {
                         disposable -> compositeDisposable.add(disposable));
     }
 
+    @Override
+    public void getSimilarList(int movieId, ListListener listener) {
 
+        Observable<ListResponse> listObservable = apiHelper.getSimilarMovies(movieId, 1);
+
+        listObservable.map(listResponse -> listResponse.getMovies())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        movies -> listener.onDataReady(movies),
+                        throwable -> listener.onError(),
+                        () -> Log.i("LOG", "Complete"),
+                        disposable -> compositeDisposable.add(disposable));
+
+    }
 }
