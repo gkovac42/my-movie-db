@@ -4,7 +4,8 @@ import com.example.goran.mymoviedb.data.model.ListResponse;
 import com.example.goran.mymoviedb.data.model.auth.RequestToken;
 import com.example.goran.mymoviedb.data.model.auth.Session;
 import com.example.goran.mymoviedb.data.model.auth.TokenValidation;
-import com.example.goran.mymoviedb.data.model.singlemovie.MovieCredits;
+import com.example.goran.mymoviedb.data.model.keywords.KeywordResponse;
+import com.example.goran.mymoviedb.data.model.singlemovie.Credits;
 import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
 
 import javax.inject.Inject;
@@ -49,7 +50,7 @@ public class ApiHelper {
         return apiService.getMovieDetails(id, API_KEY);
     }
 
-    public Observable<MovieCredits> getMovieCredits(int id) {
+    public Observable<Credits> getMovieCredits(int id) {
         return apiService.getMovieCredits(id, API_KEY);
     }
 
@@ -77,8 +78,16 @@ public class ApiHelper {
 
     // search
 
-    public Observable<ListResponse> searchForMovie(String query, int page) {
-        return apiService.searchForMovie(API_KEY, query, page);
+    public Observable<ListResponse> searchByTitle(String query, int page) {
+        return apiService.searchByTitle(API_KEY, query, page);
+    }
+
+    public Observable<KeywordResponse> getKeywords(String query) {
+        return apiService.getKeywords(API_KEY, query, 1);
+    }
+
+    public Observable<ListResponse> searchByKeyword(String keyword, int page) {
+        return apiService.searchByKeyword(API_KEY, keyword, page);
     }
 
 }

@@ -5,7 +5,7 @@ import android.app.Application;
 import com.example.goran.mymoviedb.di.AppComponent;
 import com.example.goran.mymoviedb.di.AppModule;
 import com.example.goran.mymoviedb.di.DaggerAppComponent;
-import com.example.goran.mymoviedb.di.RemoteModule;
+import com.example.goran.mymoviedb.data.remote.RemoteModule;
 
 /**
  * Created by Goran on 28.12.2017..

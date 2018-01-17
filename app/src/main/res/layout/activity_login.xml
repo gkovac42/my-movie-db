@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="8dp">
 
     <TextView
         style="@style/TextNormal"
@@ -18,12 +18,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
         app:cardCornerRadius="16dp">
 
         <ImageView
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_person_outline_login_144dp" />
 
@@ -46,7 +47,6 @@
         android:layout_width="264dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
         android:gravity="center"
         android:hint="@string/txt_password"
         android:inputType="textPassword"
@@ -95,8 +95,8 @@
         android:textColorLink="@android:color/secondary_text_dark" />
 
     <ImageView
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_gravity="center"
         android:layout_marginTop="24dp"
         android:src="@drawable/tmdb_logo" />

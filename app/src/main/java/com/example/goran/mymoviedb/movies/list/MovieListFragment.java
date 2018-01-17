@@ -105,4 +105,9 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
+    }
 }

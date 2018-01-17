@@ -1,8 +1,9 @@
 package com.example.goran.mymoviedb.movies.details;
 
-import com.example.goran.mymoviedb.data.MoviesInteractor;
+import com.example.goran.mymoviedb.data.ListInteractor;
 import com.example.goran.mymoviedb.data.model.Movie;
 import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
+import com.example.goran.mymoviedb.data.remote.DetailsInteractor;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public interface MovieDetailsContract {
 
         void displaySimilarMovies(List<Movie> movieList);
 
+        void navigateToSimilar(int id);
+
     }
 
     interface Presenter {
@@ -27,13 +30,15 @@ public interface MovieDetailsContract {
         void getMovieDetails();
 
         void getSimilarMovies();
+
+        void onClickSimilar(int id);
     }
 
     interface Model {
 
-        void getMovieDetails(int movieId, MoviesInteractor.DetailsListener listener);
+        void getMovieDetails(int movieId, DetailsInteractor.DetailsListener listener);
 
-        void getSimilarList(int movieId, MoviesInteractor.ListListener listener);
+        void getSimilarList(int movieId, ListInteractor.ListListener listener);
 
     }
 

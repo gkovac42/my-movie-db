@@ -13,20 +13,23 @@ import com.example.goran.mymoviedb.R;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
+    private Fragment[] movieDetails;
 
     private SectionsPagerAdapter sectionsPagerAdapter;
-    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
+        movieDetails = new Fragment[2];
+        movieDetails[0] = new MovieDetailsFragment();
+        movieDetails[1] = new MovieCreditsFragment();
+
         sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        viewPager = findViewById(R.id.container);
+        ViewPager viewPager = findViewById(R.id.container);
         viewPager.setAdapter(sectionsPagerAdapter);
-
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -34,7 +37,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
-
 
         private SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -45,11 +47,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
             switch (position) {
                 case 0:
-                    return new MovieDetailsFragment();
+                    return movieDetails[0];
 
                 case 1:
-                    return new MovieCreditsFragment();
-
+                    return movieDetails[1];
             }
 
             return null;
@@ -66,9 +67,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 case 0:
                     return "Details";
                 case 1:
-                    return "MovieCredits";
-
+                    return "Credits";
             }
+
             return null;
         }
     }

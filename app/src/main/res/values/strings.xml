@@ -11,7 +11,7 @@
     <string name="title_activity_single_movie">SingleMovieActivity</string>
 
     <!--Login Screen-->
-    <string name="txt_intro">Welcome to MyMovieDb! Please login with an existing account or continue as guest.</string>
+    <string name="txt_intro">Please login with an existing account or continue as guest.</string>
     <string name="txt_username">username</string>
     <string name="txt_password">password</string>
     <string name="txt_stay">Stay logged in?</string>
@@ -26,5 +26,17 @@
     <string name="nav_top_rated">MyMovieDb - Top Rated</string>
     <string name="nav_popular">MyMovieDb - Popular</string>
     <string name="nav_search">MyMovieDb - Search</string>
+    <string name="action">action</string>
+    <string name="drama">drama</string>
+    <string name="comedy">comedy</string>
+    <string name="history">history</string>
+    <string name="romance">romance</string>
+    <string name="sci_fi">sci - fi</string>
+    <string name="fantasy">fantasy</string>
+    <string name="thriller">thriller</string>
+    <string name="horror">horror</string>
+    <string name="sport">sport</string>
+    <string name="mistery">mistery</string>
+    <string name="adventure">adventure</string>
 
 </resources>

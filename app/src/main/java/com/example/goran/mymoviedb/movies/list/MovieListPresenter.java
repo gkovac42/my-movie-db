@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.movies.list;
 
-import com.example.goran.mymoviedb.data.MoviesInteractor;
+import com.example.goran.mymoviedb.data.ListInteractor;
 import com.example.goran.mymoviedb.data.model.ListResponse;
 import com.example.goran.mymoviedb.data.model.Movie;
 import com.example.goran.mymoviedb.di.scope.FragmentScope;
@@ -52,7 +52,7 @@ public class MovieListPresenter implements MovieListContract.Presenter {
                 listObservable = listInteractor.getNowPlaying(currentPage++);
         }
 
-        listInteractor.getMovieList(listObservable, new MoviesInteractor.ListListener() {
+        listInteractor.getMovieList(listObservable, new ListInteractor.ListListener() {
             @Override
             public void onDataReady(List<Movie> movieList) {
                 listView.addMoviesToAdapter(movieList);
@@ -75,5 +75,10 @@ public class MovieListPresenter implements MovieListContract.Presenter {
         if (currentPage <= 5) {
             loadMovies();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        listInteractor.dispose();
     }
 }

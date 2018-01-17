@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.movies.list;
 
-import com.example.goran.mymoviedb.data.MoviesInteractor;
+import com.example.goran.mymoviedb.data.ListInteractor;
 import com.example.goran.mymoviedb.data.model.ListResponse;
 import com.example.goran.mymoviedb.data.model.Movie;
 
@@ -30,6 +30,8 @@ public interface MovieListContract {
         void onClickMovie(int position);
 
         void onBottomReached();
+
+        void onDestroy();
     }
 
     interface Model {
@@ -42,7 +44,9 @@ public interface MovieListContract {
 
         Observable<ListResponse> getTopRated(int page);
 
-        void getMovieList(Observable<ListResponse> listObservable, MoviesInteractor.ListListener listener);
+        void getMovieList(Observable<ListResponse> listObservable, ListInteractor.ListListener listener);
+
+        void dispose();
 
     }
 }

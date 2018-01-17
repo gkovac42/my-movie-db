@@ -3,8 +3,8 @@ package com.example.goran.mymoviedb.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.LinkMovementMethod;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.text.method.LinkMovementMethod;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +31,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     EditText txtPassword;
     @BindView(R.id.txt_reset_password)
     TextView txtResetPassword;
-
     @BindView(R.id.chk_stay_logged_in)
     AppCompatCheckBox chkStayLoggedIn;
 
@@ -87,5 +86,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void displayLoginError() {
         Toast.makeText(this, "Invalid username or password!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
     }
 }

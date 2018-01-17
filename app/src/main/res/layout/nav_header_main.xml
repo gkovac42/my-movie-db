@@ -11,21 +11,24 @@
         android:id="@+id/imageView"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="8dp"
         android:scaleType="fitStart"
-        app:srcCompat="@drawable/tmdb_logo" />
+        app:srcCompat="@drawable/tmdb_logo"
+        android:layout_marginEnd="8dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/txt_nav_user"
             style="@style/TextLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txt_nav_user"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="16dp"
+            android:layout_above="@+id/txt_nav_login"
+            android:layout_marginBottom="8dp"
             android:text="Guest" />
 
         <TextView
@@ -33,11 +36,14 @@
             style="@style/TextNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_below="@id/txt_nav_user"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:clickable="true"
+            android:layout_alignParentStart="true"
             android:layout_marginBottom="16dp"
+            android:text="Login"
             android:textColorLink="@android:color/secondary_text_dark"
-            android:text="Login" />
+            android:focusable="true" />
 
     </RelativeLayout>
 

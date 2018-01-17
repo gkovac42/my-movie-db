@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.goran.mymoviedb.R;
-import com.example.goran.mymoviedb.data.model.GenreUtils;
+import com.example.goran.mymoviedb.movies.util.MovieUtils;
 import com.example.goran.mymoviedb.data.model.Movie;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -60,12 +60,12 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
         TextView txtVotes = listItem.findViewById(R.id.txt_item_votes);
         TextView txtGenre = listItem.findViewById(R.id.txt_item_genre);
 
-        txtTitle.setText((movie.getTitle() + " (" + movie.getReleaseDate().substring(0, 4) + ")"));
+        txtTitle.setText(MovieUtils.formatTitle(movie.getTitle(), movie.getReleaseDate()));
         txtDesc.setText(movie.getOverview());
         txtRating.setText(String.valueOf(movie.getVoteAverage()));
         txtVotes.setText(String.valueOf(movie.getVoteCount()));
-        txtGenre.setText(GenreUtils.getGenreName(movie.getGenreIds().get(0)));
-        imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movie.getPosterPath()));
+        txtGenre.setText(MovieUtils.getGenreName(movie.getGenreIds().get(0)));
+        imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movie.getBackdropPath()));
 
         if (position == movies.size() - 1){
 

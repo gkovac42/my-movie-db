@@ -28,7 +28,6 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractor.
 
     @Override
     public void checkForCurrentUser() {
-
         // try to load saved user data
         User currentUser = loginInteractor.loadAndDecryptUser();
 
@@ -40,7 +39,6 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractor.
 
     @Override
     public void onClickLogin(String username, String password) {
-
         // check user input
         if (!UserInput.usernameValid(username)) {
             loginView.displayUsernameError();
@@ -75,9 +73,13 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractor.
 
     }
 
-    // for guests skip login and go straight to main app
     @Override
     public void onClickGuest() {
         loginView.navigateToMain("guest", "guest");
+    }
+
+    @Override
+    public void onDestroy() {
+        loginInteractor.dispose();
     }
 }

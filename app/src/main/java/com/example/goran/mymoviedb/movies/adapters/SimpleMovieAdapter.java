@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.Movie;
+import com.example.goran.mymoviedb.movies.util.MovieUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,11 +23,15 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
 
     private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
 
-    private List<Movie> movies;
+    private List<Movie> movies = new ArrayList<>();
     private ItemClickListener listener;
 
     public SimpleMovieAdapter(List<Movie> movies) {
         this.movies = movies;
+    }
+
+    public SimpleMovieAdapter() {
+
     }
 
     public void setDataSource(List<Movie> movies) {
@@ -59,7 +65,7 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
         SimpleDraweeView imgPoster = listItem.findViewById(R.id.img_item_poster_s);
         TextView txtTitle = listItem.findViewById(R.id.txt_item_title_s);
 
-        txtTitle.setText((movie.getTitle() + " (" + movie.getReleaseDate().substring(0, 4) + ")"));
+        txtTitle.setText(MovieUtils.formatTitle(movie.getTitle(), movie.getReleaseDate()));
         imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movie.getPosterPath()));
     }
 

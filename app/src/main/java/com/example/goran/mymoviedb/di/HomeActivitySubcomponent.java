@@ -1,5 +1,6 @@
 package com.example.goran.mymoviedb.di;
 
+import com.example.goran.mymoviedb.data.local.KeystoreModule;
 import com.example.goran.mymoviedb.di.scope.ActivityScope;
 import com.example.goran.mymoviedb.movies.home.HomeActivity;
 

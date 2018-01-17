@@ -1,8 +1,6 @@
-package com.example.goran.mymoviedb.di;
+package com.example.goran.mymoviedb.data.remote;
 
 import android.content.Context;
-
-import com.example.goran.mymoviedb.data.remote.TMDbApiService;
 
 import javax.inject.Singleton;
 

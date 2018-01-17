@@ -94,7 +94,7 @@ public class LoginInteractor implements LoginContract.Model {
     }
 
     @Override
-    public void disposeObservables() {
+    public void dispose() {
         compositeDisposable.dispose();
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Goran on 27.12.2017..
  */
 
-public class MovieCredits {
+public class Credits {
 
     @SerializedName("id")
     @Expose

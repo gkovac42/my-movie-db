@@ -1,4 +1,4 @@
-package com.example.goran.mymoviedb.di;
+package com.example.goran.mymoviedb.data.local;
 
 import android.content.Context;
 import android.content.SharedPreferences;

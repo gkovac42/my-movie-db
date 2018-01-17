@@ -1,10 +1,31 @@
-package com.example.goran.mymoviedb.data.model;
+package com.example.goran.mymoviedb.movies.util;
+
+import android.text.TextUtils;
+
+import com.example.goran.mymoviedb.data.model.Genre;
+import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
+
+import java.util.ArrayList;
 
 /**
  * Created by Goran on 23.12.2017..
  */
 
-public class GenreUtils {
+public class MovieUtils {
+
+    public static String formatTitle(String title, String date) {
+        return title + " (" + date.substring(0, 4) + ")";
+    }
+
+    public static String getGenres(MovieDetails movieDetails) {
+        ArrayList<String> genres = new ArrayList<>();
+
+        for (Genre genre : movieDetails.getGenres()) {
+            genres.add(genre.getName());
+        }
+
+        return TextUtils.join(",\n", genres);
+    }
 
     public static String getGenreName(int id) {
 

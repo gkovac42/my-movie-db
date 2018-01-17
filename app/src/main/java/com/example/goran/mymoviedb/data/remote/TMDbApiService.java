@@ -1,6 +1,7 @@
 package com.example.goran.mymoviedb.data.remote;
 
-import com.example.goran.mymoviedb.data.model.singlemovie.MovieCredits;
+import com.example.goran.mymoviedb.data.model.keywords.KeywordResponse;
+import com.example.goran.mymoviedb.data.model.singlemovie.Credits;
 import com.example.goran.mymoviedb.data.model.ListResponse;
 import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
 import com.example.goran.mymoviedb.data.model.auth.RequestToken;
@@ -51,12 +52,28 @@ public interface TMDbApiService {
     Observable<MovieDetails> getMovieDetails(@Path("movie_id") int id, @Query("api_key") String apiKey);
 
     @GET("movie/{movie_id}/credits")
-    Observable<MovieCredits> getMovieCredits(@Path("movie_id") int id, @Query("api_key") String apiKey);
+    Observable<Credits> getMovieCredits(@Path("movie_id") int id, @Query("api_key") String apiKey);
 
     @GET("movie/{movie_id}/similar")
-    Observable<ListResponse> getSimilarMovies(@Path("movie_id") int id, @Query("api_key") String apiKey, @Query("page") int page);
+    Observable<ListResponse> getSimilarMovies(@Path("movie_id") int id,
+                                              @Query("api_key") String apiKey,
+                                              @Query("page") int page);
+
+    // SEARCH REQUESTS
 
     @GET("search/movie")
-    Observable<ListResponse> searchForMovie(@Query("api_key") String apiKey, @Query("query") String query, @Query("page") int page);
+    Observable<ListResponse> searchByTitle(@Query("api_key") String apiKey,
+                                           @Query("query") String query,
+                                           @Query("page") int page);
+
+    @GET("search/keyword")
+    Observable<KeywordResponse> getKeywords(@Query("api_key") String apiKey,
+                                            @Query("query") String query,
+                                            @Query("page") int page);
+
+    @GET("discover/movie")
+    Observable<ListResponse> searchByKeyword(@Query("api_key") String apiKey,
+                                             @Query("with_keywords") String keyword,
+                                             @Query("page") int page);
 
 }

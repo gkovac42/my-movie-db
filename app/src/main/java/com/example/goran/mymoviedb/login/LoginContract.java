@@ -31,6 +31,8 @@ public interface LoginContract {
 
         void onClickGuest();
 
+        void onDestroy();
+
     }
 
     interface Model {
@@ -43,6 +45,7 @@ public interface LoginContract {
 
         void deleteCurrentUser();
 
-        void disposeObservables();
+        void dispose();
+
     }
 }

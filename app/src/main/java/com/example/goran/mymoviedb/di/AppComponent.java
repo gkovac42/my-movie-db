@@ -2,6 +2,7 @@ package com.example.goran.mymoviedb.di;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
+import com.example.goran.mymoviedb.data.remote.RemoteModule;
 
 import javax.inject.Singleton;
 
@@ -27,4 +28,6 @@ public interface AppComponent {
     MovieDetailsFragmentSubcomponent movieDetailsFragmentSubcomponent(MovieDetailsFragmentModule movieDetailsFragmentModule);
 
     MovieCreditsFragmentSubcomponent movieCreditsFragmentSubcomponent(MovieCreditsFragmentModule movieCreditsFragmentModule);
+
+    MovieSearchFragmentSubcomponent movieSearchFragmentSubcomponent(MovieSearchFragmentModule movieSearchFragmentModule);
 }

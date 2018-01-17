@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +14,14 @@ import android.widget.TextView;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
-import com.example.goran.mymoviedb.data.model.Genre;
 import com.example.goran.mymoviedb.data.model.Movie;
 import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
 import com.example.goran.mymoviedb.di.MovieDetailsFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
+import com.example.goran.mymoviedb.movies.util.MovieUtils;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -41,9 +39,6 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
 
     @Inject
     MovieDetailsContract.Presenter presenter;
-
-    private List<Movie> similarMovies;
-    private SimpleMovieAdapter adapter;
 
     @BindView(R.id.img_movie_poster)
     SimpleDraweeView imgPoster;
@@ -91,7 +86,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, getView());
+        ButterKnife.bind(this, view);
 
         Intent intent = getActivity().getIntent();
 
@@ -105,23 +100,16 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
 
     @Override
     public void displayMovieDetails(MovieDetails movieDetails) {
+
+        // TODO - PREUREDITI LAYOUT (RAZDVOJITI NASLOV STAVKE I VRIJEDNOST ZBOG PRIJEVODA)!!!
+
         imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movieDetails.getPosterPath()));
 
         txtReleaseDate.setText("Release Date: " + movieDetails.getReleaseDate());
 
-
         txtDesc.setText(movieDetails.getOverview());
 
-
-        ArrayList<String> genres = new ArrayList<>();
-
-        for (Genre genre : movieDetails.getGenres()) {
-            genres.add(genre.getName());
-        }
-
-        String g = TextUtils.join(",\n", genres);
-
-        txtGenre.setText(g);
+        txtGenre.setText(MovieUtils.getGenres(movieDetails));
 
         txtLanguage.setText("Language: " + movieDetails.getSpokenLanguages().get(0).getName());
 
@@ -142,19 +130,20 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     @Override
     public void displaySimilarMovies(List<Movie> movieList) {
 
-        similarMovies = new ArrayList<>();
-        similarMovies.addAll(movieList);
-
-        adapter = new SimpleMovieAdapter(similarMovies);
-        adapter.notifyDataSetChanged();
+        SimpleMovieAdapter adapter = new SimpleMovieAdapter(movieList);
         adapter.setListener(position -> {
-            Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
-            intent.putExtra("movie_id", similarMovies.get(position).getId());
-            startActivity(intent);
+            presenter.onClickSimilar(movieList.get(position).getId());
+
         });
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void navigateToSimilar(int id) {
+        Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
+        intent.putExtra("movie_id", id);
+        startActivity(intent);
     }
 }

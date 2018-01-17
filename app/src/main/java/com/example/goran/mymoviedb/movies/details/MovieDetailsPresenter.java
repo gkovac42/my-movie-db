@@ -1,8 +1,9 @@
 package com.example.goran.mymoviedb.movies.details;
 
-import com.example.goran.mymoviedb.data.MoviesInteractor;
+import com.example.goran.mymoviedb.data.ListInteractor;
 import com.example.goran.mymoviedb.data.model.Movie;
 import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
+import com.example.goran.mymoviedb.data.remote.DetailsInteractor;
 import com.example.goran.mymoviedb.di.scope.FragmentScope;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
     @Override
 
     public void getMovieDetails() {
-        detailsInteractor.getMovieDetails(movieId, new MoviesInteractor.DetailsListener() {
+        detailsInteractor.getMovieDetails(movieId, new DetailsInteractor.DetailsListener() {
             @Override
             public void onDataReady(MovieDetails movieDetails) {
                 detailsView.displayMovieDetails(movieDetails);
@@ -51,7 +52,7 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
 
     @Override
     public void getSimilarMovies() {
-        detailsInteractor.getSimilarList(movieId, new MoviesInteractor.ListListener() {
+        detailsInteractor.getSimilarList(movieId, new ListInteractor.ListListener() {
             @Override
             public void onDataReady(List<Movie> movieList) {
                 detailsView.displaySimilarMovies(movieList);
@@ -64,4 +65,8 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
         });
     }
 
+    @Override
+    public void onClickSimilar(int id) {
+        detailsView.navigateToSimilar(id);
+    }
 }
