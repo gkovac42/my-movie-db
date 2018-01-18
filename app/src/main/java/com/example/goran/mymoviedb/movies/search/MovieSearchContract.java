@@ -3,7 +3,7 @@ package com.example.goran.mymoviedb.movies.search;
 import android.widget.ArrayAdapter;
 
 import com.example.goran.mymoviedb.data.interactors.SearchInteractor;
-import com.example.goran.mymoviedb.data.model.Movie;
+import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
 
 import java.util.List;

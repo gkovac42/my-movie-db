@@ -9,6 +9,8 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_movie_details_activity">MovieDetailsActivty</string>
     <string name="title_activity_single_movie">SingleMovieActivity</string>
+    <string name="tab_details">Details</string>
+    <string name="tab_credits">Credits</string>
 
     <!--Login Screen-->
     <string name="txt_intro">Please login with an existing account or continue as guest.</string>
@@ -20,12 +22,15 @@
     <string name="txt_forgot_password"><a href="https://www.themoviedb.org/account/reset-password">Forgot password?</a></string>
 
     <!--Navigation Bar-->
+    <string name="nav_log_in">Log in</string>
     <string name="nav_log_out">Log out</string>
     <string name="nav_playing_now">MyMovieDb - Playing Now</string>
     <string name="nav_upcoming">MyMovieDb - Upcoming</string>
     <string name="nav_top_rated">MyMovieDb - Top Rated</string>
     <string name="nav_popular">MyMovieDb - Popular</string>
     <string name="nav_search">MyMovieDb - Search</string>
+
+    <!--Genres-->
     <string name="action">action</string>
     <string name="drama">drama</string>
     <string name="comedy">comedy</string>
@@ -36,9 +41,13 @@
     <string name="thriller">thriller</string>
     <string name="horror">horror</string>
     <string name="sport">sport</string>
-    <string name="mistery">mistery</string>
+    <string name="mystery">mystery</string>
     <string name="adventure">adventure</string>
-    <string name="tab_details">Details</string>
-    <string name="tab_credits">Credits</string>
+
+    <!--Search-->
+    <string name="by_title">by title</string>
+    <string name="search_movie_database">Search movie database</string>
+    <string name="by_keyword">by keyword</string>
+    <string name="nav_guest">Guest</string>
 
 </resources>

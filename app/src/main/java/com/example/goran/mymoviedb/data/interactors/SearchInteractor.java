@@ -2,8 +2,8 @@ package com.example.goran.mymoviedb.data.interactors;
 
 import android.util.Log;
 
-import com.example.goran.mymoviedb.data.model.ListResponse;
-import com.example.goran.mymoviedb.data.model.Movie;
+import com.example.goran.mymoviedb.data.model.list.ListResponse;
+import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
 import com.example.goran.mymoviedb.data.model.keywords.KeywordResponse;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;

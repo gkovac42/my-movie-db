@@ -11,12 +11,12 @@
         android:id="@+id/imageView"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="16dp"
         android:scaleType="fitStart"
-        app:srcCompat="@drawable/tmdb_logo"
-        android:layout_marginEnd="8dp" />
+        app:srcCompat="@drawable/tmdb_logo" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,21 +29,18 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/txt_nav_login"
             android:layout_marginBottom="8dp"
-            android:text="Guest" />
+            android:text="@string/nav_guest" />
 
         <TextView
             android:id="@+id/txt_nav_login"
-            style="@style/TextNormal"
+            style="@style/TextSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:clickable="true"
             android:layout_alignParentStart="true"
             android:layout_marginBottom="16dp"
-            android:text="Login"
-            android:textColorLink="@android:color/secondary_text_dark"
-            android:focusable="true" />
+            android:text="@string/nav_log_in" />
 
     </RelativeLayout>
 

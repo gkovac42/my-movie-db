@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.data.remote;
 
-import com.example.goran.mymoviedb.data.model.ListResponse;
+import com.example.goran.mymoviedb.data.model.list.ListResponse;
 import com.example.goran.mymoviedb.data.model.auth.RequestToken;
 import com.example.goran.mymoviedb.data.model.auth.Session;
 import com.example.goran.mymoviedb.data.model.auth.TokenValidation;

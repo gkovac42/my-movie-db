@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
-import com.example.goran.mymoviedb.data.model.Movie;
+import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.MovieListFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.AdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.LargeMovieAdapter;

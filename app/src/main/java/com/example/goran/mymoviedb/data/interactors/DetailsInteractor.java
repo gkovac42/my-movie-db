@@ -1,10 +1,11 @@
-package com.example.goran.mymoviedb.data.remote;
+package com.example.goran.mymoviedb.data.interactors;
 
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.interactors.ListInteractor;
-import com.example.goran.mymoviedb.data.model.ListResponse;
+import com.example.goran.mymoviedb.data.model.list.ListResponse;
 import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
+import com.example.goran.mymoviedb.data.remote.ApiHelper;
 import com.example.goran.mymoviedb.di.scope.FragmentScope;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsContract;
 

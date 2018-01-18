@@ -56,7 +56,7 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractor.
 
     @Override
     public void onLoginError() {
-
+        loginView.displayLoginError();
     }
 
     @Override
@@ -69,13 +69,13 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractor.
         } else {
             loginInteractor.deleteCurrentUser();
         }
-        loginView.navigateToMain(username, sessionId);
 
+        loginView.navigateToMain(username, sessionId);
     }
 
     @Override
     public void onClickGuest() {
-        loginView.navigateToMain("guest", "guest");
+        loginView.navigateToMain(null, null);
     }
 
     @Override

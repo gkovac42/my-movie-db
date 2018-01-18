@@ -2,7 +2,7 @@ package com.example.goran.mymoviedb.movies.util;
 
 import android.text.TextUtils;
 
-import com.example.goran.mymoviedb.data.model.Genre;
+import com.example.goran.mymoviedb.data.model.singlemovie.Genre;
 import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
 
 import java.util.ArrayList;

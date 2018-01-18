@@ -15,6 +15,8 @@ public class HomePresenter implements HomeContract.Presenter {
     private HomeContract.View homeView;
     private LoginContract.Model loginInteractor;
 
+    private String sessionId;
+
     @Inject
     public HomePresenter(HomeContract.View homeView, LoginContract.Model loginInteractor) {
         this.homeView = homeView;
@@ -22,14 +24,17 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void getUserData() {
-        homeView.initUser();
+    public void setSessionId(String sessionId) {
+        if (sessionId != null) {
+            this.sessionId = sessionId;
+            homeView.initUser();
+        }
     }
 
     @Override
     public void onClickLoginOut() {
 
-        if (!homeView.isGuest()) {
+        if (sessionId != null) {
             loginInteractor.deleteCurrentUser();
         }
 

@@ -1,7 +1,5 @@
 package com.example.goran.mymoviedb.data.model.singlemovie;
 
-import com.example.goran.mymoviedb.data.model.Genre;
-import com.example.goran.mymoviedb.data.model.SpokenLanguage;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

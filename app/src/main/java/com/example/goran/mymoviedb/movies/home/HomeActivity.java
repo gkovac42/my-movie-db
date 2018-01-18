@@ -11,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -50,12 +49,6 @@ public class HomeActivity extends AppCompatActivity
         presenter.onClickLoginOut();
     }
 
-    private String sessionId;
-
-    public String getSessionId() {
-        return sessionId;
-    }
-
     private void showFragment(Fragment fragment) {
         fragmentManager.beginTransaction()
                 .replace(R.id.content_main, fragment)
@@ -86,7 +79,7 @@ public class HomeActivity extends AppCompatActivity
 
         fragmentManager = getSupportFragmentManager();
 
-        presenter.getUserData();
+        presenter.setSessionId(getIntent().getStringExtra("session_id"));
 
         presenter.onClickPlayingNow();
     }
@@ -99,24 +92,6 @@ public class HomeActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -152,7 +127,6 @@ public class HomeActivity extends AppCompatActivity
     }
 
     public void initUser() {
-        sessionId = getIntent().getStringExtra("session_id");
         txtUser.setText(getIntent().getStringExtra("username"));
         txtLogInOut.setText(R.string.nav_log_out);
     }

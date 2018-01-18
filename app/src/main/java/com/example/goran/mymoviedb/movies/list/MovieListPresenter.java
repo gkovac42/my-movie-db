@@ -1,8 +1,8 @@
 package com.example.goran.mymoviedb.movies.list;
 
 import com.example.goran.mymoviedb.data.interactors.ListInteractor;
-import com.example.goran.mymoviedb.data.model.ListResponse;
-import com.example.goran.mymoviedb.data.model.Movie;
+import com.example.goran.mymoviedb.data.model.list.ListResponse;
+import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.scope.FragmentScope;
 import com.example.goran.mymoviedb.movies.util.Category;
 

@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
-import com.example.goran.mymoviedb.data.model.Movie;
+import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
 import com.example.goran.mymoviedb.di.MovieDetailsFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;

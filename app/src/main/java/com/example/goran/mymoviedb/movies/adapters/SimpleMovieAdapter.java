@@ -8,7 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.goran.mymoviedb.R;
-import com.example.goran.mymoviedb.data.model.Movie;
+import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.movies.util.MovieUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 

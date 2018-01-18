@@ -27,7 +27,7 @@ public interface HomeContract {
 
     interface Presenter {
 
-        void getUserData();
+        void setSessionId(String sessionId);
 
         void onClickLoginOut();
 

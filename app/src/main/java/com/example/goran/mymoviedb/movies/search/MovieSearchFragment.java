@@ -19,7 +19,7 @@ import android.widget.RadioButton;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
-import com.example.goran.mymoviedb.data.model.Movie;
+import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
 import com.example.goran.mymoviedb.di.MovieSearchFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
@@ -97,8 +97,6 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        hideProgressBar();
-
         rbtnTitle.setChecked(true);
 
         resultAdapter = new SimpleMovieAdapter();
@@ -110,6 +108,7 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
 
     @Override
     public void showProgressBar() {
+        keywordAdapter.clear();
         progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -127,7 +126,7 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
 
     @Override
     public void displayKeywords(List<Keyword> keywordList) {
-        keywordAdapter.clear();
+
         keywordAdapter.addAll(keywordList);
     }
 

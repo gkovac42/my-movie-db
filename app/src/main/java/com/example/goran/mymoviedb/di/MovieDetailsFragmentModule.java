@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.di;
 
-import com.example.goran.mymoviedb.data.remote.DetailsInteractor;
+import com.example.goran.mymoviedb.data.interactors.DetailsInteractor;
 import com.example.goran.mymoviedb.di.scope.FragmentScope;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsContract;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsFragment;
