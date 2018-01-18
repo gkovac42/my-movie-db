@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.movies.list;
 
-import com.example.goran.mymoviedb.data.ListInteractor;
+import com.example.goran.mymoviedb.data.interactors.ListInteractor;
 import com.example.goran.mymoviedb.data.model.ListResponse;
 import com.example.goran.mymoviedb.data.model.Movie;
 import com.example.goran.mymoviedb.di.scope.FragmentScope;
@@ -16,7 +16,7 @@ import io.reactivex.Observable;
  * Created by Goran on 11.1.2018..
  */
 @FragmentScope
-public class MovieListPresenter implements MovieListContract.Presenter {
+public class MovieListPresenter implements MovieListContract.Presenter, ListInteractor.ListListener {
 
     private MovieListContract.View listView;
     private MovieListContract.Model listInteractor;
@@ -52,17 +52,17 @@ public class MovieListPresenter implements MovieListContract.Presenter {
                 listObservable = listInteractor.getNowPlaying(currentPage++);
         }
 
-        listInteractor.getMovieList(listObservable, new ListInteractor.ListListener() {
-            @Override
-            public void onDataReady(List<Movie> movieList) {
-                listView.addMoviesToAdapter(movieList);
-            }
+        listInteractor.getMovieList(listObservable, this);
+    }
 
-            @Override
-            public void onError() {
+    @Override
+    public void onDataReady(List<Movie> movieList) {
+        listView.addMoviesToAdapter(movieList);
+    }
 
-            }
-        });
+    @Override
+    public void onError() {
+
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.movies.details;
 
-import com.example.goran.mymoviedb.data.ListInteractor;
+import com.example.goran.mymoviedb.data.interactors.ListInteractor;
 import com.example.goran.mymoviedb.data.model.Movie;
 import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
 import com.example.goran.mymoviedb.data.remote.DetailsInteractor;
@@ -40,6 +40,7 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
             @Override
             public void onDataReady(MovieDetails movieDetails) {
                 detailsView.displayMovieDetails(movieDetails);
+                detailsView.hideProgressBar();
             }
 
             @Override
@@ -47,7 +48,6 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
 
             }
         });
-
     }
 
     @Override
@@ -68,5 +68,16 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
     @Override
     public void onClickSimilar(int id) {
         detailsView.navigateToSimilar(id);
+    }
+
+    @Override
+    public void onClickRate() {
+        // TODO - get sessionId, POST rating
+    }
+
+    @Override
+    public void onClickFavorite() {
+        // TODO - POST favorite
+
     }
 }

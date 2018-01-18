@@ -38,5 +38,7 @@
     <string name="sport">sport</string>
     <string name="mistery">mistery</string>
     <string name="adventure">adventure</string>
+    <string name="tab_details">Details</string>
+    <string name="tab_credits">Credits</string>
 
 </resources>

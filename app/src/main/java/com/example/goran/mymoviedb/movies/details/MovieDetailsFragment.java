@@ -5,11 +5,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.goran.mymoviedb.BaseApplication;
@@ -40,6 +43,10 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     @Inject
     MovieDetailsContract.Presenter presenter;
 
+    @BindView(R.id.content_movie)
+    ScrollView content;
+    @BindView(R.id.progress_movie)
+    ProgressBar progressBar;
     @BindView(R.id.img_movie_poster)
     SimpleDraweeView imgPoster;
     @BindView(R.id.txt_movie_release)
@@ -88,6 +95,8 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
+        content.setVisibility(View.GONE);
+
         Intent intent = getActivity().getIntent();
 
         presenter.setMovieId(intent.getIntExtra("movie_id", 0));
@@ -99,9 +108,27 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     }
 
     @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+        content.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void enableUserFeatures() {
+        // TODO - Rate & Favorite buttons VISIBLE/GONE
+    }
+
+    @Override
+    public void showRatingDialog() {
+        // TODO - DialogFragment za rating
+    }
+
+    @Override
     public void displayMovieDetails(MovieDetails movieDetails) {
 
-        // TODO - PREUREDITI LAYOUT (RAZDVOJITI NASLOV STAVKE I VRIJEDNOST ZBOG PRIJEVODA)!!!
+        // TODO - PREUREDITI LAYOUT (RAZDVOJITI NASLOVE STAVKI I VRIJEDNOSTI ZBOG PRIJEVODA)!!!
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(movieDetails.getTitle());
 
         imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movieDetails.getPosterPath()));
 
@@ -120,10 +147,15 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
         txtPopularity.setText(String.valueOf(movieDetails.getPopularity()));
 
         txtBudget.setText("Budget: " + String.valueOf(movieDetails.getBudget()) + "$");
+
         txtRevenue.setText("Revenue: " + String.valueOf(movieDetails.getRevenue() + "$"));
+
         txtRuntime.setText(String.valueOf(movieDetails.getRuntime()) + " min");
+
         txtHomepage.setText("Homepage: " + movieDetails.getHomepage());
+
         txtOriginalTitle.setText("Original Title: " + movieDetails.getOriginalTitle());
+
         txtStatus.setText("Status: " + movieDetails.getStatus());
     }
 

@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +61,6 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Log.i("CATEGORY", String.valueOf(getArguments().getInt("category")));
-
         movieList = new ArrayList<>();
         adapter = new LargeMovieAdapter(movieList);
         adapter.setListener(new AdapterListener() {
@@ -78,9 +75,8 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
             }
         });
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         RecyclerView recyclerView = getView().findViewById(R.id.rw_list);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
         presenter.loadMovies();
@@ -93,16 +89,16 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
     }
 
     @Override
+    public void addMoviesToAdapter(List<Movie> movies) {
+        movieList.addAll(movies);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void navigateToMovie(int position) {
         Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
         intent.putExtra("movie_id", movieList.get(position).getId());
         startActivity(intent);
-    }
-
-    @Override
-    public void addMoviesToAdapter(List<Movie> movies) {
-        movieList.addAll(movies);
-        adapter.notifyDataSetChanged();
     }
 
     @Override

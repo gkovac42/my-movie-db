@@ -1,10 +1,8 @@
 package com.example.goran.mymoviedb.movies.search;
 
-import android.util.Log;
-
+import com.example.goran.mymoviedb.data.interactors.SearchInteractor;
 import com.example.goran.mymoviedb.data.model.Movie;
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
-import com.example.goran.mymoviedb.data.SearchInteractor;
 import com.example.goran.mymoviedb.di.scope.FragmentScope;
 
 import java.util.List;
@@ -35,24 +33,32 @@ public class MovieSearchPresenter implements
 
         if (searchByTitle) {
             searchInteractor.searchByTitle(query, this);
+
         } else {
+
             int keywordId = 0;
-            for (int i = 0; i < searchView.getKeywordAdapter().getCount(); i++) {
+            int count = searchView.getKeywordAdapter().getCount();
+
+            // nisam htio uzeti keywordId preko onClick listenera jer se može upisati riječ i napraviti search bez click-a
+            // ovako malo ružno izgleda ali nisam se sjetio boljeg rješenja
+
+            for (int i = 0; i < count; i++) {
                 if (searchView.getKeywordAdapter().getItem(i).getName().equals(query)) {
                     keywordId = searchView.getKeywordAdapter().getItem(i).getId();
                 }
             }
+
             searchInteractor.searchByKeyword(String.valueOf(keywordId), this);
         }
     }
 
     @Override
-    public void onClickKeyword() {
+    public void onSelectKeyword() {
         searchView.initTextWatcher();
     }
 
     @Override
-    public void onClickTitle() {
+    public void onSelectTitle() {
         searchView.removeTextWatcher();
     }
 
@@ -68,8 +74,6 @@ public class MovieSearchPresenter implements
 
     @Override
     public void onResultsReady(List<Movie> movieList) {
-        Log.i("RESULTS", movieList.get(0).getTitle());
-        Log.i("RESULTS", "Hey");
         searchView.displaySearchResults(movieList);
         searchView.hideProgressBar();
     }

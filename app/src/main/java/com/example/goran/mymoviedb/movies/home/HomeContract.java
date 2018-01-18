@@ -12,13 +12,13 @@ public interface HomeContract {
 
         void initUser();
 
-        void showPlayingNowFragment();
+        void showPlayingNowList();
 
-        void showUpcomingFragment();
+        void showUpcomingList();
 
-        void showPopularFragment();
+        void showPopularList();
 
-        void showTopRatedFragment();
+        void showTopRatedList();
 
         void showSearchFragment();
 

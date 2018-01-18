@@ -2,7 +2,7 @@ package com.example.goran.mymoviedb.movies.search;
 
 import android.widget.ArrayAdapter;
 
-import com.example.goran.mymoviedb.data.SearchInteractor;
+import com.example.goran.mymoviedb.data.interactors.SearchInteractor;
 import com.example.goran.mymoviedb.data.model.Movie;
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
 
@@ -30,7 +30,7 @@ public interface MovieSearchContract {
 
         void displayKeywords(List<Keyword> keywordList);
 
-        void navigateToResult(int position);
+        void navigateToResult(int movie);
 
     }
 
@@ -38,9 +38,9 @@ public interface MovieSearchContract {
 
         void onClickSearch(String query, Boolean searchByTitle);
 
-        void onClickKeyword();
+        void onSelectKeyword();
 
-        void onClickTitle();
+        void onSelectTitle();
 
         void loadKeywords(String query);
 

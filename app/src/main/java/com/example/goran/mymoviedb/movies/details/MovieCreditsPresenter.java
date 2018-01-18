@@ -2,9 +2,9 @@ package com.example.goran.mymoviedb.movies.details;
 
 import android.net.Uri;
 
-import com.example.goran.mymoviedb.data.CreditsInteractor;
-import com.example.goran.mymoviedb.data.model.singlemovie.Crew;
+import com.example.goran.mymoviedb.data.interactors.CreditsInteractor;
 import com.example.goran.mymoviedb.data.model.singlemovie.Credits;
+import com.example.goran.mymoviedb.data.model.singlemovie.Crew;
 import com.example.goran.mymoviedb.di.scope.FragmentScope;
 
 import javax.inject.Inject;
@@ -14,7 +14,7 @@ import javax.inject.Inject;
  */
 
 @FragmentScope
-public class MovieCreditsPresenter implements MovieCreditsContract.Presenter {
+public class MovieCreditsPresenter implements MovieCreditsContract.Presenter, CreditsInteractor.CreditsListener {
 
     private MovieCreditsContract.View creditsView;
     private MovieCreditsContract.Model creditsInteractor;
@@ -37,36 +37,34 @@ public class MovieCreditsPresenter implements MovieCreditsContract.Presenter {
 
     @Override
     public void loadCredits() {
+        creditsInteractor.getCredits(movieId, this);
+    }
 
-        creditsInteractor.getCredits(movieId, new CreditsInteractor.CreditsListener() {
-            @Override
-            public void onDataReady(Credits credits) {
+    @Override
+    public void onDataReady(Credits credits) {
+        Crew director = creditsInteractor.getDirector(credits);
+        Crew writer = creditsInteractor.getWriter(credits);
 
-                Crew director = creditsInteractor.getDirector(credits);
-                Crew writer = creditsInteractor.getWriter(credits);
+        if (director != null) {
+            creditsView.displayDirector(director.getName(),
+                    Uri.parse(IMG_BASE_URL + director.getProfilePath()));
+        } else {
+            creditsView.displayDirector("n/a", null);
+        }
 
-                if (director != null) {
-                    creditsView.displayDirector(director.getName(),
-                            Uri.parse(IMG_BASE_URL + director.getProfilePath()));
-                } else {
-                    creditsView.displayDirector("n/a", null);
-                }
+        if (writer != null) {
+            creditsView.displayWriter(writer.getName(),
+                    Uri.parse(IMG_BASE_URL + writer.getProfilePath()));
+        } else {
+            creditsView.displayWriter("n/a", null);
+        }
 
-                if (writer != null) {
-                    creditsView.displayWriter(writer.getName(),
-                            Uri.parse(IMG_BASE_URL + writer.getProfilePath()));
-                } else {
-                    creditsView.displayWriter("n/a", null);
-                }
+        creditsView.displayCast(credits.getCast());
+    }
 
-                creditsView.displayCast(credits.getCast());
-            }
+    @Override
+    public void onError() {
 
-            @Override
-            public void onError() {
-
-            }
-        });
     }
 
     @Override

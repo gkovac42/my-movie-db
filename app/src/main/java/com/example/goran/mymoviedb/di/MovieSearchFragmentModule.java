@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.di;
 
-import com.example.goran.mymoviedb.data.SearchInteractor;
+import com.example.goran.mymoviedb.data.interactors.SearchInteractor;
 import com.example.goran.mymoviedb.di.scope.FragmentScope;
 import com.example.goran.mymoviedb.movies.search.MovieSearchContract;
 import com.example.goran.mymoviedb.movies.search.MovieSearchFragment;

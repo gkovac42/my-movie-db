@@ -34,6 +34,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Inject
     HomeContract.Presenter presenter;
+
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -156,25 +157,25 @@ public class HomeActivity extends AppCompatActivity
         txtLogInOut.setText(R.string.nav_log_out);
     }
 
-    public void showPlayingNowFragment() {
+    public void showPlayingNowList() {
         getSupportActionBar().setTitle(R.string.nav_playing_now);
         showFragment(MovieListFragment.newInstance(Category.NOW_PLAYING));
     }
 
     @Override
-    public void showUpcomingFragment() {
+    public void showUpcomingList() {
         getSupportActionBar().setTitle("MyMovieDb - Upcoming");
         showFragment(MovieListFragment.newInstance(Category.UPCOMING));
     }
 
     @Override
-    public void showPopularFragment() {
+    public void showPopularList() {
         getSupportActionBar().setTitle("MyMovieDb - Popular");
         showFragment(MovieListFragment.newInstance(Category.POPULAR));
     }
 
     @Override
-    public void showTopRatedFragment() {
+    public void showTopRatedList() {
         getSupportActionBar().setTitle("MyMovieDb - Top Rated");
         showFragment(MovieListFragment.newInstance(Category.TOP_RATED));
     }

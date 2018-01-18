@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.movies.list;
 
-import com.example.goran.mymoviedb.data.ListInteractor;
+import com.example.goran.mymoviedb.data.interactors.ListInteractor;
 import com.example.goran.mymoviedb.data.model.ListResponse;
 import com.example.goran.mymoviedb.data.model.Movie;
 

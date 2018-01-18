@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.di;
 
-import com.example.goran.mymoviedb.data.LoginInteractor;
+import com.example.goran.mymoviedb.data.interactors.LoginInteractor;
 import com.example.goran.mymoviedb.di.scope.ActivityScope;
 import com.example.goran.mymoviedb.login.LoginContract;
 import com.example.goran.mymoviedb.movies.home.HomeActivity;

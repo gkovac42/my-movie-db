@@ -1,4 +1,4 @@
-package com.example.goran.mymoviedb.data;
+package com.example.goran.mymoviedb.data.interactors;
 
 import android.util.Log;
 

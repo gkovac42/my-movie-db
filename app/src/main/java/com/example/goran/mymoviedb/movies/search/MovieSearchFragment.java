@@ -67,13 +67,13 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
     }
 
     @OnClick(R.id.rbtn_search_keyword)
-    public void onClickKeyword() {
-        presenter.onClickKeyword();
+    public void onSelectKeyword() {
+        presenter.onSelectKeyword();
     }
 
     @OnClick(R.id.rbtn_search_title)
-    public void onClickTitle() {
-        presenter.onClickTitle();
+    public void onSelectTitle() {
+        presenter.onSelectTitle();
     }
 
     public ArrayAdapter<Keyword> getKeywordAdapter() {

@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.di;
 
-import com.example.goran.mymoviedb.data.CreditsInteractor;
+import com.example.goran.mymoviedb.data.interactors.CreditsInteractor;
 import com.example.goran.mymoviedb.di.scope.FragmentScope;
 import com.example.goran.mymoviedb.movies.details.MovieCreditsContract;
 import com.example.goran.mymoviedb.movies.details.MovieCreditsFragment;

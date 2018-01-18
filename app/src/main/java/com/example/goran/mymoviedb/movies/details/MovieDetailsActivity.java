@@ -13,20 +13,15 @@ import com.example.goran.mymoviedb.R;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
-    private Fragment[] movieDetails;
-
-    private SectionsPagerAdapter sectionsPagerAdapter;
+    private MovieDetailsFragment movieDetailsFragment;
+    private MovieCreditsFragment movieCreditsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
-        movieDetails = new Fragment[2];
-        movieDetails[0] = new MovieDetailsFragment();
-        movieDetails[1] = new MovieCreditsFragment();
-
-        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         ViewPager viewPager = findViewById(R.id.container);
         viewPager.setAdapter(sectionsPagerAdapter);
@@ -34,6 +29,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        movieDetailsFragment = new MovieDetailsFragment();
+        movieCreditsFragment = new MovieCreditsFragment();
     }
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -47,10 +44,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
             switch (position) {
                 case 0:
-                    return movieDetails[0];
+                    return movieDetailsFragment;
 
                 case 1:
-                    return movieDetails[1];
+                    return movieCreditsFragment;
             }
 
             return null;
@@ -65,9 +62,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Details";
+                    return getString(R.string.tab_details);
                 case 1:
-                    return "Credits";
+                    return getString(R.string.tab_credits);
             }
 
             return null;
