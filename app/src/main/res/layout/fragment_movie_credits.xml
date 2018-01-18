@@ -9,18 +9,18 @@
         android:padding="8dp">
 
         <TextView
+            android:id="@+id/txt_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="4dp"
-            android:id="@+id/txt_1"
             android:text="Director:"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <android.support.v7.widget.CardView
+            android:id="@+id/crd_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/crd_2"
             android:layout_below="@+id/txt_1"
             android:layout_marginBottom="8dp">
 
@@ -46,19 +46,19 @@
         </android.support.v7.widget.CardView>
 
         <TextView
+            android:id="@+id/txt_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/crd_2"
             android:paddingBottom="8dp"
             android:text="Writer:"
-            android:layout_below="@id/crd_2"
-            android:id="@+id/txt_2"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <android.support.v7.widget.CardView
+            android:id="@+id/crd_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/crd_3"
             android:layout_below="@id/txt_2"
             android:layout_marginBottom="8dp">
 
@@ -84,20 +84,25 @@
         </android.support.v7.widget.CardView>
 
         <TextView
+            android:id="@+id/txt_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
             android:layout_below="@id/crd_3"
-            android:id="@+id/txt_4"
+            android:paddingBottom="4dp"
             android:text="Cast:"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_credits_cast"
-            android:layout_below="@+id/txt_4"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_4">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_credits_cast"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </android.support.v7.widget.CardView>
     </RelativeLayout>
 </ScrollView>

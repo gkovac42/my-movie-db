@@ -126,19 +126,17 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     @Override
     public void displayMovieDetails(MovieDetails movieDetails) {
 
-        // TODO - PREUREDITI LAYOUT (RAZDVOJITI NASLOVE STAVKI I VRIJEDNOSTI ZBOG PRIJEVODA)!!!
-
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(movieDetails.getTitle());
 
         imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movieDetails.getPosterPath()));
 
-        txtReleaseDate.setText("Release Date: " + movieDetails.getReleaseDate());
+        txtReleaseDate.setText(MovieUtils.formatDate(movieDetails.getReleaseDate()));
 
         txtDesc.setText(movieDetails.getOverview());
 
         txtGenre.setText(MovieUtils.getGenres(movieDetails));
 
-        txtLanguage.setText("Language: " + movieDetails.getSpokenLanguages().get(0).getName());
+        txtLanguage.setText(movieDetails.getSpokenLanguages().get(0).getName());
 
         txtRating.setText(String.valueOf(movieDetails.getVoteAverage()));
 
@@ -146,17 +144,17 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
 
         txtPopularity.setText(String.valueOf(movieDetails.getPopularity()));
 
-        txtBudget.setText("Budget: " + String.valueOf(movieDetails.getBudget()) + "$");
+        txtBudget.setText(String.valueOf(movieDetails.getBudget()) + "$");
 
-        txtRevenue.setText("Revenue: " + String.valueOf(movieDetails.getRevenue() + "$"));
+        txtRevenue.setText(String.valueOf(movieDetails.getRevenue() + "$"));
 
         txtRuntime.setText(String.valueOf(movieDetails.getRuntime()) + " min");
 
-        txtHomepage.setText("Homepage: " + movieDetails.getHomepage());
+        txtHomepage.setText(movieDetails.getHomepage());
 
-        txtOriginalTitle.setText("Original Title: " + movieDetails.getOriginalTitle());
+        txtOriginalTitle.setText(movieDetails.getOriginalTitle());
 
-        txtStatus.setText("Status: " + movieDetails.getStatus());
+        txtStatus.setText(movieDetails.getStatus());
     }
 
     @Override

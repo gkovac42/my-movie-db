@@ -1,10 +1,10 @@
 package com.example.goran.mymoviedb.movies.adapters;
 
 import android.net.Uri;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.goran.mymoviedb.R;
@@ -43,7 +43,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        CardView listItem = (CardView) LayoutInflater.from(
+        LinearLayout listItem = (LinearLayout) LayoutInflater.from(
                 parent.getContext()).inflate(R.layout.list_item_cast, parent, false);
 
         return new ViewHolder(listItem);
@@ -52,7 +52,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        CardView listItem = holder.listItem;
+        LinearLayout listItem = holder.listItem;
 
         Cast movieCast = cast.get(position);
 
@@ -72,12 +72,12 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private CardView listItem;
+        private LinearLayout listItem;
 
-        ViewHolder(CardView cv) {
-            super(cv);
+        ViewHolder(LinearLayout linearLayout) {
+            super(linearLayout);
 
-            listItem = cv;
+            listItem = linearLayout;
 
             listItem.setOnClickListener(v -> {
 

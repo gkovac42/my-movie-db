@@ -22,6 +22,7 @@
     <string name="txt_forgot_password"><a href="https://www.themoviedb.org/account/reset-password">Forgot password?</a></string>
 
     <!--Navigation Bar-->
+    <string name="nav_guest">Guest</string>
     <string name="nav_log_in">Log in</string>
     <string name="nav_log_out">Log out</string>
     <string name="nav_playing_now">MyMovieDb - Playing Now</string>
@@ -48,6 +49,17 @@
     <string name="by_title">by title</string>
     <string name="search_movie_database">Search movie database</string>
     <string name="by_keyword">by keyword</string>
-    <string name="nav_guest">Guest</string>
+
+    <!--Details-->
+    <string name="description">Description:</string>
+    <string name="more_info">More Info:</string>
+    <string name="release_date">Release Date:</string>
+    <string name="original_title">Original Title:</string>
+    <string name="language">Language:</string>
+    <string name="status">Status:</string>
+    <string name="budget">Budget:</string>
+    <string name="revenue">Revenue:</string>
+    <string name="homepage">Homepage :</string>
+    <string name="similar_movies">Similar Movies:</string>
 
 </resources>
