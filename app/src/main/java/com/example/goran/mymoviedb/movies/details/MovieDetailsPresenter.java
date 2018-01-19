@@ -72,11 +72,13 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
 
     @Override
     public void onClickRate() {
-        detailsView.showRatingDialog();
+        // TODO - rate POST request, show rating dialog
+        detailsView.checkRated();
     }
 
     @Override
     public void onClickFavorite() {
+        // TODO - favorite POST request
         detailsView.checkFavorite();
     }
 }

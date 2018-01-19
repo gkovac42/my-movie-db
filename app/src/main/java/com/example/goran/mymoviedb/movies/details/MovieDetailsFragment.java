@@ -217,10 +217,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     public void displaySimilarMovies(List<Movie> movieList) {
 
         SimpleMovieAdapter adapter = new SimpleMovieAdapter(movieList);
-        adapter.setListener(position -> {
-            presenter.onClickSimilar(movieList.get(position).getId());
-
-        });
+        adapter.setListener(position -> presenter.onClickSimilar(movieList.get(position).getId()));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
