@@ -4,44 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
     android:background="@color/colorPrimary"
-    android:orientation="horizontal"
+    android:orientation="vertical"
+    android:padding="8dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="16dp"
-        android:scaleType="fitStart"
-        app:srcCompat="@drawable/tmdb_logo" />
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:padding="24dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/tmdb_nav_logo" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/txt_nav_user"
+        style="@style/TextLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:text="@string/nav_guest" />
 
-        <TextView
-            android:id="@+id/txt_nav_user"
-            style="@style/TextLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/txt_nav_login"
-            android:layout_marginBottom="8dp"
-            android:text="@string/nav_guest" />
-
-        <TextView
-            android:id="@+id/txt_nav_login"
-            style="@style/TextSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="16dp"
-            android:text="@string/nav_log_in" />
-
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/txt_nav_login"
+        style="@style/TextSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:text="@string/nav_log_in" />
 
 </LinearLayout>

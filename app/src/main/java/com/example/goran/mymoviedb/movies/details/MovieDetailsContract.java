@@ -19,6 +19,10 @@ public interface MovieDetailsContract {
 
         void enableUserFeatures();
 
+        void checkFavorite();
+
+        void checkRated();
+
         void showRatingDialog();
 
         void displayMovieDetails(MovieDetails movieDetails);

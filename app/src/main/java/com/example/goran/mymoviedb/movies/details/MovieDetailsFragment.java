@@ -1,6 +1,7 @@
 package com.example.goran.mymoviedb.movies.details;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,9 +9,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -29,8 +32,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Goran on 25.12.2017..
@@ -61,8 +66,6 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     TextView txtRating;
     @BindView(R.id.txt_movie_votes)
     TextView txtVotes;
-    @BindView(R.id.txt_movie_popularity)
-    TextView txtPopularity;
     @BindView(R.id.txt_movie_status)
     TextView txtStatus;
     @BindView(R.id.txt_movie_original_title)
@@ -75,8 +78,34 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     TextView txtRuntime;
     @BindView(R.id.txt_movie_homepage)
     TextView txtHomepage;
+    @BindView(R.id.btn_movie_rate)
+    ImageButton btnRate;
+    @BindView(R.id.btn_movie_favorite)
+    ImageButton btnFavorite;
     @BindView(R.id.recycler_movie_similar)
     RecyclerView recyclerView;
+
+    private boolean isRated;
+    private boolean isFavorite;
+
+    @BindDrawable(R.drawable.ic_favorite_black_24dp)
+    Drawable drwFavorite;
+    @BindDrawable(R.drawable.ic_favorite_border_black_24dp)
+    Drawable drwNotFavorite;
+    @BindDrawable(R.drawable.ic_star_accent_24dp)
+    Drawable drwRated;
+    @BindDrawable(R.drawable.ic_star_border_accent_24dp)
+    Drawable drwNotRated;
+
+    @OnClick(R.id.btn_movie_rate)
+    void onClickRate() {
+        presenter.onClickRate();
+    }
+
+    @OnClick(R.id.btn_movie_favorite)
+    void onClickFavorite() {
+        presenter.onClickFavorite();
+    }
 
     @Nullable
     @Override
@@ -96,6 +125,8 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
         ButterKnife.bind(this, view);
 
         content.setVisibility(View.GONE);
+        btnRate.setVisibility(View.GONE);
+        btnFavorite.setVisibility(View.GONE);
 
         Intent intent = getActivity().getIntent();
 
@@ -111,11 +142,36 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
         content.setVisibility(View.VISIBLE);
+        btnRate.setVisibility(View.VISIBLE);
+        btnFavorite.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void enableUserFeatures() {
-        // TODO - Rate & Favorite buttons VISIBLE/GONE
+
+
+    }
+
+    @Override
+    public void checkFavorite() {
+        if (!isFavorite) {
+            btnFavorite.setImageDrawable(drwFavorite);
+            isFavorite = true;
+        } else {
+            btnFavorite.setImageDrawable(drwNotFavorite);
+            isFavorite = false;
+        }
+    }
+
+    @Override
+    public void checkRated() {
+        if (!isRated) {
+            btnRate.setImageDrawable(drwRated);
+            isRated = true;
+        } else {
+            btnRate.setImageDrawable(drwNotRated);
+            isRated = false;
+        }
     }
 
     @Override
@@ -126,11 +182,12 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     @Override
     public void displayMovieDetails(MovieDetails movieDetails) {
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(movieDetails.getTitle());
+        ((AppCompatActivity) getActivity()).getSupportActionBar()
+                .setTitle(MovieUtils.formatTitle(movieDetails.getTitle(), movieDetails.getReleaseDate()));
 
         imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movieDetails.getPosterPath()));
 
-        txtReleaseDate.setText(MovieUtils.formatDate(movieDetails.getReleaseDate()));
+        txtReleaseDate.setText(movieDetails.getReleaseDate());
 
         txtDesc.setText(movieDetails.getOverview());
 
@@ -142,15 +199,14 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
 
         txtVotes.setText(String.valueOf(movieDetails.getVoteCount()));
 
-        txtPopularity.setText(String.valueOf(movieDetails.getPopularity()));
-
-        txtBudget.setText(String.valueOf(movieDetails.getBudget()) + "$");
+        txtBudget.setText(String.valueOf(movieDetails.getBudget() + "$"));
 
         txtRevenue.setText(String.valueOf(movieDetails.getRevenue() + "$"));
 
-        txtRuntime.setText(String.valueOf(movieDetails.getRuntime()) + " min");
+        txtRuntime.setText(String.valueOf(movieDetails.getRuntime() + " min"));
 
         txtHomepage.setText(movieDetails.getHomepage());
+        txtHomepage.setMovementMethod(LinkMovementMethod.getInstance());
 
         txtOriginalTitle.setText(movieDetails.getOriginalTitle());
 

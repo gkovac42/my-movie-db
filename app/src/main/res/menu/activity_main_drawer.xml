@@ -3,59 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+    <group android:checkableBehavior="single">
 
-    <item android:title="MOVIE LISTING">
-        <menu>
+        <item
+            android:id="@+id/nav_playing_now"
+            android:icon="@drawable/ic_local_movies_white_24dp"
+            android:title="Playing Now" />
+        <item
+            android:id="@+id/nav_upcoming"
+            android:icon="@drawable/ic_date_range_white_24dp"
+            android:title="Upcoming" />
+        <item
+            android:id="@+id/nav_popular"
+            android:icon="@drawable/ic_trending_up_white_24dp"
+            android:title="Popular" />
+        <item
+            android:id="@+id/nav_top_rated"
+            android:icon="@drawable/ic_star_white_24dp"
+            android:title="Top Rated" />
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="Search" />
+        <item
+            android:id="@+id/i"
+            android:icon="@drawable/ic_bookmark_black_24dp"
+            android:title="Wishlist" />
 
+    </group>
 
-            <group android:checkableBehavior="single">
-
-                <item
-                    android:id="@+id/nav_playing_now"
-                    android:icon="@drawable/ic_local_movies_white_24dp"
-                    android:title="Playing Now" />
-                <item
-                    android:id="@+id/nav_upcoming"
-                    android:icon="@drawable/ic_date_range_white_24dp"
-                    android:title="Upcoming" />
-                <item
-                    android:id="@+id/nav_popular"
-                    android:icon="@drawable/ic_trending_up_white_24dp"
-                    android:title="Popular" />
-                <item
-                    android:id="@+id/nav_top_rated"
-                    android:icon="@drawable/ic_star_white_24dp"
-                    android:title="Top Rated" />
-
-            </group>
-        </menu>
-    </item>
-
-
-    <item android:title="FIND MOVIES">
-        <menu>
-            <item
-                android:id="@+id/nav_search"
-                android:icon="@drawable/ic_search_black_24dp"
-                android:title="Search" />
-            <item
-                android:id="@+id/n"
-                android:icon="@drawable/ic_language_white_24dp"
-                android:title="Discover" />
-        </menu>
-    </item>
-
-    <item android:title="MY MOVIES">
-        <menu>
-            <item
-                android:id="@+id/o"
-                android:icon="@drawable/ic_favorite_black_24dp"
-                android:title="Favorites" />
-            <item
-                android:id="@+id/i"
-                android:icon="@drawable/ic_bookmark_black_24dp"
-                android:title="Wishlist" />
-        </menu>
-    </item>
 
 </menu>

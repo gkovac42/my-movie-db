@@ -61,5 +61,7 @@
     <string name="revenue">Revenue:</string>
     <string name="homepage">Homepage :</string>
     <string name="similar_movies">Similar Movies:</string>
+    <string name="rate">Rate</string>
+    <string name="wishlist">Wishlist</string>
 
 </resources>

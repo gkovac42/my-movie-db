@@ -5,7 +5,12 @@ import android.text.TextUtils;
 import com.example.goran.mymoviedb.data.model.singlemovie.Genre;
 import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Goran on 23.12.2017..
@@ -23,6 +28,19 @@ public class MovieUtils {
         String day = date.substring(8, 10);
 
         return day + "." + month + "." + year + ".";
+    }
+
+    public static Date StringToDate(String date) {
+        DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+
+        try {
+            return format.parse(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 
