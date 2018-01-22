@@ -31,8 +31,8 @@ public class MovieCreditsPresenter implements MovieCreditsContract.Presenter, Cr
 
 
     @Override
-    public void setMovieId(int id) {
-        this.movieId = id;
+    public void initPresenter(int movieId) {
+        this.movieId = movieId;
     }
 
     @Override

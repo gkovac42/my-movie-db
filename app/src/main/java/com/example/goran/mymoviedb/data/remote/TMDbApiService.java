@@ -72,8 +72,8 @@ public interface TMDbApiService {
                                             @Query("page") int page);
 
     @GET("discover/movie")
-    Observable<ListResponse> searchByKeyword(@Query("api_key") String apiKey,
-                                             @Query("with_keywords") String keyword,
-                                             @Query("page") int page);
+    Observable<ListResponse> searchByKeywordId(@Query("api_key") String apiKey,
+                                               @Query("with_keywords") int keywordId,
+                                               @Query("page") int page);
 
 }

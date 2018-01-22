@@ -30,7 +30,7 @@ public interface MovieSearchContract {
 
         void displayKeywords(List<Keyword> keywordList);
 
-        void navigateToResult(int movie);
+        void navigateToResult(int movieId);
 
     }
 
@@ -44,7 +44,7 @@ public interface MovieSearchContract {
 
         void loadKeywords(String query);
 
-        void onClickResult(int position);
+        void onClickResult(int movieId);
 
         void onDestroy();
 
@@ -56,7 +56,7 @@ public interface MovieSearchContract {
 
         void getKeywords(String query, SearchInteractor.KeywordListener listener);
 
-        void searchByKeyword(String query, SearchInteractor.SearchListener listener);
+        void searchByKeywordId(int query, SearchInteractor.SearchListener listener);
 
         void dispose();
 

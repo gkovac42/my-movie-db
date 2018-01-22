@@ -11,6 +11,7 @@ import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.singlemovie.Cast;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
     }
 
     public CastAdapter() {
-
+        cast = new ArrayList<>();
     }
 
     public void setDataSource(List<Cast> cast) {

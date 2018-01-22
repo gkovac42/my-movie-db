@@ -48,7 +48,7 @@ public class MovieSearchPresenter implements
                 }
             }
 
-            searchInteractor.searchByKeyword(String.valueOf(keywordId), this);
+            searchInteractor.searchByKeywordId(keywordId, this);
         }
     }
 
@@ -68,8 +68,8 @@ public class MovieSearchPresenter implements
     }
 
     @Override
-    public void onClickResult(int position) {
-        searchView.navigateToResult(position);
+    public void onClickResult(int movieId) {
+        searchView.navigateToResult(movieId);
     }
 
     @Override

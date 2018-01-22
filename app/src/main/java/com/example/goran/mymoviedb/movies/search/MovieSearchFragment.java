@@ -45,7 +45,6 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
 
     private SimpleMovieAdapter resultAdapter;
     private ArrayAdapter<Keyword> keywordAdapter;
-    private List<Movie> movieList;
 
     @BindView(R.id.txt_search_query)
     AutoCompleteTextView txtSearchQuery;
@@ -100,10 +99,12 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
         rbtnTitle.setChecked(true);
 
         resultAdapter = new SimpleMovieAdapter();
+        resultAdapter.setListener(position -> presenter.onClickResult(position));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(resultAdapter);
-        resultAdapter.setListener(position -> presenter.onClickResult(position));
+
+        keywordAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item);
     }
 
     @Override
@@ -119,35 +120,31 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
 
     @Override
     public void displaySearchResults(List<Movie> movieList) {
-        this.movieList = movieList;
         resultAdapter.setDataSource(movieList);
         resultAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void displayKeywords(List<Keyword> keywordList) {
-
         keywordAdapter.addAll(keywordList);
     }
 
     @Override
-    public void navigateToResult(int position) {
+    public void navigateToResult(int movieId) {
         Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
-        intent.putExtra("movie_id", movieList.get(position).getId());
+        intent.putExtra("movie_id", movieId);
         startActivity(intent);
     }
 
     @Override
     public void initTextWatcher() {
-        keywordAdapter = new ArrayAdapter<>(
-                getActivity(),
-                android.R.layout.select_dialog_item);
         txtSearchQuery.setAdapter(keywordAdapter);
         txtSearchQuery.addTextChangedListener(this);
     }
 
     @Override
     public void removeTextWatcher() {
+        keywordAdapter.clear();
         txtSearchQuery.setAdapter(null);
         txtSearchQuery.removeTextChangedListener(this);
     }

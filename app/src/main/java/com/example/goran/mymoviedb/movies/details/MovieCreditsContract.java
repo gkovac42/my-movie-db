@@ -26,7 +26,7 @@ public interface MovieCreditsContract {
 
     interface Presenter {
 
-        void setMovieId(int id);
+        void initPresenter(int id);
 
         void loadCredits();
 

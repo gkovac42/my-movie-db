@@ -1,6 +1,5 @@
 package com.example.goran.mymoviedb.movies.details;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,6 +36,8 @@ public class MovieCreditsFragment extends Fragment implements MovieCreditsContra
     @Inject
     MovieCreditsContract.Presenter presenter;
 
+    private CastAdapter adapter;
+
     @BindView(R.id.txt_credits_director)
     TextView txtDirector;
     @BindView(R.id.img_credits_director)
@@ -66,10 +67,12 @@ public class MovieCreditsFragment extends Fragment implements MovieCreditsContra
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        Intent intent = getActivity().getIntent();
+        adapter = new CastAdapter();
 
-        presenter.setMovieId(intent.getIntExtra("movie_id", 0));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter);
 
+        presenter.initPresenter(getActivity().getIntent().getIntExtra("movie_id", 0));
         presenter.loadCredits();
     }
 
@@ -87,9 +90,8 @@ public class MovieCreditsFragment extends Fragment implements MovieCreditsContra
 
     @Override
     public void displayCast(List<Cast> cast) {
-        CastAdapter adapter = new CastAdapter(cast);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter);
+        adapter.setDataSource(cast);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

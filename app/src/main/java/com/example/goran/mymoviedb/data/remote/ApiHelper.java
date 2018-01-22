@@ -86,8 +86,8 @@ public class ApiHelper {
         return apiService.getKeywords(API_KEY, query, 1);
     }
 
-    public Observable<ListResponse> searchByKeyword(String keyword, int page) {
-        return apiService.searchByKeyword(API_KEY, keyword, page);
+    public Observable<ListResponse> searchByKeywordId(int keywordId, int page) {
+        return apiService.searchByKeywordId(API_KEY, keywordId, page);
     }
 
 }
