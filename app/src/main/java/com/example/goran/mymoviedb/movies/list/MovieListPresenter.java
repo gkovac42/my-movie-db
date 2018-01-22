@@ -55,8 +55,8 @@ public class MovieListPresenter implements MovieListContract.Presenter, ListInte
     }
 
     @Override
-    public void onClickMovie(int position) {
-        listView.navigateToMovie(position);
+    public void onClickMovie(int movieId) {
+        listView.navigateToMovie(movieId);
     }
 
     @Override

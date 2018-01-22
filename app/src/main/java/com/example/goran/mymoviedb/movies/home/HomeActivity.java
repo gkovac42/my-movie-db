@@ -79,7 +79,9 @@ public class HomeActivity extends AppCompatActivity
 
         fragmentManager = getSupportFragmentManager();
 
-        presenter.setSessionId(getIntent().getStringExtra("session_id"));
+        presenter.initPresenter(
+                getIntent().getStringExtra(("username")),
+                getIntent().getStringExtra("session_id"));
 
         presenter.onClickPlayingNow();
     }
@@ -120,7 +122,8 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    public void initUser() {
+    @Override
+    public void displayUsername(String username) {
         txtUser.setText(getIntent().getStringExtra("username"));
         txtLogInOut.setText(R.string.nav_log_out);
     }

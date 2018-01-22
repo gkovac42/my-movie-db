@@ -29,8 +29,8 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
     }
 
     @Override
-    public void setMovieId(int id) {
-        movieId = id;
+    public void initPresenter(int movieId) {
+        this.movieId = movieId;
     }
 
     @Override

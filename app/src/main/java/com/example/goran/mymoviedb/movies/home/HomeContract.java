@@ -8,7 +8,7 @@ public interface HomeContract {
 
     interface View {
 
-        void initUser();
+        void displayUsername(String username);
 
         void showPlayingNowList();
 
@@ -25,7 +25,7 @@ public interface HomeContract {
 
     interface Presenter {
 
-        void setSessionId(String sessionId);
+        void initPresenter(String username, String sessionId);
 
         void onClickLoginOut();
 

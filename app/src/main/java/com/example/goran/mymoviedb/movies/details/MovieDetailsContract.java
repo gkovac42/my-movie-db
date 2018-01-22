@@ -35,13 +35,13 @@ public interface MovieDetailsContract {
 
     interface Presenter {
 
-        void setMovieId(int id);
+        void initPresenter(int movieId);
 
         void getMovieDetails();
 
         void getSimilarMovies();
 
-        void onClickSimilar(int id);
+        void onClickSimilar(int movieId);
 
         void onClickRate();
 

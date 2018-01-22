@@ -48,8 +48,10 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     @Inject
     MovieDetailsContract.Presenter presenter;
 
+    private SimpleMovieAdapter adapter;
+
     @BindView(R.id.content_movie)
-    ScrollView content;
+    ScrollView contentView;
     @BindView(R.id.progress_movie)
     ProgressBar progressBar;
     @BindView(R.id.img_movie_poster)
@@ -124,26 +126,23 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        content.setVisibility(View.GONE);
-        btnRate.setVisibility(View.GONE);
-        btnFavorite.setVisibility(View.GONE);
+        contentView.setVisibility(View.GONE);
 
-        Intent intent = getActivity().getIntent();
+        adapter = new SimpleMovieAdapter();
+        adapter.setListener(movieId -> presenter.onClickSimilar(movieId));
 
-        presenter.setMovieId(intent.getIntExtra("movie_id", 0));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter);
 
+        presenter.initPresenter(getActivity().getIntent().getIntExtra("movie_id", 0));
         presenter.getMovieDetails();
-
         presenter.getSimilarMovies();
-
     }
 
     @Override
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
-        content.setVisibility(View.VISIBLE);
-        btnRate.setVisibility(View.VISIBLE);
-        btnFavorite.setVisibility(View.VISIBLE);
+        contentView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -215,18 +214,14 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
 
     @Override
     public void displaySimilarMovies(List<Movie> movieList) {
-
-        SimpleMovieAdapter adapter = new SimpleMovieAdapter(movieList);
-        adapter.setListener(position -> presenter.onClickSimilar(movieList.get(position).getId()));
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter);
+        adapter.setDataSource(movieList);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void navigateToSimilar(int id) {
+    public void navigateToSimilar(int movieId) {
         Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
-        intent.putExtra("movie_id", id);
+        intent.putExtra("movie_id", movieId);
         startActivity(intent);
     }
 }

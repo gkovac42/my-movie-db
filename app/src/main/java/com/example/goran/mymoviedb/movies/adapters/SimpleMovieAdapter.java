@@ -23,7 +23,7 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
 
     private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
 
-    private List<Movie> movies = new ArrayList<>();
+    private List<Movie> movies;
     private ItemClickListener listener;
 
     public SimpleMovieAdapter(List<Movie> movies) {
@@ -31,7 +31,7 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
     }
 
     public SimpleMovieAdapter() {
-
+        this.movies = new ArrayList<>();
     }
 
     public void setDataSource(List<Movie> movies) {

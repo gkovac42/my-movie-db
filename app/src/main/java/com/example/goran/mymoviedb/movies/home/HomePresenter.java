@@ -24,10 +24,13 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void setSessionId(String sessionId) {
+    public void initPresenter(String username, String sessionId) {
+
         if (sessionId != null) {
+
             this.sessionId = sessionId;
-            homeView.initUser();
+
+            homeView.displayUsername(username);
         }
     }
 
