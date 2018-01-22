@@ -124,7 +124,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void displayUsername(String username) {
-        txtUser.setText(getIntent().getStringExtra("username"));
+        txtUser.setText(username);
         txtLogInOut.setText(R.string.nav_log_out);
     }
 
