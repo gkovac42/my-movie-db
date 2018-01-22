@@ -8,8 +8,6 @@ public interface HomeContract {
 
     interface View {
 
-        boolean isGuest();
-
         void initUser();
 
         void showPlayingNowList();

@@ -14,15 +14,17 @@ import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.MovieListFragmentModule;
-import com.example.goran.mymoviedb.movies.adapters.AdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.LargeMovieAdapter;
+import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsActivity;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 /**
@@ -34,7 +36,9 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
     @Inject
     MovieListContract.Presenter presenter;
 
-    private List<Movie> movieList;
+    @BindView(R.id.rw_list)
+    RecyclerView recyclerView;
+
     private LargeMovieAdapter adapter;
 
     public static MovieListFragment newInstance(int category) {
@@ -60,13 +64,13 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, getActivity());
 
-        movieList = new ArrayList<>();
-        adapter = new LargeMovieAdapter(movieList);
-        adapter.setListener(new AdapterListener() {
+        adapter = new LargeMovieAdapter();
+        adapter.setListener(new MovieAdapterListener() {
             @Override
-            public void onClick(int position) {
-                presenter.onClickMovie(position);
+            public void onClick(int movieId) {
+                presenter.onClickMovie(movieId);
             }
 
             @Override
@@ -75,29 +79,29 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
             }
         });
 
-        RecyclerView recyclerView = getView().findViewById(R.id.rw_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
+
+        presenter.initPresenter(getCategory());
 
         presenter.loadMovies();
 
     }
 
-    @Override
-    public int getCategory() {
+    private int getCategory() {
         return getArguments().getInt("category");
     }
 
     @Override
-    public void addMoviesToAdapter(List<Movie> movies) {
-        movieList.addAll(movies);
+    public void updateAdapter(List<Movie> movies) {
+        adapter.setDataSource(movies);
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void navigateToMovie(int position) {
+    public void navigateToMovie(int movieId) {
         Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
-        intent.putExtra("movie_id", movieList.get(position).getId());
+        intent.putExtra("movie_id", movieId);
         startActivity(intent);
     }
 

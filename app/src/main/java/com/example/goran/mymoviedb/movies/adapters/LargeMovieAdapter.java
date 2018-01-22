@@ -12,6 +12,7 @@ import com.example.goran.mymoviedb.movies.util.MovieUtils;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,17 +24,21 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
     private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w600";
 
     private List<Movie> movies;
-    private AdapterListener listener;
+    private MovieAdapterListener listener;
 
     public LargeMovieAdapter(List<Movie> movies) {
         this.movies = movies;
+    }
+
+    public LargeMovieAdapter() {
+        movies = new ArrayList<>();
     }
 
     public void setDataSource(List<Movie> movies) {
         this.movies = movies;
     }
 
-    public void setListener(AdapterListener listener) {
+    public void setListener(MovieAdapterListener listener) {
         this.listener = listener;
     }
 
@@ -67,10 +72,9 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
         txtGenre.setText(MovieUtils.getGenreName(movie.getGenreIds().get(0)));
         imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movie.getBackdropPath()));
 
-        if (position == movies.size() - 1){
+        if (position == movies.size() - 1) {
 
             listener.onBottomReached();
-
         }
     }
 
@@ -83,10 +87,6 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
 
         private CardView listItem;
 
-        public CardView getListItem() {
-            return listItem;
-        }
-
         ViewHolder(CardView cv) {
             super(cv);
 
@@ -94,13 +94,12 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
 
             listItem.setOnClickListener(v -> {
 
-                int position = getAdapterPosition();
+                Movie selectedMovie = movies.get(getAdapterPosition());
 
                 if (listener != null) {
-                    listener.onClick(position);
+                    listener.onClick(selectedMovie.getId());
                 }
             });
         }
-
     }
 }

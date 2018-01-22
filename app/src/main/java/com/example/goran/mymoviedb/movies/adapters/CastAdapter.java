@@ -28,6 +28,10 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
         this.cast = cast;
     }
 
+    public CastAdapter() {
+
+    }
+
     public void setDataSource(List<Cast> cast) {
         this.cast = cast;
     }

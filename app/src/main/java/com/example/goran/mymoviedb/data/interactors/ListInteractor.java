@@ -7,6 +7,7 @@ import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
 import com.example.goran.mymoviedb.di.scope.FragmentScope;
 import com.example.goran.mymoviedb.movies.list.MovieListContract;
+import com.example.goran.mymoviedb.movies.util.Category;
 
 import java.util.List;
 
@@ -40,27 +41,43 @@ public class ListInteractor implements MovieListContract.Model {
         void onError();
     }
 
-    public Observable<ListResponse> getNowPlaying(int page) {
+    private Observable<ListResponse> getNowPlaying(int page) {
         return apiHelper.getNowPlayingMovies(page);
     }
 
-    @Override
-    public Observable<ListResponse> getUpcoming(int page) {
+    private Observable<ListResponse> getUpcoming(int page) {
         return apiHelper.getUpcomingMovies(page);
     }
 
-    @Override
-    public Observable<ListResponse> getPopular(int page) {
+    private Observable<ListResponse> getPopular(int page) {
         return apiHelper.getPopularMovies(page);
     }
 
-    @Override
-    public Observable<ListResponse> getTopRated(int page) {
+    private Observable<ListResponse> getTopRated(int page) {
         return apiHelper.getTopRatedMovies(page);
     }
 
     @Override
-    public void getMovieList(Observable<ListResponse> listObservable, ListListener listener) {
+    public void getMovieList(int category, int page, ListListener listener) {
+
+        Observable<ListResponse> listObservable;
+
+        switch (category) {
+            case Category.NOW_PLAYING:
+                listObservable = getNowPlaying(page);
+                break;
+            case Category.UPCOMING:
+                listObservable = getUpcoming(page);
+                break;
+            case Category.POPULAR:
+                listObservable = getPopular(page);
+                break;
+            case Category.TOP_RATED:
+                listObservable = getTopRated(page);
+                break;
+            default:
+                listObservable = getNowPlaying(page);
+        }
 
         listObservable.map(listResponse -> listResponse.getMovies())
                 .subscribeOn(Schedulers.io())

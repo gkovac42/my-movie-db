@@ -120,12 +120,6 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public boolean isGuest() {
-        String username = getIntent().getStringExtra("username");
-        return username.equals("Guest");
-    }
-
     public void initUser() {
         txtUser.setText(getIntent().getStringExtra("username"));
         txtLogInOut.setText(R.string.nav_log_out);
@@ -138,19 +132,19 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void showUpcomingList() {
-        getSupportActionBar().setTitle("MyMovieDb - Upcoming");
+        getSupportActionBar().setTitle(R.string.nav_upcoming);
         showFragment(MovieListFragment.newInstance(Category.UPCOMING));
     }
 
     @Override
     public void showPopularList() {
-        getSupportActionBar().setTitle("MyMovieDb - Popular");
+        getSupportActionBar().setTitle(R.string.nav_popular);
         showFragment(MovieListFragment.newInstance(Category.POPULAR));
     }
 
     @Override
     public void showTopRatedList() {
-        getSupportActionBar().setTitle("MyMovieDb - Top Rated");
+        getSupportActionBar().setTitle(R.string.nav_top_rated);
         showFragment(MovieListFragment.newInstance(Category.TOP_RATED));
     }
 

@@ -1,16 +1,13 @@
 package com.example.goran.mymoviedb.movies.list;
 
 import com.example.goran.mymoviedb.data.interactors.ListInteractor;
-import com.example.goran.mymoviedb.data.model.list.ListResponse;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.scope.FragmentScope;
-import com.example.goran.mymoviedb.movies.util.Category;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import io.reactivex.Observable;
 
 /**
  * Created by Goran on 11.1.2018..
@@ -21,7 +18,10 @@ public class MovieListPresenter implements MovieListContract.Presenter, ListInte
     private MovieListContract.View listView;
     private MovieListContract.Model listInteractor;
 
-    private int currentPage = 1;
+    private List<Movie> movies;
+
+    private int category;
+    private int currentPage;
 
     @Inject
     public MovieListPresenter(MovieListContract.View listView, MovieListContract.Model listInteractor) {
@@ -29,35 +29,24 @@ public class MovieListPresenter implements MovieListContract.Presenter, ListInte
         this.listInteractor = listInteractor;
     }
 
+    @Override
+    public void initPresenter(int category) {
+        this.category = category;
+        this.currentPage = 1;
+        this.movies = new ArrayList<>();
+    }
 
     @Override
     public void loadMovies() {
-
-        Observable<ListResponse> listObservable;
-
-        switch (listView.getCategory()) {
-            case Category.NOW_PLAYING:
-                listObservable = listInteractor.getNowPlaying(currentPage++);
-                break;
-            case Category.UPCOMING:
-                listObservable = listInteractor.getUpcoming(currentPage++);
-                break;
-            case Category.POPULAR:
-                listObservable = listInteractor.getPopular(currentPage++);
-                break;
-            case Category.TOP_RATED:
-                listObservable = listInteractor.getTopRated(currentPage++);
-                break;
-            default:
-                listObservable = listInteractor.getNowPlaying(currentPage++);
-        }
-
-        listInteractor.getMovieList(listObservable, this);
+        listInteractor.getMovieList(category, currentPage++, this);
     }
 
     @Override
     public void onDataReady(List<Movie> movieList) {
-        listView.addMoviesToAdapter(movieList);
+
+        movies.addAll(movieList);
+
+        listView.updateAdapter(movies);
     }
 
     @Override

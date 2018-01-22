@@ -85,10 +85,10 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
 
             listItem.setOnClickListener(v -> {
 
-                int position = getAdapterPosition();
+                Movie selectedMovie = movies.get(getAdapterPosition());
 
                 if (listener != null) {
-                    listener.onClick(position);
+                    listener.onClick(selectedMovie.getId());
                 }
             });
         }
