@@ -24,7 +24,7 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
     private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
 
     private List<Movie> movies;
-    private ItemClickListener listener;
+    private MovieAdapterListener listener;
 
     public SimpleMovieAdapter(List<Movie> movies) {
         this.movies = movies;
@@ -38,11 +38,7 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
         this.movies = movies;
     }
 
-    public interface ItemClickListener {
-        void onClick(int position);
-    }
-
-    public void setListener(ItemClickListener listener) {
+    public void setListener(MovieAdapterListener listener) {
         this.listener = listener;
     }
 
@@ -57,16 +53,26 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        try {
 
-        RelativeLayout listItem = holder.listItem;
+            RelativeLayout listItem = holder.listItem;
 
-        Movie movie = movies.get(position);
+            Movie movie = movies.get(position);
 
-        SimpleDraweeView imgPoster = listItem.findViewById(R.id.img_item_poster_s);
-        TextView txtTitle = listItem.findViewById(R.id.txt_item_title_s);
+            SimpleDraweeView imgPoster = listItem.findViewById(R.id.img_item_poster_s);
+            TextView txtTitle = listItem.findViewById(R.id.txt_item_title_s);
 
-        txtTitle.setText(MovieUtils.formatTitle(movie.getTitle(), movie.getReleaseDate()));
-        imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movie.getPosterPath()));
+            txtTitle.setText(MovieUtils.formatTitle(movie.getTitle(), movie.getReleaseDate()));
+            imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movie.getPosterPath()));
+
+            if (position == movies.size() - 1) {
+
+                listener.onBottomReached();
+            }
+
+        } catch (Exception e) {
+            // list response empty
+        }
     }
 
     @Override

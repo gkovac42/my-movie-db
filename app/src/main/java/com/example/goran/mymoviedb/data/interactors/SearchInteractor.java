@@ -51,8 +51,8 @@ public class SearchInteractor implements MovieSearchContract.Model {
     }
 
     @Override
-    public void searchByTitle(String query, SearchListener listener) {
-        Observable<ListResponse> observable = apiHelper.searchByTitle(query, 1);
+    public void searchByTitle(String query, int page, SearchListener listener) {
+        Observable<ListResponse> observable = apiHelper.searchByTitle(query, page);
         observable.map(listResponse -> listResponse.getMovies())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -75,8 +75,8 @@ public class SearchInteractor implements MovieSearchContract.Model {
     }
 
     @Override
-    public void searchByKeywordId(int keywordId, SearchListener listener) {
-        Observable<ListResponse> observable = apiHelper.searchByKeywordId(keywordId, 1);
+    public void searchByKeywordId(int keywordId,  int page, SearchListener listener) {
+        Observable<ListResponse> observable = apiHelper.searchByKeywordId(keywordId, page);
         observable.map(listResponse -> listResponse.getMovies())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -1,6 +1,7 @@
 package com.example.goran.mymoviedb.movies.search;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
@@ -19,9 +21,10 @@ import android.widget.RadioButton;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
-import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
+import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.MovieSearchFragmentModule;
+import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsActivity;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -75,10 +78,6 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
         presenter.onSelectTitle();
     }
 
-    public ArrayAdapter<Keyword> getKeywordAdapter() {
-        return keywordAdapter;
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -99,23 +98,43 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
         rbtnTitle.setChecked(true);
 
         resultAdapter = new SimpleMovieAdapter();
-        resultAdapter.setListener(position -> presenter.onClickResult(position));
+        resultAdapter.setListener(new MovieAdapterListener() {
+            @Override
+            public void onClick(int movieId) {
+                presenter.onClickResult(movieId);
+            }
+
+            @Override
+            public void onBottomReached() {
+                presenter.onBottomReached(rbtnTitle.isChecked());
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(resultAdapter);
 
-        keywordAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item);
+        keywordAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1);
     }
 
     @Override
     public void showProgressBar() {
-        keywordAdapter.clear();
         progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideKeyboard() {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+        if (inputMethodManager != null) {
+            inputMethodManager.hideSoftInputFromWindow(
+                    getActivity().getCurrentFocus().getWindowToken(), 0);
+        }
     }
 
     @Override
@@ -126,6 +145,7 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
 
     @Override
     public void displayKeywords(List<Keyword> keywordList) {
+        keywordAdapter.clear();
         keywordAdapter.addAll(keywordList);
     }
 

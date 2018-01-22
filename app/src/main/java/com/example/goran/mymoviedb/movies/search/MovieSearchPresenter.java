@@ -5,6 +5,7 @@ import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
 import com.example.goran.mymoviedb.di.scope.FragmentScope;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,6 +21,13 @@ public class MovieSearchPresenter implements
     private MovieSearchContract.Model searchInteractor;
     private MovieSearchContract.View searchView;
 
+    private List<Keyword> keywords = new ArrayList<>();
+    private List<Movie> results = new ArrayList<>();
+
+    private String query;
+    private int keywordId;
+    private int currentPage;
+
     @Inject
     public MovieSearchPresenter(MovieSearchContract.Model searchInteractor, MovieSearchContract.View searchView) {
         this.searchInteractor = searchInteractor;
@@ -27,28 +35,37 @@ public class MovieSearchPresenter implements
     }
 
     @Override
-    public void onClickSearch(String query, Boolean searchByTitle) {
+    public void onClickSearch(String query, Boolean byTitle) {
 
         searchView.showProgressBar();
+        searchView.hideKeyboard();
 
-        if (searchByTitle) {
-            searchInteractor.searchByTitle(query, this);
+        this.currentPage = 1;
+        this.query = query;
+        this.results.clear();
+
+        search(byTitle);
+    }
+
+    private void search(Boolean byTitle) {
+
+        if (byTitle) {
+            searchInteractor.searchByTitle(query, currentPage++, this);
 
         } else {
+            getKeywordId(query);
+            searchInteractor.searchByKeywordId(keywordId, currentPage++, this);
+        }
+    }
 
-            int keywordId = 0;
-            int count = searchView.getKeywordAdapter().getCount();
+    private void getKeywordId(String query) {
 
-            // nisam htio uzeti keywordId preko onClick listenera jer se može upisati riječ i napraviti search bez click-a
-            // ovako malo ružno izgleda ali nisam se sjetio boljeg rješenja
+        for (int i = 0; i < keywords.size(); i++) {
 
-            for (int i = 0; i < count; i++) {
-                if (searchView.getKeywordAdapter().getItem(i).getName().equals(query)) {
-                    keywordId = searchView.getKeywordAdapter().getItem(i).getId();
-                }
+            if (keywords.get(i).getName().equals(query)) {
+
+                this.keywordId = keywords.get(i).getId();
             }
-
-            searchInteractor.searchByKeywordId(keywordId, this);
         }
     }
 
@@ -73,14 +90,21 @@ public class MovieSearchPresenter implements
     }
 
     @Override
+    public void onBottomReached(Boolean byTitle) {
+        search(byTitle);
+    }
+
+    @Override
     public void onResultsReady(List<Movie> movieList) {
-        searchView.displaySearchResults(movieList);
+        results.addAll(movieList);
+        searchView.displaySearchResults(results);
         searchView.hideProgressBar();
     }
 
     @Override
     public void onKeywordsReady(List<Keyword> keywordList) {
-        searchView.displayKeywords(keywordList);
+        keywords = keywordList;
+        searchView.displayKeywords(keywords);
     }
 
     @Override

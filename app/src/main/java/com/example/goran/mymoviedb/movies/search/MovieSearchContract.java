@@ -1,10 +1,8 @@
 package com.example.goran.mymoviedb.movies.search;
 
-import android.widget.ArrayAdapter;
-
 import com.example.goran.mymoviedb.data.interactors.SearchInteractor;
-import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
+import com.example.goran.mymoviedb.data.model.list.Movie;
 
 import java.util.List;
 
@@ -20,11 +18,11 @@ public interface MovieSearchContract {
 
         void hideProgressBar();
 
+        void hideKeyboard();
+
         void initTextWatcher();
 
         void removeTextWatcher();
-
-        ArrayAdapter<Keyword> getKeywordAdapter();
 
         void displaySearchResults(List<Movie> movieList);
 
@@ -46,17 +44,19 @@ public interface MovieSearchContract {
 
         void onClickResult(int movieId);
 
+        void onBottomReached(Boolean searchByTitle);
+
         void onDestroy();
 
     }
 
     interface Model {
 
-        void searchByTitle(String query, SearchInteractor.SearchListener listener);
+        void searchByTitle(String query, int page, SearchInteractor.SearchListener listener);
 
         void getKeywords(String query, SearchInteractor.KeywordListener listener);
 
-        void searchByKeywordId(int query, SearchInteractor.SearchListener listener);
+        void searchByKeywordId(int query, int page, SearchInteractor.SearchListener listener);
 
         void dispose();
 

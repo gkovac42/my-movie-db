@@ -23,6 +23,7 @@ import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
 import com.example.goran.mymoviedb.di.MovieDetailsFragmentModule;
+import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.util.MovieUtils;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -129,7 +130,17 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
         contentView.setVisibility(View.GONE);
 
         adapter = new SimpleMovieAdapter();
-        adapter.setListener(movieId -> presenter.onClickSimilar(movieId));
+        adapter.setListener(new MovieAdapterListener() {
+            @Override
+            public void onClick(int movieId) {
+                presenter.onClickSimilar(movieId);
+            }
+
+            @Override
+            public void onBottomReached() {
+
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
