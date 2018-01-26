@@ -58,5 +58,6 @@ public interface MovieDetailsContract {
         void onClickDlgClear();
 
         void onClickFavorite();
+
     }
 }

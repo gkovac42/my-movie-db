@@ -1,7 +1,5 @@
 package com.example.goran.mymoviedb.movies.details;
 
-import android.util.Log;
-
 import com.example.goran.mymoviedb.data.interactors.DetailsInteractor;
 import com.example.goran.mymoviedb.data.interactors.DetailsInteractorImpl;
 import com.example.goran.mymoviedb.data.interactors.ListInteractorImpl;
@@ -38,6 +36,14 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
 
         if (UserManager.getActiveUser() != null) {
             detailsView.enableUserFeatures();
+
+            if (checkIfExists(detailsInteractor.getFavorites())) {
+                detailsView.checkFavorite();
+            }
+
+            if (checkIfExists(detailsInteractor.getRated())) {
+                detailsView.checkRated();
+            }
         }
     }
 
@@ -92,9 +98,7 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
 
     @Override
     public void onClickDlgRate(double rating) {
-
         detailsInteractor.setRating(movieId, rating);
-        Log.i("RATING", String.valueOf(rating));
         detailsView.checkRated();
         detailsView.dismissRatingDialog();
     }
@@ -117,5 +121,15 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
         }
 
 
+    }
+
+    private boolean checkIfExists(List<Integer> idList) {
+
+        for (int id : idList) {
+            if (id == movieId) {
+                return true;
+            }
+        }
+        return false;
     }
 }

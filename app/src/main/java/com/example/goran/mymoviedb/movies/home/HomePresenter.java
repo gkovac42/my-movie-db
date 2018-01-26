@@ -38,6 +38,7 @@ public class HomePresenter implements HomeContract.Presenter {
             loginInteractor.deleteCurrentUser();
         }
 
+        UserManager.setActiveUser(null);
         homeView.navigateToLogin();
     }
 

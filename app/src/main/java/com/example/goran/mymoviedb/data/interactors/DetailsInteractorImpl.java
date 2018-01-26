@@ -3,12 +3,16 @@ package com.example.goran.mymoviedb.data.interactors;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.example.goran.mymoviedb.data.local.DatabaseHelper;
+import com.example.goran.mymoviedb.data.local.UserManager;
 import com.example.goran.mymoviedb.data.model.FavoriteRequest;
 import com.example.goran.mymoviedb.data.model.RateRequest;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.list.ListResponse;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
 import com.example.goran.mymoviedb.di.scope.PerFragment;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -24,11 +28,13 @@ import io.reactivex.schedulers.Schedulers;
 public class DetailsInteractorImpl extends BaseInteractorImpl implements DetailsInteractor {
 
     private ApiHelper apiHelper;
+    private DatabaseHelper dbHelper;
 
     @Inject
-    public DetailsInteractorImpl(ApiHelper apiHelper, Fragment fragment) {
+    public DetailsInteractorImpl(ApiHelper apiHelper, DatabaseHelper databaseHelper, Fragment fragment) {
         super(fragment);
         this.apiHelper = apiHelper;
+        this.dbHelper = databaseHelper;
     }
 
     public interface DetailsListener {
@@ -82,7 +88,7 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(favoriteResponse ->
-                                Log.i("LOG", favoriteResponse.getStatusMessage()),
+                                dbHelper.insertIntoFavorite(UserManager.getActiveUser().getUsername(), movieId),
                         throwable -> Log.i("LOG", "Error"),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
@@ -91,14 +97,14 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
     @Override
     public void setRating(int movieId, double rating) {
 
-        RateRequest rateRequest = new RateRequest(rating*2);
+        RateRequest rateRequest = new RateRequest(rating * 2);
         Log.i("RATING", String.valueOf(rateRequest.getValue()));
 
         apiHelper.postMovieRating(movieId, rateRequest)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(rateResponse ->
-                                Log.i("LOG", rateResponse.getStatusMessage()),
+                                dbHelper.insertIntoRated(UserManager.getActiveUser().getUsername(), movieId),
                         throwable -> Log.i("LOG", "Error"),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
@@ -114,5 +120,15 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                         throwable -> Log.i("LOG", "Error"),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
+    }
+
+    @Override
+    public ArrayList<Integer> getFavorites() {
+        return dbHelper.getFavorites(UserManager.getActiveUser().getUsername());
+    }
+
+    @Override
+    public ArrayList<Integer> getRated() {
+        return dbHelper.getRated(UserManager.getActiveUser().getUsername());
     }
 }

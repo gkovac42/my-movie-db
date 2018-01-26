@@ -1,5 +1,7 @@
 package com.example.goran.mymoviedb.data.interactors;
 
+import java.util.ArrayList;
+
 /**
  * Created by Goran on 23.1.2018..
  */
@@ -15,4 +17,9 @@ public interface DetailsInteractor {
     void setRating(int movieId, double rating);
 
     void deleteRating(int movieId);
+
+    ArrayList<Integer> getFavorites();
+
+    ArrayList<Integer> getRated();
+
 }
