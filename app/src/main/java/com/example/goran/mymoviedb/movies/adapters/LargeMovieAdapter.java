@@ -101,10 +101,10 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
 
             listItem.setOnClickListener(v -> {
 
-                Movie selectedMovie = movies.get(getAdapterPosition());
+                int id = movies.get(getAdapterPosition()).getId();
 
                 if (listener != null) {
-                    listener.onClick(selectedMovie.getId());
+                    listener.onClick(id);
                 }
             });
         }

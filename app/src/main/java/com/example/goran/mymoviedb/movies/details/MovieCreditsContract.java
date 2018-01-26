@@ -14,17 +14,21 @@ public interface MovieCreditsContract {
 
     interface View {
 
-        void displayDirector(String name, Uri profile);
+        void displayDirector(String name, Uri profile, int id);
 
-        void displayWriter(String name, Uri profile);
+        void displayWriter(String name, Uri profile, int id);
 
         void displayCast(List<Cast> cast);
+
+        void navigateToPerson(int personId);
     }
 
     interface Presenter {
 
-        void initPresenter(int id);
+        void initPresenter(int movieId);
 
         void loadCredits();
+
+        void onClickPerson(int personId);
     }
 }

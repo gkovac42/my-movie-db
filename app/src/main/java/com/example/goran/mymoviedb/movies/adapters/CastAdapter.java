@@ -38,7 +38,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
     }
 
     public interface ItemClickListener {
-        void onClick(int position);
+        void onClick(int personId);
     }
 
     public void setListener(ItemClickListener listener) {
@@ -86,10 +86,10 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
             listItem.setOnClickListener(v -> {
 
-                int position = getAdapterPosition();
+               int id = cast.get(getAdapterPosition()).getId();
 
                 if (listener != null) {
-                    listener.onClick(position);
+                    listener.onClick(id);
                 }
             });
         }

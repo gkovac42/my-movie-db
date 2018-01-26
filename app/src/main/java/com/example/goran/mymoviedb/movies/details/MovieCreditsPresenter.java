@@ -42,22 +42,31 @@ public class MovieCreditsPresenter implements MovieCreditsContract.Presenter, Cr
     }
 
     @Override
+    public void onClickPerson(int personId) {
+        if (personId != 0) {
+            creditsView.navigateToPerson(personId);
+        }
+    }
+
+    @Override
     public void onDataReady(Credits credits) {
         Crew director = creditsInteractor.getDirector(credits);
         Crew writer = creditsInteractor.getWriter(credits);
 
         if (director != null) {
             creditsView.displayDirector(director.getName(),
-                    Uri.parse(IMG_BASE_URL + director.getProfilePath()));
+                    Uri.parse(IMG_BASE_URL + director.getProfilePath()),
+                    director.getId());
         } else {
-            creditsView.displayDirector("n/a", null);
+            creditsView.displayDirector("n/a", null, 0);
         }
 
         if (writer != null) {
             creditsView.displayWriter(writer.getName(),
-                    Uri.parse(IMG_BASE_URL + writer.getProfilePath()));
+                    Uri.parse(IMG_BASE_URL + writer.getProfilePath()),
+                    writer.getId());
         } else {
-            creditsView.displayWriter("n/a", null);
+            creditsView.displayWriter("n/a", null, 0);
         }
 
         creditsView.displayCast(credits.getCast());

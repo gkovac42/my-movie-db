@@ -92,17 +92,19 @@
 
                 <ImageButton
                     android:id="@+id/btn_movie_rate"
-                    android:layout_width="60dp"
+                    android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_star_border_accent_24dp"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_movie_favorite"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageButton
                     android:id="@+id/btn_movie_favorite"
-                    android:layout_width="60dp"
+                    android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:layout_marginEnd="8dp"
                     android:scaleType="fitCenter"
@@ -110,7 +112,9 @@
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/img_movie_poster"
-                    app:layout_constraintStart_toEndOf="@+id/btn_movie_rate" />
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/btn_movie_rate"
+                    android:layout_marginRight="8dp" />
 
                 <TextView
                     android:id="@+id/txt_movie_genre"

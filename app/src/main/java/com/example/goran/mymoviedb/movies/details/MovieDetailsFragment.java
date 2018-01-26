@@ -183,16 +183,16 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     @Override
     public void showRatingDialog() {
         ratingDialog = new RatingDialog();
-        ratingDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (view.getId() == R.id.btn_dialog_rate) {
-                    presenter.onClickDlgRate(ratingDialog.getRating());
-                } else {
-                    presenter.onClickDlgClear();
-                }
+
+        ratingDialog.setOnClickListener(view -> {
+
+            if (view.getId() == R.id.btn_dialog_rate) {
+                presenter.onClickDlgRate(ratingDialog.getRating());
+            } else {
+                presenter.onClickDlgClear();
             }
         });
+
         ratingDialog.show(getActivity().getFragmentManager(), "");
     }
 

@@ -12,6 +12,7 @@ import com.example.goran.mymoviedb.data.model.details.Credits;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.keywords.KeywordResponse;
 import com.example.goran.mymoviedb.data.model.list.ListResponse;
+import com.example.goran.mymoviedb.data.model.person.Person;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
@@ -85,7 +86,18 @@ public interface TMDbApiService {
                                                @Query("with_keywords") int keywordId,
                                                @Query("page") int page);
 
-    // ACCOUNT
+    // PERSON REQUESTS
+
+    @GET("person/{person_id}")
+    Observable<Person> getPerson(@Path("person_id") int personId,
+                                 @Query("api_key") String apiKey);
+
+    @GET("discover/movie")
+    Observable<ListResponse> getPersonRelatedMovies(@Query("api_key") String apiKey,
+                                                    @Query("with_people") String personId,
+                                                    @Query("sort_by") String sortBy);
+
+    // ACCOUNT REQUESTS
 
     @GET("account")
     Observable<Account> getAccountId(@Query("api_key") String apiKey, @Query("session_id") String sessionId);
@@ -121,4 +133,5 @@ public interface TMDbApiService {
     Observable<RateResponse> deleteMovieRating(@Path("movie_id") int movieId,
                                                @Query("api_key") String apiKey,
                                                @Query("session_id") String sessionId);
+
 }

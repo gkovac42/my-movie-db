@@ -13,6 +13,7 @@ import com.example.goran.mymoviedb.data.model.details.Credits;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.keywords.KeywordResponse;
 import com.example.goran.mymoviedb.data.model.list.ListResponse;
+import com.example.goran.mymoviedb.data.model.person.Person;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -98,6 +99,16 @@ public class ApiHelper {
 
     public Observable<ListResponse> searchByKeywordId(int keywordId, int page) {
         return apiService.searchByKeywordId(API_KEY, keywordId, page);
+    }
+
+    // person
+
+    public Observable<Person> getPerson(int personId) {
+        return apiService.getPerson(personId, API_KEY);
+    }
+
+    public Observable<ListResponse> getPersonRelatedMovies(int personId) {
+        return apiService.getPersonRelatedMovies(API_KEY, String.valueOf(personId), "popularity.asc");
     }
 
     // account

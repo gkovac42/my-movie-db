@@ -28,4 +28,6 @@ public interface AppComponent {
     MovieCreditsFragmentSubcomponent movieCreditsFragmentSubcomponent(MovieCreditsFragmentModule movieCreditsFragmentModule);
 
     MovieSearchFragmentSubcomponent movieSearchFragmentSubcomponent(MovieSearchFragmentModule movieSearchFragmentModule);
+
+    PersonActivitySubcomponent personActivitySubcomponent(PersonActivityModule personActivityModule);
 }
