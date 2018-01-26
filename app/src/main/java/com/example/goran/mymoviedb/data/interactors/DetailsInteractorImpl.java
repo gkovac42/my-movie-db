@@ -87,8 +87,15 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
         apiHelper.postFavoriteMovie(favoriteRequest)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(favoriteResponse ->
-                                dbHelper.insertIntoFavorite(UserManager.getActiveUser().getUsername(), movieId),
+                .subscribe(favoriteResponse -> {
+
+                            if (favorite) {
+                                dbHelper.insertIntoFavorite(UserManager.getActiveUser().getUsername(), movieId);
+                            } else {
+                                dbHelper.deleteFavorite(UserManager.getActiveUser().getUsername(), movieId);
+                            }
+                        }
+                        ,
                         throwable -> Log.i("LOG", "Error"),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
@@ -116,7 +123,7 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(rateResponse ->
-                                Log.i("LOG", rateResponse.getStatusMessage()),
+                                dbHelper.deleteRated(UserManager.getActiveUser().getUsername(), movieId),
                         throwable -> Log.i("LOG", "Error"),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));

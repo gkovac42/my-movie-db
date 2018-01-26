@@ -106,10 +106,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return movieIds;
     }
 
-    public void clearDatabase() {
+    public void deleteFavorite(String username, int movieId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(FAVORITE_TABLE, null, null);
-        db.delete(RATED_TABLE, null, null);
+        db.delete(FAVORITE_TABLE, USER_COLUMN + "=? AND " + MOVIE_ID_COLUMN + "=?",
+                new String[]{username, String.valueOf(movieId)});
+        db.close();
+    }
+
+    public void deleteRated(String username, int movieId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(RATED_TABLE, USER_COLUMN + "=? AND " + MOVIE_ID_COLUMN + "=?",
+                new String[]{username, String.valueOf(movieId)});
         db.close();
     }
 
