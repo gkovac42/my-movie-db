@@ -128,6 +128,11 @@ public class HomeActivity extends AppCompatActivity
         txtLogInOut.setText(R.string.nav_log_out);
     }
 
+    @Override
+    public void hideFavorites() {
+        navigationView.getMenu().getItem(4).setVisible(false);
+    }
+
     public void showPlayingNowList() {
         getSupportActionBar().setTitle(R.string.title_playing_now);
         showFragment(MovieListFragment.newInstance(Category.NOW_PLAYING, LayoutStyle.LINEAR_LARGE));

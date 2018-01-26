@@ -10,6 +10,8 @@ public interface HomeContract {
 
         void displayUsername(String username);
 
+        void hideFavorites();
+
         void showPlayingNowList();
 
         void showUpcomingList();

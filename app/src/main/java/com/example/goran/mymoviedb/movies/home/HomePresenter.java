@@ -26,6 +26,9 @@ public class HomePresenter implements HomeContract.Presenter {
     public void initView() {
         if (UserManager.getActiveUser() != null) {
             homeView.displayUsername(UserManager.getActiveUser().getUsername());
+
+        } else {
+            homeView.hideFavorites();
         }
     }
 
