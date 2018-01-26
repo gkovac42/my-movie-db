@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,17 +16,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
+import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.list.Movie;
-import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
 import com.example.goran.mymoviedb.di.MovieDetailsFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.util.MovieUtils;
+import com.example.goran.mymoviedb.movies.util.RatingDialog;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -50,55 +51,34 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     MovieDetailsContract.Presenter presenter;
 
     private SimpleMovieAdapter adapter;
+    private RatingDialog ratingDialog;
 
-    @BindView(R.id.content_movie)
-    ScrollView contentView;
-    @BindView(R.id.progress_movie)
-    ProgressBar progressBar;
-    @BindView(R.id.img_movie_poster)
-    SimpleDraweeView imgPoster;
-    @BindView(R.id.txt_movie_release)
-    TextView txtReleaseDate;
-    @BindView(R.id.txt_movie_desc)
-    TextView txtDesc;
-    @BindView(R.id.txt_movie_genre)
-    TextView txtGenre;
-    @BindView(R.id.txt_movie_language)
-    TextView txtLanguage;
-    @BindView(R.id.txt_movie_rating)
-    TextView txtRating;
-    @BindView(R.id.txt_movie_votes)
-    TextView txtVotes;
-    @BindView(R.id.txt_movie_status)
-    TextView txtStatus;
-    @BindView(R.id.txt_movie_original_title)
-    TextView txtOriginalTitle;
-    @BindView(R.id.txt_movie_budget)
-    TextView txtBudget;
-    @BindView(R.id.txt_movie_revenue)
-    TextView txtRevenue;
-    @BindView(R.id.txt_movie_runtime)
-    TextView txtRuntime;
-    @BindView(R.id.txt_movie_homepage)
-    TextView txtHomepage;
-    @BindView(R.id.btn_movie_rate)
-    ImageButton btnRate;
-    @BindView(R.id.btn_movie_favorite)
-    ImageButton btnFavorite;
-    @BindView(R.id.recycler_movie_similar)
-    RecyclerView recyclerView;
+    @BindView(R.id.content_movie) NestedScrollView contentView;
+    @BindView(R.id.progress_movie) ProgressBar progressBar;
+    @BindView(R.id.img_movie_poster) SimpleDraweeView imgPoster;
+    @BindView(R.id.txt_movie_release) TextView txtReleaseDate;
+    @BindView(R.id.txt_movie_desc) TextView txtDesc;
+    @BindView(R.id.txt_movie_genre) TextView txtGenre;
+    @BindView(R.id.txt_movie_language) TextView txtLanguage;
+    @BindView(R.id.txt_movie_rating) TextView txtRating;
+    @BindView(R.id.txt_movie_votes) TextView txtVotes;
+    @BindView(R.id.txt_movie_status) TextView txtStatus;
+    @BindView(R.id.txt_movie_original_title) TextView txtOriginalTitle;
+    @BindView(R.id.txt_movie_budget) TextView txtBudget;
+    @BindView(R.id.txt_movie_revenue) TextView txtRevenue;
+    @BindView(R.id.txt_movie_runtime) TextView txtRuntime;
+    @BindView(R.id.txt_movie_homepage) TextView txtHomepage;
+    @BindView(R.id.btn_movie_rate) ImageButton btnRate;
+    @BindView(R.id.btn_movie_favorite) ImageButton btnFavorite;
+    @BindView(R.id.recycler_movie_similar) RecyclerView recyclerView;
 
-    private boolean isRated;
-    private boolean isFavorite;
+    private boolean rated;
+    private boolean favorite;
 
-    @BindDrawable(R.drawable.ic_favorite_black_24dp)
-    Drawable drwFavorite;
-    @BindDrawable(R.drawable.ic_favorite_border_black_24dp)
-    Drawable drwNotFavorite;
-    @BindDrawable(R.drawable.ic_star_accent_24dp)
-    Drawable drwRated;
-    @BindDrawable(R.drawable.ic_star_border_accent_24dp)
-    Drawable drwNotRated;
+    @BindDrawable(R.drawable.ic_favorite_black_24dp) Drawable drwFavorite;
+    @BindDrawable(R.drawable.ic_favorite_border_black_24dp) Drawable drwNotFavorite;
+    @BindDrawable(R.drawable.ic_star_accent_24dp) Drawable drwRated;
+    @BindDrawable(R.drawable.ic_star_border_accent_24dp) Drawable drwNotRated;
 
     @OnClick(R.id.btn_movie_rate)
     void onClickRate() {
@@ -143,9 +123,12 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(adapter);
 
-        presenter.initPresenter(getActivity().getIntent().getIntExtra("movie_id", 0));
+        presenter.initPresenter(
+                getActivity().getIntent().getIntExtra("movie_id", 0));
+
         presenter.getMovieDetails();
         presenter.getSimilarMovies();
     }
@@ -158,35 +141,64 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
 
     @Override
     public void enableUserFeatures() {
+        btnFavorite.setVisibility(View.VISIBLE);
+        btnRate.setVisibility(View.VISIBLE);
+    }
 
 
+    @Override
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    @Override
+    public boolean isRated() {
+        return rated;
     }
 
     @Override
     public void checkFavorite() {
-        if (!isFavorite) {
-            btnFavorite.setImageDrawable(drwFavorite);
-            isFavorite = true;
-        } else {
-            btnFavorite.setImageDrawable(drwNotFavorite);
-            isFavorite = false;
-        }
+        btnFavorite.setImageDrawable(drwFavorite);
+        favorite = true;
+    }
+
+    @Override
+    public void uncheckFavorite() {
+        btnFavorite.setImageDrawable(drwNotFavorite);
+        favorite = false;
     }
 
     @Override
     public void checkRated() {
-        if (!isRated) {
-            btnRate.setImageDrawable(drwRated);
-            isRated = true;
-        } else {
-            btnRate.setImageDrawable(drwNotRated);
-            isRated = false;
-        }
+        btnRate.setImageDrawable(drwRated);
+        rated = true;
+    }
+
+    @Override
+    public void uncheckRated() {
+        btnRate.setImageDrawable(drwNotRated);
+        rated = false;
     }
 
     @Override
     public void showRatingDialog() {
-        // TODO - DialogFragment za rating
+        ratingDialog = new RatingDialog();
+        ratingDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view.getId() == R.id.btn_dialog_rate) {
+                    presenter.onClickDlgRate(ratingDialog.getRating());
+                } else {
+                    presenter.onClickDlgClear();
+                }
+            }
+        });
+        ratingDialog.show(getActivity().getFragmentManager(), "");
+    }
+
+    @Override
+    public void dismissRatingDialog() {
+        ratingDialog.dismiss();
     }
 
     @Override

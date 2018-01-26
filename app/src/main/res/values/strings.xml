@@ -25,11 +25,12 @@
     <string name="nav_guest">Guest</string>
     <string name="nav_log_in">Log in</string>
     <string name="nav_log_out">Log out</string>
-    <string name="nav_playing_now">MyMovieDb - Playing Now</string>
-    <string name="nav_upcoming">MyMovieDb - Upcoming</string>
-    <string name="nav_top_rated">MyMovieDb - Top Rated</string>
-    <string name="nav_popular">MyMovieDb - Popular</string>
-    <string name="nav_search">MyMovieDb - Search</string>
+    <string name="title_playing_now">MyMovieDb - Playing Now</string>
+    <string name="title_upcoming">MyMovieDb - Upcoming</string>
+    <string name="title_top_rated">MyMovieDb - Top Rated</string>
+    <string name="title_popular">MyMovieDb - Popular</string>
+    <string name="title_search">MyMovieDb - Search</string>
+    <string name="title_favorite">MyMovieDb - Favorite</string>
 
     <!--Genres-->
     <string name="action">action</string>
@@ -61,7 +62,16 @@
     <string name="revenue">Revenue:</string>
     <string name="homepage">Homepage :</string>
     <string name="similar_movies">Similar Movies:</string>
+    <string name="director">Director:</string>
+    <string name="writer">Writer:</string>
+    <string name="cast">Cast:</string>
+    <string name="nav_playing_now">Playing Now</string>
+    <string name="nav_upcoming">Upcoming</string>
+    <string name="nav_popular">Popular</string>
+    <string name="nav_top_rated">Top Rated</string>
+    <string name="nav_favorite">Favorite</string>
+    <string name="nav_search">Search</string>
+    <string name="cancel">Cancel</string>
     <string name="rate">Rate</string>
-    <string name="wishlist">Wishlist</string>
 
 </resources>

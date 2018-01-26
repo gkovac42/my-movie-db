@@ -1,7 +1,10 @@
 package com.example.goran.mymoviedb.di;
 
+import android.support.v4.app.Fragment;
+
 import com.example.goran.mymoviedb.data.interactors.ListInteractor;
-import com.example.goran.mymoviedb.di.scope.FragmentScope;
+import com.example.goran.mymoviedb.data.interactors.ListInteractorImpl;
+import com.example.goran.mymoviedb.di.scope.PerFragment;
 import com.example.goran.mymoviedb.movies.list.MovieListContract;
 import com.example.goran.mymoviedb.movies.list.MovieListFragment;
 import com.example.goran.mymoviedb.movies.list.MovieListPresenter;
@@ -23,20 +26,26 @@ public class MovieListFragmentModule {
     }
 
     @Provides
-    @FragmentScope
+    @PerFragment
+    Fragment provideFragment() {
+        return movieListFragment;
+    }
+
+    @Provides
+    @PerFragment
     MovieListContract.View provideView() {
         return movieListFragment;
     }
 
     @Provides
-    @FragmentScope
+    @PerFragment
     MovieListContract.Presenter providePresenter(MovieListPresenter presenter) {
         return presenter;
     }
 
     @Provides
-    @FragmentScope
-    MovieListContract.Model provideInteractor(ListInteractor interactor) {
+    @PerFragment
+    ListInteractor provideListInteractor(ListInteractorImpl interactor) {
         return interactor;
     }
 }

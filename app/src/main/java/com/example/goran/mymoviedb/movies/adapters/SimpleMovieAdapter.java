@@ -19,7 +19,7 @@ import java.util.List;
  * Created by Goran on 8.11.2017..
  */
 
-public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.ViewHolder> {
+public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.ViewHolder> implements BaseMovieAdapter {
 
     private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
 
@@ -34,10 +34,12 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
         this.movies = new ArrayList<>();
     }
 
+    @Override
     public void setDataSource(List<Movie> movies) {
         this.movies = movies;
     }
 
+    @Override
     public void setListener(MovieAdapterListener listener) {
         this.listener = listener;
     }

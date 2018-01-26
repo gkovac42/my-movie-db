@@ -19,7 +19,7 @@ import java.util.List;
  * Created by Goran on 8.11.2017..
  */
 
-public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.ViewHolder> {
+public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.ViewHolder> implements BaseMovieAdapter {
 
     private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w600";
 
@@ -34,10 +34,12 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
         movies = new ArrayList<>();
     }
 
+    @Override
     public void setDataSource(List<Movie> movies) {
         this.movies = movies;
     }
 
+    @Override
     public void setListener(MovieAdapterListener listener) {
         this.listener = listener;
     }
@@ -53,6 +55,8 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
+        try {
 
         CardView listItem = holder.listItem;
 
@@ -75,6 +79,9 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
         if (position == movies.size() - 1) {
 
             listener.onBottomReached();
+        }
+
+        } catch (Exception e) {
         }
     }
 

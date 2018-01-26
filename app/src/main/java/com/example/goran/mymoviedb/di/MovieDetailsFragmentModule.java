@@ -1,7 +1,11 @@
 package com.example.goran.mymoviedb.di;
 
+
+import android.support.v4.app.Fragment;
+
 import com.example.goran.mymoviedb.data.interactors.DetailsInteractor;
-import com.example.goran.mymoviedb.di.scope.FragmentScope;
+import com.example.goran.mymoviedb.data.interactors.DetailsInteractorImpl;
+import com.example.goran.mymoviedb.di.scope.PerFragment;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsContract;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsFragment;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsPresenter;
@@ -23,20 +27,26 @@ public class MovieDetailsFragmentModule {
     }
 
     @Provides
-    @FragmentScope
+    @PerFragment
+    Fragment provideFragment() {
+        return movieDetailsFragment;
+    }
+
+    @Provides
+    @PerFragment
     MovieDetailsContract.View provideView() {
         return movieDetailsFragment;
     }
 
     @Provides
-    @FragmentScope
+    @PerFragment
     MovieDetailsContract.Presenter providePresenter(MovieDetailsPresenter presenter) {
         return presenter;
     }
 
     @Provides
-    @FragmentScope
-    MovieDetailsContract.Model provideInteractor(DetailsInteractor interactor) {
+    @PerFragment
+    DetailsInteractor provideDetailsInteractor(DetailsInteractorImpl interactor) {
         return interactor;
     }
 }

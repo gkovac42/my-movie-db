@@ -12,10 +12,13 @@ import android.view.ViewGroup;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
+import com.example.goran.mymoviedb.data.model.auth.User;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.MovieListFragmentModule;
+import com.example.goran.mymoviedb.movies.adapters.BaseMovieAdapter;
 import com.example.goran.mymoviedb.movies.adapters.LargeMovieAdapter;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
+import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsActivity;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
@@ -36,15 +39,15 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
     @Inject
     MovieListContract.Presenter presenter;
 
-    @BindView(R.id.rw_list)
-    RecyclerView recyclerView;
+    @BindView(R.id.recycler_list) RecyclerView recyclerView;
 
-    private LargeMovieAdapter adapter;
+    private BaseMovieAdapter adapter;
 
-    public static MovieListFragment newInstance(int category) {
+    public static MovieListFragment newInstance(int category, int layoutStyle) {
         MovieListFragment fragment = new MovieListFragment();
         Bundle args = new Bundle();
         args.putInt("category", category);
+        args.putInt("layout_style", layoutStyle);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,7 +69,12 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, getActivity());
 
-        adapter = new LargeMovieAdapter();
+        presenter.initView(getLayoutStyle());
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setAdapter((RecyclerView.Adapter) adapter);
+
         adapter.setListener(new MovieAdapterListener() {
             @Override
             public void onClick(int movieId) {
@@ -79,9 +87,6 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
             }
         });
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter);
-
         presenter.initPresenter(getCategory());
 
         presenter.loadMovies();
@@ -92,22 +97,35 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
         return getArguments().getInt("category");
     }
 
+    private int getLayoutStyle() {
+        return getArguments().getInt("layout_style");
+    }
+
     @Override
     public void updateAdapter(List<Movie> movies) {
         adapter.setDataSource(movies);
-        adapter.notifyDataSetChanged();
+        ((RecyclerView.Adapter) adapter).notifyDataSetChanged();
     }
 
     @Override
     public void navigateToMovie(int movieId) {
+        User activeUser = getActivity().getIntent().getParcelableExtra("user");
+
         Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
         intent.putExtra("movie_id", movieId);
+        intent.putExtra("user", activeUser);
+
         startActivity(intent);
     }
 
     @Override
-    public void onDestroy() {
-        presenter.onDestroy();
-        super.onDestroy();
+    public void setLinearLargeLayout() {
+        adapter = new LargeMovieAdapter();
     }
+
+    @Override
+    public void setLinearSimpleLayout() {
+        adapter = new SimpleMovieAdapter();
+    }
+
 }

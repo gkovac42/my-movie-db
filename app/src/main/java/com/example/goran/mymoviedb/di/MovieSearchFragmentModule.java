@@ -1,7 +1,10 @@
 package com.example.goran.mymoviedb.di;
 
+import android.support.v4.app.Fragment;
+
 import com.example.goran.mymoviedb.data.interactors.SearchInteractor;
-import com.example.goran.mymoviedb.di.scope.FragmentScope;
+import com.example.goran.mymoviedb.data.interactors.SearchInteractorImpl;
+import com.example.goran.mymoviedb.di.scope.PerFragment;
 import com.example.goran.mymoviedb.movies.search.MovieSearchContract;
 import com.example.goran.mymoviedb.movies.search.MovieSearchFragment;
 import com.example.goran.mymoviedb.movies.search.MovieSearchPresenter;
@@ -23,20 +26,26 @@ public class MovieSearchFragmentModule {
     }
 
     @Provides
-    @FragmentScope
+    @PerFragment
+    Fragment provideFragment() {
+        return movieSearchFragment;
+    }
+
+    @Provides
+    @PerFragment
     MovieSearchContract.View provideView() {
         return movieSearchFragment;
     }
 
     @Provides
-    @FragmentScope
+    @PerFragment
     MovieSearchContract.Presenter providePresenter(MovieSearchPresenter presenter) {
         return presenter;
     }
 
     @Provides
-    @FragmentScope
-    MovieSearchContract.Model provideInteractor(SearchInteractor interactor) {
+    @PerFragment
+    SearchInteractor provideSearchInteractor(SearchInteractorImpl interactor) {
         return interactor;
     }
 }

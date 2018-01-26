@@ -49,16 +49,11 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
     private SimpleMovieAdapter resultAdapter;
     private ArrayAdapter<Keyword> keywordAdapter;
 
-    @BindView(R.id.txt_search_query)
-    AutoCompleteTextView txtSearchQuery;
-    @BindView(R.id.rbtn_search_title)
-    RadioButton rbtnTitle;
-    @BindView(R.id.rbtn_search_keyword)
-    RadioButton rbtnKeyword;
-    @BindView(R.id.progress_search)
-    ProgressBar progressBar;
-    @BindView(R.id.recycler_search_results)
-    RecyclerView recyclerView;
+    @BindView(R.id.txt_search_query) AutoCompleteTextView txtSearchQuery;
+    @BindView(R.id.rbtn_search_title) RadioButton rbtnTitle;
+    @BindView(R.id.rbtn_search_keyword) RadioButton rbtnKeyword;
+    @BindView(R.id.progress_search) ProgressBar progressBar;
+    @BindView(R.id.recycler_search_results) RecyclerView recyclerView;
 
     @OnClick(R.id.btn_search)
     public void onClickSearch() {
@@ -184,9 +179,4 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
         presenter.loadKeywords(editable.toString());
     }
 
-    @Override
-    public void onDestroy() {
-        presenter.onDestroy();
-        super.onDestroy();
-    }
 }

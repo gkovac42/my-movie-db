@@ -1,7 +1,8 @@
 package com.example.goran.mymoviedb.movies.home;
 
-import com.example.goran.mymoviedb.di.scope.ActivityScope;
-import com.example.goran.mymoviedb.login.LoginContract;
+import com.example.goran.mymoviedb.data.interactors.LoginInteractor;
+import com.example.goran.mymoviedb.data.local.UserManager;
+import com.example.goran.mymoviedb.di.scope.PerActivity;
 
 import javax.inject.Inject;
 
@@ -9,35 +10,28 @@ import javax.inject.Inject;
  * Created by Goran on 12.1.2018..
  */
 
-@ActivityScope
+@PerActivity
 public class HomePresenter implements HomeContract.Presenter {
 
     private HomeContract.View homeView;
-    private LoginContract.Model loginInteractor;
-
-    private String sessionId;
+    private LoginInteractor loginInteractor;
 
     @Inject
-    public HomePresenter(HomeContract.View homeView, LoginContract.Model loginInteractor) {
+    public HomePresenter(HomeContract.View homeView, LoginInteractor loginInteractor) {
         this.homeView = homeView;
         this.loginInteractor = loginInteractor;
     }
 
     @Override
-    public void initPresenter(String username, String sessionId) {
-
-        if (sessionId != null) {
-
-            this.sessionId = sessionId;
-
-            homeView.displayUsername(username);
+    public void initView() {
+        if (UserManager.getActiveUser() != null) {
+            homeView.displayUsername(UserManager.getActiveUser().getUsername());
         }
     }
 
     @Override
     public void onClickLoginOut() {
-
-        if (sessionId != null) {
+        if (UserManager.getActiveUser() != null) {
             loginInteractor.deleteCurrentUser();
         }
 
@@ -67,5 +61,10 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void onClickSearch() {
         homeView.showSearchFragment();
+    }
+
+    @Override
+    public void onClickFavorite() {
+        homeView.showFavoriteList();
     }
 }

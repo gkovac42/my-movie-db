@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.goran.mymoviedb.R;
-import com.example.goran.mymoviedb.data.model.singlemovie.Cast;
+import com.example.goran.mymoviedb.data.model.details.Cast;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;

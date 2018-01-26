@@ -1,15 +1,24 @@
 package com.example.goran.mymoviedb.data.remote;
 
-import com.example.goran.mymoviedb.data.model.keywords.KeywordResponse;
-import com.example.goran.mymoviedb.data.model.singlemovie.Credits;
-import com.example.goran.mymoviedb.data.model.list.ListResponse;
-import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
+import com.example.goran.mymoviedb.data.model.FavoriteRequest;
+import com.example.goran.mymoviedb.data.model.FavoriteResponse;
+import com.example.goran.mymoviedb.data.model.RateRequest;
+import com.example.goran.mymoviedb.data.model.RateResponse;
+import com.example.goran.mymoviedb.data.model.auth.Account;
 import com.example.goran.mymoviedb.data.model.auth.RequestToken;
 import com.example.goran.mymoviedb.data.model.auth.Session;
 import com.example.goran.mymoviedb.data.model.auth.TokenValidation;
+import com.example.goran.mymoviedb.data.model.details.Credits;
+import com.example.goran.mymoviedb.data.model.details.MovieDetails;
+import com.example.goran.mymoviedb.data.model.keywords.KeywordResponse;
+import com.example.goran.mymoviedb.data.model.list.ListResponse;
 
 import io.reactivex.Observable;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -76,4 +85,40 @@ public interface TMDbApiService {
                                                @Query("with_keywords") int keywordId,
                                                @Query("page") int page);
 
+    // ACCOUNT
+
+    @GET("account")
+    Observable<Account> getAccountId(@Query("api_key") String apiKey, @Query("session_id") String sessionId);
+
+    @GET("account/{account_id}/rated/movies")
+    Observable<ListResponse> getRatedMovies(@Path("account_id") int accountId,
+                                            @Query("api_key") String apiKey,
+                                            @Query("session_id") String sessionId,
+                                            @Query("page") int page);
+
+    @GET("account/{account_id}/favorite/movies")
+    Observable<ListResponse> getFavoriteMovies(@Path("account_id") int accountId,
+                                               @Query("api_key") String apiKey,
+                                               @Query("session_id") String sessionId,
+                                               @Query("page") int page);
+
+    @Headers("Content-Type: application/json;charset=utf-8")
+    @POST("account/{account_id}/favorite")
+    Observable<FavoriteResponse> postFavoriteMovie(@Path("account_id") int accountId,
+                                                   @Query("api_key") String apiKey,
+                                                   @Query("session_id") String sessionId,
+                                                   @Body FavoriteRequest favoriteRequest);
+
+    @Headers("Content-Type: application/json;charset=utf-8")
+    @POST("movie/{movie_id}/rating")
+    Observable<RateResponse> postMovieRating(@Path("movie_id") int movieId,
+                                             @Query("api_key") String apiKey,
+                                             @Query("session_id") String sessionId,
+                                             @Body RateRequest rateRequest);
+
+    @Headers("Content-Type: application/json;charset=utf-8")
+    @DELETE("movie/{movie_id}/rating")
+    Observable<RateResponse> deleteMovieRating(@Path("movie_id") int movieId,
+                                               @Query("api_key") String apiKey,
+                                               @Query("session_id") String sessionId);
 }

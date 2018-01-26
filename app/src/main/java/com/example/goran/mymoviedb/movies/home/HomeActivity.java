@@ -21,6 +21,7 @@ import com.example.goran.mymoviedb.login.LoginActivity;
 import com.example.goran.mymoviedb.movies.list.MovieListFragment;
 import com.example.goran.mymoviedb.movies.search.MovieSearchFragment;
 import com.example.goran.mymoviedb.movies.util.Category;
+import com.example.goran.mymoviedb.movies.util.LayoutStyle;
 
 import javax.inject.Inject;
 
@@ -39,10 +40,8 @@ public class HomeActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private FragmentManager fragmentManager;
 
-    @BindView(R.id.txt_nav_user)
-    TextView txtUser;
-    @BindView(R.id.txt_nav_login)
-    TextView txtLogInOut;
+    @BindView(R.id.txt_nav_user) TextView txtUser;
+    @BindView(R.id.txt_nav_login) TextView txtLogInOut;
 
     @OnClick(R.id.txt_nav_login)
     public void onClickLoginOut() {
@@ -79,9 +78,7 @@ public class HomeActivity extends AppCompatActivity
 
         fragmentManager = getSupportFragmentManager();
 
-        presenter.initPresenter(
-                getIntent().getStringExtra(("username")),
-                getIntent().getStringExtra("session_id"));
+        presenter.initView();
 
         presenter.onClickPlayingNow();
     }
@@ -117,6 +114,9 @@ public class HomeActivity extends AppCompatActivity
             case R.id.nav_search:
                 presenter.onClickSearch();
                 break;
+            case R.id.nav_favorite:
+                presenter.onClickFavorite();
+                break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -129,31 +129,37 @@ public class HomeActivity extends AppCompatActivity
     }
 
     public void showPlayingNowList() {
-        getSupportActionBar().setTitle(R.string.nav_playing_now);
-        showFragment(MovieListFragment.newInstance(Category.NOW_PLAYING));
+        getSupportActionBar().setTitle(R.string.title_playing_now);
+        showFragment(MovieListFragment.newInstance(Category.NOW_PLAYING, LayoutStyle.LINEAR_LARGE));
     }
 
     @Override
     public void showUpcomingList() {
-        getSupportActionBar().setTitle(R.string.nav_upcoming);
-        showFragment(MovieListFragment.newInstance(Category.UPCOMING));
+        getSupportActionBar().setTitle(R.string.title_upcoming);
+        showFragment(MovieListFragment.newInstance(Category.UPCOMING, LayoutStyle.LINEAR_LARGE));
     }
 
     @Override
     public void showPopularList() {
-        getSupportActionBar().setTitle(R.string.nav_popular);
-        showFragment(MovieListFragment.newInstance(Category.POPULAR));
+        getSupportActionBar().setTitle(R.string.title_popular);
+        showFragment(MovieListFragment.newInstance(Category.POPULAR, LayoutStyle.LINEAR_LARGE));
     }
 
     @Override
     public void showTopRatedList() {
-        getSupportActionBar().setTitle(R.string.nav_top_rated);
-        showFragment(MovieListFragment.newInstance(Category.TOP_RATED));
+        getSupportActionBar().setTitle(R.string.title_top_rated);
+        showFragment(MovieListFragment.newInstance(Category.TOP_RATED, LayoutStyle.LINEAR_LARGE));
     }
 
     public void showSearchFragment() {
-        getSupportActionBar().setTitle(R.string.nav_search);
+        getSupportActionBar().setTitle(R.string.title_search);
         showFragment(new MovieSearchFragment());
+    }
+
+    @Override
+    public void showFavoriteList() {
+        getSupportActionBar().setTitle(R.string.title_favorite);
+        showFragment(MovieListFragment.newInstance(Category.FAVORITE, LayoutStyle.LINEAR_SIMPLE));
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.example.goran.mymoviedb.login;
 
-import com.example.goran.mymoviedb.data.interactors.LoginInteractor;
 import com.example.goran.mymoviedb.data.model.auth.User;
 
 /**
@@ -13,7 +12,7 @@ public interface LoginContract {
 
         boolean stayLoggedIn();
 
-        void navigateToMain(String username, String sessionId);
+        void navigateToMain(User user);
 
         void displayUsernameError();
 
@@ -30,22 +29,6 @@ public interface LoginContract {
         void onClickLogin(String username, String password);
 
         void onClickGuest();
-
-        void onDestroy();
-
-    }
-
-    interface Model {
-
-        void initLogin(String username, String password, LoginInteractor.LoginListener listener);
-
-        void encryptAndSaveUser(User user);
-
-        User loadAndDecryptUser();
-
-        void deleteCurrentUser();
-
-        void dispose();
 
     }
 }

@@ -3,23 +3,25 @@ package com.example.goran.mymoviedb.data.local;
 import android.content.SharedPreferences;
 
 import com.example.goran.mymoviedb.data.model.auth.User;
-import com.example.goran.mymoviedb.di.scope.ActivityScope;
 import com.yakivmospan.scytale.Crypto;
 import com.yakivmospan.scytale.Store;
 
 import javax.crypto.SecretKey;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Created by Goran on 11.1.2018..
  */
 
-@ActivityScope
+@Singleton
 public class UserManager {
 
     private SecretKey key;
     private Crypto crypto;
     private SharedPreferences sharedPreferences;
+
+    private static User activeUser;
 
     @Inject
     public UserManager(Store store, Crypto crypto, SharedPreferences sharedPreferences) {
@@ -32,6 +34,14 @@ public class UserManager {
             key = store.getSymmetricKey("password_key", null);
         }
 
+    }
+
+    public static User getActiveUser() {
+        return activeUser;
+    }
+
+    public static void setActiveUser(User user) {
+        activeUser = user;
     }
 
     public String encrypt(String password) {
@@ -50,16 +60,18 @@ public class UserManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("currentUsername", user.getUsername());
         editor.putString("currentPassword", user.getPassword());
-        editor.putString("currentSession", user.getSessionId());
+        editor.putString("currentSessionId", user.getSessionId());
+        editor.putInt("currentAccountId", user.getAccountId());
         editor.apply();
     }
 
     public User loadUser() {
         String username = sharedPreferences.getString("currentUsername", null);
         String password = sharedPreferences.getString("currentPassword", null);
-        String sessionId = sharedPreferences.getString("currentSession", null);
+        String sessionId = sharedPreferences.getString("currentSessionId", null);
+        int accountId = sharedPreferences.getInt("currentAccountId", 0);
 
-        return new User(username, password, sessionId);
+        return new User(username, password, sessionId, accountId);
     }
 
     public void deleteUser() {

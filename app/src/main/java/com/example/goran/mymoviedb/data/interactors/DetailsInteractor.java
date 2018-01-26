@@ -1,69 +1,18 @@
 package com.example.goran.mymoviedb.data.interactors;
 
-import android.util.Log;
-
-import com.example.goran.mymoviedb.data.interactors.ListInteractor;
-import com.example.goran.mymoviedb.data.model.list.ListResponse;
-import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
-import com.example.goran.mymoviedb.data.remote.ApiHelper;
-import com.example.goran.mymoviedb.di.scope.FragmentScope;
-import com.example.goran.mymoviedb.movies.details.MovieDetailsContract;
-
-import javax.inject.Inject;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
-
 /**
- * Created by Goran on 17.1.2018..
+ * Created by Goran on 23.1.2018..
  */
 
-@FragmentScope
-public class DetailsInteractor implements MovieDetailsContract.Model {
+public interface DetailsInteractor {
 
-    private ApiHelper apiHelper;
-    private CompositeDisposable compositeDisposable;
+    void getMovieDetails(int movieId, DetailsInteractorImpl.DetailsListener listener);
 
-    @Inject
-    public DetailsInteractor(ApiHelper apiHelper) {
-        this.apiHelper = apiHelper;
-        compositeDisposable = new CompositeDisposable();
-    }
+    void getSimilarList(int movieId, ListInteractorImpl.ListListener listener);
 
-    public interface DetailsListener {
+    void setFavorite(boolean favorite, int movieId);
 
-        void onDataReady(MovieDetails movieDetails);
+    void setRating(int movieId, double rating);
 
-        void onError();
-    }
-
-    @Override
-    public void getMovieDetails(int movieId, DetailsListener listener) {
-
-        Observable<MovieDetails> observable = apiHelper.getMovieDetails(movieId);
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        movieDetails -> listener.onDataReady(movieDetails),
-                        throwable -> listener.onError(),
-                        () -> Log.i("LOG", "Complete"),
-                        disposable -> compositeDisposable.add(disposable));
-    }
-
-    @Override
-    public void getSimilarList(int movieId, ListInteractor.ListListener listener) {
-
-        Observable<ListResponse> listObservable = apiHelper.getSimilarMovies(movieId, 1);
-
-        listObservable.map(listResponse -> listResponse.getMovies())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        movies -> listener.onDataReady(movies),
-                        throwable -> listener.onError(),
-                        () -> Log.i("LOG", "Complete"),
-                        disposable -> compositeDisposable.add(disposable));
-    }
+    void deleteRating(int movieId);
 }

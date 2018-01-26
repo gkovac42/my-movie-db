@@ -1,8 +1,10 @@
 package com.example.goran.mymoviedb.movies.list;
 
 import com.example.goran.mymoviedb.data.interactors.ListInteractor;
+import com.example.goran.mymoviedb.data.interactors.ListInteractorImpl;
 import com.example.goran.mymoviedb.data.model.list.Movie;
-import com.example.goran.mymoviedb.di.scope.FragmentScope;
+import com.example.goran.mymoviedb.di.scope.PerFragment;
+import com.example.goran.mymoviedb.movies.util.LayoutStyle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +14,11 @@ import javax.inject.Inject;
 /**
  * Created by Goran on 11.1.2018..
  */
-@FragmentScope
-public class MovieListPresenter implements MovieListContract.Presenter, ListInteractor.ListListener {
+@PerFragment
+public class MovieListPresenter implements MovieListContract.Presenter, ListInteractorImpl.ListListener {
 
     private MovieListContract.View listView;
-    private MovieListContract.Model listInteractor;
+    private ListInteractor listInteractor;
 
     private List<Movie> movies;
 
@@ -24,7 +26,7 @@ public class MovieListPresenter implements MovieListContract.Presenter, ListInte
     private int currentPage;
 
     @Inject
-    public MovieListPresenter(MovieListContract.View listView, MovieListContract.Model listInteractor) {
+    public MovieListPresenter(MovieListContract.View listView, ListInteractor listInteractor) {
         this.listView = listView;
         this.listInteractor = listInteractor;
     }
@@ -34,6 +36,22 @@ public class MovieListPresenter implements MovieListContract.Presenter, ListInte
         this.category = category;
         this.currentPage = 1;
         this.movies = new ArrayList<>();
+    }
+
+    @Override
+    public void initView(int style) {
+
+        switch (style) {
+            case LayoutStyle.LINEAR_LARGE:
+                listView.setLinearLargeLayout();
+                break;
+            case LayoutStyle.LINEAR_SIMPLE:
+                listView.setLinearSimpleLayout();
+                break;
+            case LayoutStyle.GRID:
+                // TODO - grid layout
+                break;
+        }
     }
 
     @Override
@@ -64,10 +82,5 @@ public class MovieListPresenter implements MovieListContract.Presenter, ListInte
         if (currentPage <= 5) {
             loadMovies();
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        listInteractor.dispose();
     }
 }

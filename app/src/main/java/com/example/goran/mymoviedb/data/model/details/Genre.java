@@ -1,4 +1,4 @@
-package com.example.goran.mymoviedb.data.model.singlemovie;
+package com.example.goran.mymoviedb.data.model.details;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -7,21 +7,21 @@ import com.google.gson.annotations.SerializedName;
  * Created by Goran on 27.12.2017..
  */
 
-public class SpokenLanguage {
+public class Genre {
 
-    @SerializedName("iso_639_1")
+    @SerializedName("id")
     @Expose
-    private String iso6391;
+    private Integer id;
     @SerializedName("name")
     @Expose
     private String name;
 
-    public String getIso6391() {
-        return iso6391;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIso6391(String iso6391) {
-        this.iso6391 = iso6391;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

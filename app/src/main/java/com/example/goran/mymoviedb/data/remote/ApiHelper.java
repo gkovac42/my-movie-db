@@ -1,12 +1,18 @@
 package com.example.goran.mymoviedb.data.remote;
 
-import com.example.goran.mymoviedb.data.model.list.ListResponse;
+import com.example.goran.mymoviedb.data.local.UserManager;
+import com.example.goran.mymoviedb.data.model.FavoriteRequest;
+import com.example.goran.mymoviedb.data.model.FavoriteResponse;
+import com.example.goran.mymoviedb.data.model.RateRequest;
+import com.example.goran.mymoviedb.data.model.RateResponse;
+import com.example.goran.mymoviedb.data.model.auth.Account;
 import com.example.goran.mymoviedb.data.model.auth.RequestToken;
 import com.example.goran.mymoviedb.data.model.auth.Session;
 import com.example.goran.mymoviedb.data.model.auth.TokenValidation;
+import com.example.goran.mymoviedb.data.model.details.Credits;
+import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.keywords.KeywordResponse;
-import com.example.goran.mymoviedb.data.model.singlemovie.Credits;
-import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
+import com.example.goran.mymoviedb.data.model.list.ListResponse;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -44,14 +50,18 @@ public class ApiHelper {
         return apiService.createSession(API_KEY, requestToken);
     }
 
-    // single movie details & credits
-
-    public Observable<MovieDetails> getMovieDetails(int id) {
-        return apiService.getMovieDetails(id, API_KEY);
+    public Observable<Account> getAccountId(String sessionId) {
+        return apiService.getAccountId(API_KEY, sessionId);
     }
 
-    public Observable<Credits> getMovieCredits(int id) {
-        return apiService.getMovieCredits(id, API_KEY);
+    // single movie details & credits
+
+    public Observable<MovieDetails> getMovieDetails(int movieId) {
+        return apiService.getMovieDetails(movieId, API_KEY);
+    }
+
+    public Observable<Credits> getMovieCredits(int movieId) {
+        return apiService.getMovieCredits(movieId, API_KEY);
     }
 
     // movie listings
@@ -72,8 +82,8 @@ public class ApiHelper {
         return apiService.getUpcomingMovies(API_KEY, page);
     }
 
-    public Observable<ListResponse> getSimilarMovies(int id, int page) {
-        return apiService.getSimilarMovies(id, API_KEY, page);
+    public Observable<ListResponse> getSimilarMovies(int movieId, int page) {
+        return apiService.getSimilarMovies(movieId, API_KEY, page);
     }
 
     // search
@@ -88,6 +98,26 @@ public class ApiHelper {
 
     public Observable<ListResponse> searchByKeywordId(int keywordId, int page) {
         return apiService.searchByKeywordId(API_KEY, keywordId, page);
+    }
+
+    // account
+
+    public Observable<ListResponse> getFavoriteMovies(int page) {
+        return apiService.getFavoriteMovies(UserManager.getActiveUser().getAccountId(),
+                API_KEY, UserManager.getActiveUser().getSessionId(), page);
+    }
+
+    public Observable<FavoriteResponse> postFavoriteMovie(FavoriteRequest favoriteRequest) {
+        return apiService.postFavoriteMovie(UserManager.getActiveUser().getAccountId(),
+                API_KEY, UserManager.getActiveUser().getSessionId(), favoriteRequest);
+    }
+
+    public Observable<RateResponse> postMovieRating(int movieId, RateRequest rateRequest) {
+        return apiService.postMovieRating(movieId, API_KEY, UserManager.getActiveUser().getSessionId(), rateRequest);
+    }
+
+    public Observable<RateResponse> deleteMovieRating(int movieId) {
+        return apiService.deleteMovieRating(movieId, API_KEY, UserManager.getActiveUser().getSessionId());
     }
 
 }

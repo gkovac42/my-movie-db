@@ -3,9 +3,10 @@ package com.example.goran.mymoviedb.movies.details;
 import android.net.Uri;
 
 import com.example.goran.mymoviedb.data.interactors.CreditsInteractor;
-import com.example.goran.mymoviedb.data.model.singlemovie.Credits;
-import com.example.goran.mymoviedb.data.model.singlemovie.Crew;
-import com.example.goran.mymoviedb.di.scope.FragmentScope;
+import com.example.goran.mymoviedb.data.interactors.CreditsInteractorImpl;
+import com.example.goran.mymoviedb.data.model.details.Credits;
+import com.example.goran.mymoviedb.data.model.details.Crew;
+import com.example.goran.mymoviedb.di.scope.PerFragment;
 
 import javax.inject.Inject;
 
@@ -13,18 +14,18 @@ import javax.inject.Inject;
  * Created by Goran on 12.1.2018..
  */
 
-@FragmentScope
-public class MovieCreditsPresenter implements MovieCreditsContract.Presenter, CreditsInteractor.CreditsListener {
+@PerFragment
+public class MovieCreditsPresenter implements MovieCreditsContract.Presenter, CreditsInteractorImpl.CreditsListener {
 
     private MovieCreditsContract.View creditsView;
-    private MovieCreditsContract.Model creditsInteractor;
+    private CreditsInteractor creditsInteractor;
 
     private int movieId;
 
     private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
 
     @Inject
-    public MovieCreditsPresenter(MovieCreditsContract.View creditsView, MovieCreditsContract.Model creditsInteractor) {
+    public MovieCreditsPresenter(MovieCreditsContract.View creditsView, CreditsInteractor creditsInteractor) {
         this.creditsView = creditsView;
         this.creditsInteractor = creditsInteractor;
     }
@@ -65,10 +66,5 @@ public class MovieCreditsPresenter implements MovieCreditsContract.Presenter, Cr
     @Override
     public void onError() {
 
-    }
-
-    @Override
-    public void onDestroy() {
-        creditsInteractor.dispose();
     }
 }

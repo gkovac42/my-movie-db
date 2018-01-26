@@ -1,9 +1,7 @@
 package com.example.goran.mymoviedb.movies.details;
 
-import com.example.goran.mymoviedb.data.interactors.ListInteractor;
+import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.list.Movie;
-import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
-import com.example.goran.mymoviedb.data.interactors.DetailsInteractor;
 
 import java.util.List;
 
@@ -19,11 +17,21 @@ public interface MovieDetailsContract {
 
         void enableUserFeatures();
 
+        boolean isFavorite();
+
+        boolean isRated();
+
         void checkFavorite();
 
         void checkRated();
 
+        void uncheckFavorite();
+
+        void uncheckRated();
+
         void showRatingDialog();
+
+        void dismissRatingDialog();
 
         void displayMovieDetails(MovieDetails movieDetails);
 
@@ -45,15 +53,10 @@ public interface MovieDetailsContract {
 
         void onClickRate();
 
+        void onClickDlgRate(double rating);
+
+        void onClickDlgClear();
+
         void onClickFavorite();
     }
-
-    interface Model {
-
-        void getMovieDetails(int movieId, DetailsInteractor.DetailsListener listener);
-
-        void getSimilarList(int movieId, ListInteractor.ListListener listener);
-
-    }
-
 }

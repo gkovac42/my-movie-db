@@ -1,6 +1,5 @@
 package com.example.goran.mymoviedb.movies.list;
 
-import com.example.goran.mymoviedb.data.interactors.ListInteractor;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 
 import java.util.List;
@@ -15,6 +14,10 @@ public interface MovieListContract {
 
         void navigateToMovie(int movieId);
 
+        void setLinearLargeLayout();
+
+        void setLinearSimpleLayout();
+
         void updateAdapter(List<Movie> movies);
     }
 
@@ -22,20 +25,13 @@ public interface MovieListContract {
 
         void initPresenter(int category);
 
+        void initView(int style);
+
         void loadMovies();
 
         void onClickMovie(int movieId);
 
         void onBottomReached();
-
-        void onDestroy();
-    }
-
-    interface Model {
-
-        void getMovieList(int category, int page, ListInteractor.ListListener listener);
-
-        void dispose();
 
     }
 }

@@ -1,10 +1,14 @@
 package com.example.goran.mymoviedb.movies.details;
 
-import com.example.goran.mymoviedb.data.interactors.ListInteractor;
-import com.example.goran.mymoviedb.data.model.list.Movie;
-import com.example.goran.mymoviedb.data.model.singlemovie.MovieDetails;
+import android.util.Log;
+
 import com.example.goran.mymoviedb.data.interactors.DetailsInteractor;
-import com.example.goran.mymoviedb.di.scope.FragmentScope;
+import com.example.goran.mymoviedb.data.interactors.DetailsInteractorImpl;
+import com.example.goran.mymoviedb.data.interactors.ListInteractorImpl;
+import com.example.goran.mymoviedb.data.local.UserManager;
+import com.example.goran.mymoviedb.data.model.details.MovieDetails;
+import com.example.goran.mymoviedb.data.model.list.Movie;
+import com.example.goran.mymoviedb.di.scope.PerFragment;
 
 import java.util.List;
 
@@ -14,16 +18,16 @@ import javax.inject.Inject;
  * Created by Goran on 12.1.2018..
  */
 
-@FragmentScope
+@PerFragment
 public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
 
     private MovieDetailsContract.View detailsView;
-    private MovieDetailsContract.Model detailsInteractor;
+    private DetailsInteractor detailsInteractor;
 
     private int movieId;
 
     @Inject
-    public MovieDetailsPresenter(MovieDetailsContract.View detailsView, MovieDetailsContract.Model detailsInteractor) {
+    public MovieDetailsPresenter(MovieDetailsContract.View detailsView, DetailsInteractor detailsInteractor) {
         this.detailsView = detailsView;
         this.detailsInteractor = detailsInteractor;
     }
@@ -31,12 +35,16 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
     @Override
     public void initPresenter(int movieId) {
         this.movieId = movieId;
+
+        if (UserManager.getActiveUser() != null) {
+            detailsView.enableUserFeatures();
+        }
     }
 
     @Override
 
     public void getMovieDetails() {
-        detailsInteractor.getMovieDetails(movieId, new DetailsInteractor.DetailsListener() {
+        detailsInteractor.getMovieDetails(movieId, new DetailsInteractorImpl.DetailsListener() {
             @Override
             public void onDataReady(MovieDetails movieDetails) {
                 detailsView.displayMovieDetails(movieDetails);
@@ -52,7 +60,7 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
 
     @Override
     public void getSimilarMovies() {
-        detailsInteractor.getSimilarList(movieId, new ListInteractor.ListListener() {
+        detailsInteractor.getSimilarList(movieId, new ListInteractorImpl.ListListener() {
             @Override
             public void onDataReady(List<Movie> movieList) {
                 detailsView.displaySimilarMovies(movieList);
@@ -72,13 +80,42 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
 
     @Override
     public void onClickRate() {
-        // TODO - rate POST request, show rating dialog
+
+        if (!detailsView.isRated()) {
+            detailsView.showRatingDialog();
+
+        } else {
+            detailsInteractor.deleteRating(movieId);
+            detailsView.uncheckRated();
+        }
+    }
+
+    @Override
+    public void onClickDlgRate(double rating) {
+
+        detailsInteractor.setRating(movieId, rating);
+        Log.i("RATING", String.valueOf(rating));
         detailsView.checkRated();
+        detailsView.dismissRatingDialog();
+    }
+
+    @Override
+    public void onClickDlgClear() {
+        detailsView.dismissRatingDialog();
     }
 
     @Override
     public void onClickFavorite() {
-        // TODO - favorite POST request
-        detailsView.checkFavorite();
+
+        if (!detailsView.isFavorite()) {
+            detailsInteractor.setFavorite(true, movieId);
+            detailsView.checkFavorite();
+
+        } else {
+            detailsInteractor.setFavorite(false, movieId);
+            detailsView.uncheckFavorite();
+        }
+
+
     }
 }

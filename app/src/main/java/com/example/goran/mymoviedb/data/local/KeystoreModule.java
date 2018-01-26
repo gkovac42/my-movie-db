@@ -3,10 +3,11 @@ package com.example.goran.mymoviedb.data.local;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.goran.mymoviedb.di.scope.ActivityScope;
 import com.yakivmospan.scytale.Crypto;
 import com.yakivmospan.scytale.Options;
 import com.yakivmospan.scytale.Store;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -19,19 +20,19 @@ import dagger.Provides;
 public class KeystoreModule {
 
     @Provides
-    @ActivityScope
+    @Singleton
     Store provideStore(Context context) {
         return new Store(context);
     }
 
     @Provides
-    @ActivityScope
+    @Singleton
     Crypto provideCrypto() {
         return new Crypto(Options.TRANSFORMATION_SYMMETRIC);
     }
 
     @Provides
-    @ActivityScope
+    @Singleton
     SharedPreferences provideSharedPreferences(Context context) {
         return context.getSharedPreferences("moviesDb", Context.MODE_PRIVATE);
     }

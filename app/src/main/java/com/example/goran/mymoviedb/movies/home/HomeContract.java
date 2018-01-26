@@ -20,12 +20,14 @@ public interface HomeContract {
 
         void showSearchFragment();
 
+        void showFavoriteList();
+
         void navigateToLogin();
     }
 
     interface Presenter {
 
-        void initPresenter(String username, String sessionId);
+        void initView();
 
         void onClickLoginOut();
 
@@ -38,6 +40,8 @@ public interface HomeContract {
         void onClickTopRated();
 
         void onClickSearch();
+
+        void onClickFavorite();
 
     }
 }

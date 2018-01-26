@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
+import com.example.goran.mymoviedb.data.model.auth.User;
 import com.example.goran.mymoviedb.di.LoginActivityModule;
 import com.example.goran.mymoviedb.movies.home.HomeActivity;
 
@@ -25,14 +26,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Inject
     LoginContract.Presenter presenter;
 
-    @BindView(R.id.txt_username)
-    EditText txtUsername;
-    @BindView(R.id.txt_password)
-    EditText txtPassword;
-    @BindView(R.id.txt_reset_password)
-    TextView txtResetPassword;
-    @BindView(R.id.chk_stay_logged_in)
-    AppCompatCheckBox chkStayLoggedIn;
+    @BindView(R.id.txt_username) EditText txtUsername;
+    @BindView(R.id.txt_password) EditText txtPassword;
+    @BindView(R.id.txt_reset_password) TextView txtResetPassword;
+    @BindView(R.id.chk_stay_logged_in) AppCompatCheckBox chkStayLoggedIn;
 
     @OnClick(R.id.btn_login)
     public void onClickLogin() {
@@ -66,10 +63,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
-    public void navigateToMain(String username, String sessionId) {
+    public void navigateToMain(User user) {
         Intent intent = new Intent(this, HomeActivity.class);
-        intent.putExtra("username", username);
-        intent.putExtra("session_id", sessionId);
+        intent.putExtra("user", user);
         startActivity(intent);
     }
 
@@ -86,11 +82,5 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void displayLoginError() {
         Toast.makeText(this, "Invalid username or password!", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        presenter.onDestroy();
-        super.onDestroy();
     }
 }

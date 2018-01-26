@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
-import com.example.goran.mymoviedb.data.model.singlemovie.Cast;
+import com.example.goran.mymoviedb.data.model.details.Cast;
 import com.example.goran.mymoviedb.di.MovieCreditsFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.CastAdapter;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -38,16 +37,11 @@ public class MovieCreditsFragment extends Fragment implements MovieCreditsContra
 
     private CastAdapter adapter;
 
-    @BindView(R.id.txt_credits_director)
-    TextView txtDirector;
-    @BindView(R.id.img_credits_director)
-    SimpleDraweeView imgDirector;
-    @BindView(R.id.txt_credits_writer)
-    TextView txtWriter;
-    @BindView(R.id.img_credits_writer)
-    SimpleDraweeView imgWriter;
-    @BindView(R.id.recycler_credits_cast)
-    RecyclerView recyclerView;
+    @BindView(R.id.txt_credits_director) TextView txtDirector;
+    @BindView(R.id.img_credits_director) SimpleDraweeView imgDirector;
+    @BindView(R.id.txt_credits_writer) TextView txtWriter;
+    @BindView(R.id.img_credits_writer) SimpleDraweeView imgWriter;
+    @BindView(R.id.recycler_credits_cast) RecyclerView recyclerView;
 
     @Nullable
     @Override
@@ -58,7 +52,6 @@ public class MovieCreditsFragment extends Fragment implements MovieCreditsContra
                 .movieCreditsFragmentSubcomponent(new MovieCreditsFragmentModule(this))
                 .inject(this);
 
-        Log.i("LOG", "Hello");
         return inflater.inflate(R.layout.fragment_movie_credits, container, false);
     }
 
@@ -70,6 +63,7 @@ public class MovieCreditsFragment extends Fragment implements MovieCreditsContra
         adapter = new CastAdapter();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(adapter);
 
         presenter.initPresenter(getActivity().getIntent().getIntExtra("movie_id", 0));
@@ -92,11 +86,5 @@ public class MovieCreditsFragment extends Fragment implements MovieCreditsContra
     public void displayCast(List<Cast> cast) {
         adapter.setDataSource(cast);
         adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onDestroy() {
-        presenter.onDestroy();
-        super.onDestroy();
     }
 }

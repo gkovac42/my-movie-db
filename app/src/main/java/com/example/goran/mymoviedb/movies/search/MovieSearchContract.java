@@ -1,6 +1,5 @@
 package com.example.goran.mymoviedb.movies.search;
 
-import com.example.goran.mymoviedb.data.interactors.SearchInteractor;
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 
@@ -45,20 +44,6 @@ public interface MovieSearchContract {
         void onClickResult(int movieId);
 
         void onBottomReached(Boolean searchByTitle);
-
-        void onDestroy();
-
-    }
-
-    interface Model {
-
-        void searchByTitle(String query, int page, SearchInteractor.SearchListener listener);
-
-        void getKeywords(String query, SearchInteractor.KeywordListener listener);
-
-        void searchByKeywordId(int query, int page, SearchInteractor.SearchListener listener);
-
-        void dispose();
 
     }
 }

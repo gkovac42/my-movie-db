@@ -1,8 +1,10 @@
 package com.example.goran.mymoviedb.login;
 
 import com.example.goran.mymoviedb.data.interactors.LoginInteractor;
+import com.example.goran.mymoviedb.data.interactors.LoginInteractorImpl;
+import com.example.goran.mymoviedb.data.local.UserManager;
 import com.example.goran.mymoviedb.data.model.auth.User;
-import com.example.goran.mymoviedb.di.scope.ActivityScope;
+import com.example.goran.mymoviedb.di.scope.PerActivity;
 import com.example.goran.mymoviedb.login.util.UserInput;
 
 import javax.inject.Inject;
@@ -11,17 +13,14 @@ import javax.inject.Inject;
  * Created by Goran on 10.1.2018..
  */
 
-@ActivityScope
-public class LoginPresenter implements LoginContract.Presenter, LoginInteractor.LoginListener {
+@PerActivity
+public class LoginPresenter implements LoginContract.Presenter, LoginInteractorImpl.LoginListener {
 
-    private LoginContract.Model loginInteractor;
+    private LoginInteractor loginInteractor;
     private LoginContract.View loginView;
 
-    private String username;
-    private String password;
-
     @Inject
-    public LoginPresenter(LoginContract.Model model, LoginContract.View view) {
+    public LoginPresenter(LoginInteractor model, LoginContract.View view) {
         this.loginInteractor = model;
         this.loginView = view;
     }
@@ -33,7 +32,8 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractor.
 
         if (currentUser.getUsername() != null) {
             // if not null use saved username and sessionId
-            loginView.navigateToMain(currentUser.getUsername(), currentUser.getSessionId());
+            UserManager.setActiveUser(currentUser);
+            loginView.navigateToMain(currentUser);
         }
     }
 
@@ -48,8 +48,7 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractor.
 
             // if input is valid start login
         } else {
-            this.username = username;
-            this.password = password;
+
             loginInteractor.initLogin(username, password, this);
         }
     }
@@ -60,26 +59,24 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractor.
     }
 
     @Override
-    public void onLoginSuccess(String sessionId) {
+    public void onLoginSuccess(User user) {
+
+        UserManager.setActiveUser(user);
+
         // if checked save user data
         if (loginView.stayLoggedIn()) {
-            User user = new User(username, password, sessionId);
             loginInteractor.encryptAndSaveUser(user);
 
         } else {
             loginInteractor.deleteCurrentUser();
         }
 
-        loginView.navigateToMain(username, sessionId);
+        loginView.navigateToMain(user);
     }
 
     @Override
     public void onClickGuest() {
-        loginView.navigateToMain(null, null);
+        loginView.navigateToMain(null);
     }
 
-    @Override
-    public void onDestroy() {
-        loginInteractor.dispose();
-    }
 }

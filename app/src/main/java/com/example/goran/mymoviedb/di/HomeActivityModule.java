@@ -1,8 +1,10 @@
 package com.example.goran.mymoviedb.di;
 
+import android.support.v7.app.AppCompatActivity;
+
 import com.example.goran.mymoviedb.data.interactors.LoginInteractor;
-import com.example.goran.mymoviedb.di.scope.ActivityScope;
-import com.example.goran.mymoviedb.login.LoginContract;
+import com.example.goran.mymoviedb.data.interactors.LoginInteractorImpl;
+import com.example.goran.mymoviedb.di.scope.PerActivity;
 import com.example.goran.mymoviedb.movies.home.HomeActivity;
 import com.example.goran.mymoviedb.movies.home.HomeContract;
 import com.example.goran.mymoviedb.movies.home.HomePresenter;
@@ -24,20 +26,26 @@ public class HomeActivityModule {
     }
 
     @Provides
-    @ActivityScope
+    @PerActivity
+    AppCompatActivity provideAppcompatActivity() {
+        return homeActivity;
+    }
+
+    @Provides
+    @PerActivity
     HomeContract.View provideView() {
         return homeActivity;
     }
 
     @Provides
-    @ActivityScope
+    @PerActivity
     HomeContract.Presenter providePresenter(HomePresenter presenter) {
         return presenter;
     }
 
     @Provides
-    @ActivityScope
-    LoginContract.Model provideInteractor(LoginInteractor interactor) {
-        return interactor;
+    @PerActivity
+    LoginInteractor provideLoginInteractor(LoginInteractorImpl loginInteractor) {
+        return loginInteractor;
     }
 }

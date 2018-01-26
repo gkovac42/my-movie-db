@@ -1,9 +1,10 @@
 package com.example.goran.mymoviedb.movies.search;
 
 import com.example.goran.mymoviedb.data.interactors.SearchInteractor;
-import com.example.goran.mymoviedb.data.model.list.Movie;
+import com.example.goran.mymoviedb.data.interactors.SearchInteractorImpl;
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
-import com.example.goran.mymoviedb.di.scope.FragmentScope;
+import com.example.goran.mymoviedb.data.model.list.Movie;
+import com.example.goran.mymoviedb.di.scope.PerFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +15,11 @@ import javax.inject.Inject;
  * Created by Goran on 17.1.2018..
  */
 
-@FragmentScope
+@PerFragment
 public class MovieSearchPresenter implements
-        MovieSearchContract.Presenter, SearchInteractor.SearchListener, SearchInteractor.KeywordListener {
+        MovieSearchContract.Presenter, SearchInteractorImpl.SearchListener, SearchInteractorImpl.KeywordListener {
 
-    private MovieSearchContract.Model searchInteractor;
+    private SearchInteractor searchInteractor;
     private MovieSearchContract.View searchView;
 
     private List<Keyword> keywords = new ArrayList<>();
@@ -29,7 +30,7 @@ public class MovieSearchPresenter implements
     private int currentPage;
 
     @Inject
-    public MovieSearchPresenter(MovieSearchContract.Model searchInteractor, MovieSearchContract.View searchView) {
+    public MovieSearchPresenter(SearchInteractor searchInteractor, MovieSearchContract.View searchView) {
         this.searchInteractor = searchInteractor;
         this.searchView = searchView;
     }
@@ -112,8 +113,4 @@ public class MovieSearchPresenter implements
         searchView.hideProgressBar();
     }
 
-    @Override
-    public void onDestroy() {
-        searchInteractor.dispose();
-    }
 }
