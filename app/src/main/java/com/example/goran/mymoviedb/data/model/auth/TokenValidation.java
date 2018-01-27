@@ -20,16 +20,8 @@ public class TokenValidation {
         return success;
     }
 
-    public void setSuccess(Boolean success) {
-        this.success = success;
-    }
-
     public String getRequestToken() {
         return requestToken;
-    }
-
-    public void setRequestToken(String requestToken) {
-        this.requestToken = requestToken;
     }
 
 }

@@ -22,6 +22,7 @@ public class MovieUtils {
         return title + " (" + date.substring(0, 4) + ")";
     }
 
+    // converts Date to HR date format
     public static String formatDate(String date) {
         String year = date.substring(0, 4);
         String month = date.substring(5, 7);
@@ -30,6 +31,7 @@ public class MovieUtils {
         return day + "." + month + "." + year + ".";
     }
 
+    // converts String to Date
     public static Date StringToDate(String date) {
         DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
 
@@ -43,7 +45,7 @@ public class MovieUtils {
         return null;
     }
 
-
+    // formats movie genres into a single String, separated by , and new line
     public static String getGenres(MovieDetails movieDetails) {
         ArrayList<String> genres = new ArrayList<>();
 
@@ -54,7 +56,8 @@ public class MovieUtils {
         return TextUtils.join(",\n", genres);
     }
 
-    public static String getGenreName(int id) {
+    // localized id to genre name converter to avoid unnecessary network calls
+    public static String getGenreById(int id) {
 
         String genreName;
 

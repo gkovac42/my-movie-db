@@ -76,6 +76,7 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
 
     @Override
     public void onClickGuest() {
+        UserManager.setActiveUser(null);
         loginView.navigateToMain(null);
     }
 

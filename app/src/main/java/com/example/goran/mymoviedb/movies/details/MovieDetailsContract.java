@@ -39,6 +39,8 @@ public interface MovieDetailsContract {
 
         void navigateToSimilar(int id);
 
+        void showNotification(String message);
+
     }
 
     interface Presenter {

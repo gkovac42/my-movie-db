@@ -23,6 +23,8 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
     private DetailsInteractor detailsInteractor;
 
     private int movieId;
+    private String movieTitle;
+
 
     @Inject
     public MovieDetailsPresenter(MovieDetailsContract.View detailsView, DetailsInteractor detailsInteractor) {
@@ -119,12 +121,9 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
             detailsInteractor.setFavorite(false, movieId);
             detailsView.uncheckFavorite();
         }
-
-
     }
 
     private boolean checkIfExists(List<Integer> idList) {
-
         for (int id : idList) {
             if (id == movieId) {
                 return true;

@@ -23,7 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String FAVORITE_TABLE = "favorite";
     private static final String RATED_TABLE = "rated";
     private static final String USER_COLUMN = "user";
-    private static final String MOVIE_ID_COLUMN = "id";
+    private static final String MOVIE_ID_COLUMN = "movie_id";
     private static int DB_VERSION = 1;
 
     @Inject
@@ -124,10 +124,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + FAVORITE_TABLE
                 + "(id INTEGER PRIMARY KEY, "
+                + MOVIE_ID_COLUMN + " TEXT, "
                 + USER_COLUMN + " TEXT)");
 
         db.execSQL("CREATE TABLE " + RATED_TABLE
                 + "(id INTEGER PRIMARY KEY, "
+                + MOVIE_ID_COLUMN + " TEXT, "
                 + USER_COLUMN + " TEXT)");
     }
 

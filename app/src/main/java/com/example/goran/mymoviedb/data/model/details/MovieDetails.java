@@ -17,9 +17,6 @@ public class MovieDetails {
     @SerializedName("backdrop_path")
     @Expose
     private String backdropPath;
-    @SerializedName("belongs_to_collection")
-    @Expose
-    private Object belongsToCollection;
     @SerializedName("budget")
     @Expose
     private Integer budget;
@@ -32,9 +29,6 @@ public class MovieDetails {
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("imdb_id")
-    @Expose
-    private String imdbId;
     @SerializedName("original_language")
     @Expose
     private String originalLanguage;
@@ -44,9 +38,6 @@ public class MovieDetails {
     @SerializedName("overview")
     @Expose
     private String overview;
-    @SerializedName("popularity")
-    @Expose
-    private Double popularity;
     @SerializedName("poster_path")
     @Expose
     private Object posterPath;
@@ -97,14 +88,6 @@ public class MovieDetails {
         this.backdropPath = backdropPath;
     }
 
-    public Object getBelongsToCollection() {
-        return belongsToCollection;
-    }
-
-    public void setBelongsToCollection(Object belongsToCollection) {
-        this.belongsToCollection = belongsToCollection;
-    }
-
     public Integer getBudget() {
         return budget;
     }
@@ -137,14 +120,6 @@ public class MovieDetails {
         this.id = id;
     }
 
-    public String getImdbId() {
-        return imdbId;
-    }
-
-    public void setImdbId(String imdbId) {
-        this.imdbId = imdbId;
-    }
-
     public String getOriginalLanguage() {
         return originalLanguage;
     }
@@ -167,14 +142,6 @@ public class MovieDetails {
 
     public void setOverview(String overview) {
         this.overview = overview;
-    }
-
-    public Double getPopularity() {
-        return popularity;
-    }
-
-    public void setPopularity(Double popularity) {
-        this.popularity = popularity;
     }
 
     public Object getPosterPath() {

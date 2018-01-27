@@ -247,4 +247,9 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
         intent.putExtra("movie_id", movieId);
         startActivity(intent);
     }
+
+    @Override
+    public void showNotification(String message) {
+
+    }
 }

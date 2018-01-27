@@ -73,7 +73,7 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
         txtDesc.setText(movie.getOverview());
         txtRating.setText(String.valueOf(movie.getVoteAverage()));
         txtVotes.setText(String.valueOf(movie.getVoteCount()));
-        txtGenre.setText(MovieUtils.getGenreName(movie.getGenreIds().get(0)));
+        txtGenre.setText(MovieUtils.getGenreById(movie.getGenreIds().get(0)));
         imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movie.getBackdropPath()));
 
         if (position == movies.size() - 1) {

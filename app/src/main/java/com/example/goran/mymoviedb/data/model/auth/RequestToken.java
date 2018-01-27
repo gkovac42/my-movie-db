@@ -23,23 +23,12 @@ public class RequestToken {
         return success;
     }
 
-    public void setSuccess(Boolean success) {
-        this.success = success;
-    }
-
     public String getExpiresAt() {
         return expiresAt;
-    }
-
-    public void setExpiresAt(String expiresAt) {
-        this.expiresAt = expiresAt;
     }
 
     public String getRequestToken() {
         return requestToken;
     }
 
-    public void setRequestToken(String requestToken) {
-        this.requestToken = requestToken;
-    }
 }
