@@ -45,14 +45,14 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
     }
 
     @Override
-    public void encryptAndSaveUser(User user) {
+    public void saveUser(User user) {
         String encryptedPassword = userManager.encrypt(user.getPassword());
         user.setPassword(encryptedPassword);
         userManager.saveUser(user);
     }
 
     @Override
-    public User loadAndDecryptUser() {
+    public User loadUser() {
         User user = userManager.loadUser();
         String decryptedPassword = userManager.decrypt(user.getPassword());
         user.setPassword(decryptedPassword);
@@ -61,8 +61,18 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
     }
 
     @Override
-    public void deleteCurrentUser() {
+    public void deleteSavedUser() {
         userManager.deleteUser();
+    }
+
+    @Override
+    public void deleteActiveUser() {
+        UserManager.setActiveUser(null);
+    }
+
+    @Override
+    public User getActiveUser() {
+        return UserManager.getActiveUser();
     }
 
     @Override

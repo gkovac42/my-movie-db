@@ -10,9 +10,13 @@ public interface LoginInteractor extends BaseInteractor {
 
     void initLogin(String username, String password, LoginInteractorImpl.LoginListener listener);
 
-    void encryptAndSaveUser(User user);
+    void saveUser(User user);
 
-    User loadAndDecryptUser();
+    User loadUser();
 
-    void deleteCurrentUser();
+    void deleteSavedUser();
+
+    void deleteActiveUser();
+
+    User getActiveUser();
 }

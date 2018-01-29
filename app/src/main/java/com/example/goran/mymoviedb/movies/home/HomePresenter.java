@@ -2,6 +2,7 @@ package com.example.goran.mymoviedb.movies.home;
 
 import com.example.goran.mymoviedb.data.interactors.LoginInteractor;
 import com.example.goran.mymoviedb.data.local.UserManager;
+import com.example.goran.mymoviedb.data.model.auth.User;
 import com.example.goran.mymoviedb.di.scope.PerActivity;
 
 import javax.inject.Inject;
@@ -16,6 +17,8 @@ public class HomePresenter implements HomeContract.Presenter {
     private HomeContract.View homeView;
     private LoginInteractor loginInteractor;
 
+    private User activeUser;
+
     @Inject
     public HomePresenter(HomeContract.View homeView, LoginInteractor loginInteractor) {
         this.homeView = homeView;
@@ -24,8 +27,10 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void initView() {
-        if (UserManager.getActiveUser() != null) {
-            homeView.displayUsername(UserManager.getActiveUser().getUsername());
+        activeUser = loginInteractor.getActiveUser();
+
+        if (activeUser != null) {
+            homeView.displayUsername(activeUser.getUsername());
 
         } else {
             homeView.hideFavorites();
@@ -34,8 +39,8 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void onClickLoginOut() {
-        if (UserManager.getActiveUser() != null) {
-            loginInteractor.deleteCurrentUser();
+        if (activeUser != null) {
+            loginInteractor.deleteSavedUser();
         }
 
         UserManager.setActiveUser(null);

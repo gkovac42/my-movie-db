@@ -27,7 +27,6 @@ public class UserManager {
     public UserManager(Store store, Crypto crypto, SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
         this.crypto = crypto;
-        activeUser = new User();
 
         if (!store.hasKey("password_key")) {
             key = store.generateSymmetricKey("password_key", null);

@@ -3,7 +3,6 @@ package com.example.goran.mymoviedb.movies.details;
 import com.example.goran.mymoviedb.data.interactors.DetailsInteractor;
 import com.example.goran.mymoviedb.data.interactors.DetailsInteractorImpl;
 import com.example.goran.mymoviedb.data.interactors.ListInteractorImpl;
-import com.example.goran.mymoviedb.data.local.UserManager;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.scope.PerFragment;
@@ -34,14 +33,18 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
     public void initPresenter(int movieId) {
         this.movieId = movieId;
 
-        if (UserManager.getActiveUser() != null) {
+        if (detailsInteractor.userNotNull()) {
             detailsView.enableUserFeatures();
 
-            if (checkIfExists(UserManager.getActiveUser().getFavoriteMovies())) {
+            List<Integer> favoriteMovies = detailsInteractor.getUserFavoriteIds();
+
+            if (checkIfExists(favoriteMovies)) {
                 detailsView.checkFavorite();
             }
 
-            if (checkIfExists(UserManager.getActiveUser().getRatedMovies())) {
+            List<Integer> ratedMovies = detailsInteractor.getUserRatedIds();
+
+            if (checkIfExists(ratedMovies)) {
                 detailsView.checkRated();
             }
         }

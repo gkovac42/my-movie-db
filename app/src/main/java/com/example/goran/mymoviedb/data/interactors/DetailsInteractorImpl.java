@@ -11,6 +11,8 @@ import com.example.goran.mymoviedb.data.model.list.ListResponse;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
 import com.example.goran.mymoviedb.di.scope.PerFragment;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
@@ -35,13 +37,6 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
     public interface DetailsListener {
 
         void onDataReady(MovieDetails movieDetails);
-
-        void onError();
-    }
-
-    public interface UserActionListener {
-
-        void onSucess(String message);
 
         void onError();
     }
@@ -121,5 +116,20 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                         throwable -> Log.i("LOG", "Error"),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
+    }
+
+    @Override
+    public boolean userNotNull() {
+        return UserManager.getActiveUser() != null;
+    }
+
+    @Override
+    public List<Integer> getUserFavoriteIds() {
+        return UserManager.getActiveUser().getFavoriteMovies();
+    }
+
+    @Override
+    public List<Integer> getUserRatedIds() {
+        return UserManager.getActiveUser().getRatedMovies();
     }
 }

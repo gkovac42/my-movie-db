@@ -2,7 +2,6 @@ package com.example.goran.mymoviedb.login;
 
 import com.example.goran.mymoviedb.data.interactors.LoginInteractor;
 import com.example.goran.mymoviedb.data.interactors.LoginInteractorImpl;
-import com.example.goran.mymoviedb.data.local.UserManager;
 import com.example.goran.mymoviedb.data.model.auth.User;
 import com.example.goran.mymoviedb.di.scope.PerActivity;
 import com.example.goran.mymoviedb.login.util.UserInput;
@@ -28,7 +27,7 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
     @Override
     public void checkForCurrentUser() {
         // try to load saved user data
-        User savedUser = loginInteractor.loadAndDecryptUser();
+        User savedUser = loginInteractor.loadUser();
 
         if (savedUser.getUsername() != null) {
             // if not null try to log in
@@ -64,10 +63,10 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
 
         if (loginView.stayLoggedIn()) {
             User user = new User(username, password);
-            loginInteractor.encryptAndSaveUser(user);
+            loginInteractor.saveUser(user);
 
         } else {
-            loginInteractor.deleteCurrentUser();
+            loginInteractor.deleteSavedUser();
         }
 
         loginView.hideProgressDialog();
@@ -76,7 +75,7 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
 
     @Override
     public void onClickGuest() {
-        UserManager.setActiveUser(null);
+        loginInteractor.deleteActiveUser();
         loginView.navigateToMain();
     }
 }
