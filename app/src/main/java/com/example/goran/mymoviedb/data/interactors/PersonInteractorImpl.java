@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
-import android.support.v7.app.AppCompatActivity;
+import android.arch.lifecycle.LifecycleOwner;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.list.Movie;
@@ -25,8 +25,8 @@ public class PersonInteractorImpl extends BaseInteractorImpl implements PersonIn
     private ApiHelper apiHelper;
 
     @Inject
-    public PersonInteractorImpl(ApiHelper apiHelper, AppCompatActivity appCompatActivity) {
-        super(appCompatActivity);
+    public PersonInteractorImpl(ApiHelper apiHelper, LifecycleOwner lifecycleOwner) {
+        super(lifecycleOwner);
         this.apiHelper = apiHelper;
     }
 

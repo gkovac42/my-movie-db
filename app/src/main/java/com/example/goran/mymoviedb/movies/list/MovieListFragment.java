@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
-import com.example.goran.mymoviedb.data.model.auth.User;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.MovieListFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.BaseMovieAdapter;
@@ -20,7 +19,6 @@ import com.example.goran.mymoviedb.movies.adapters.LargeMovieAdapter;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsActivity;
-import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.List;
 
@@ -55,7 +53,6 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Fresco.initialize(getActivity());
 
         (((BaseApplication) getActivity().getApplication()).getAppComponent())
                 .movieListFragmentSubcomponent(new MovieListFragmentModule(this))
@@ -109,12 +106,8 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
 
     @Override
     public void navigateToMovie(int movieId) {
-        User activeUser = getActivity().getIntent().getParcelableExtra("user");
-
         Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
         intent.putExtra("movie_id", movieId);
-        intent.putExtra("user", activeUser);
-
         startActivity(intent);
     }
 

@@ -1,13 +1,17 @@
 package com.example.goran.mymoviedb.data.interactors;
 
-import android.support.v7.app.AppCompatActivity;
+import android.arch.lifecycle.LifecycleOwner;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.local.UserManager;
 import com.example.goran.mymoviedb.data.model.auth.RequestToken;
 import com.example.goran.mymoviedb.data.model.auth.User;
+import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
 import com.example.goran.mymoviedb.di.scope.PerActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,18 +31,17 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
     private UserManager userManager;
 
     @Inject
-    public LoginInteractorImpl(ApiHelper apiHelper, UserManager userManager, AppCompatActivity appCompatActivity) {
-        super(appCompatActivity);
+    public LoginInteractorImpl(ApiHelper apiHelper, UserManager userManager, LifecycleOwner lifecycleOwner) {
+        super(lifecycleOwner);
         this.apiHelper = apiHelper;
         this.userManager = userManager;
-
     }
 
     public interface LoginListener {
 
         void onLoginError();
 
-        void onLoginSuccess(User user);
+        void onLoginSuccess(String username, String password);
     }
 
     @Override
@@ -65,12 +68,9 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
     @Override
     public void initLogin(String username, String password, LoginListener listener) {
 
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
+        UserManager.setActiveUser(new User());
 
         // get requestToken, use flatmap to validate it with username & password and create session
-
         Observable<RequestToken> observable = apiHelper.createRequestToken();
 
         observable.flatMap(requestToken ->
@@ -78,24 +78,37 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
 
                 .flatMap(tokenValidation ->
                         apiHelper.createSession(tokenValidation.getRequestToken()))
-
                 .flatMap(session -> {
-                    user.setSessionId(session.getSessionId());
+                    UserManager.getActiveUser().setSessionId(session.getSessionId());
                     return apiHelper.getAccountId(session.getSessionId());
                 })
-
-                // subscribe on background thread, when done,  do stuff on main thread
+                .flatMap(account -> {
+                    UserManager.getActiveUser().setAccountId(account.getId());
+                    return apiHelper.getFavoriteMovies(1);
+                })
+                // get user favorite and rated movies
+                .flatMap(listResponse -> {
+                    UserManager.getActiveUser().setFavoriteMovies(getMovieIds(listResponse.getMovies()));
+                    return apiHelper.getRatedMovies(1);
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-
-                        account -> {
-                            user.setAccountId(account.getId());
-                            listener.onLoginSuccess(user);
+                .subscribe(listResponse -> {
+                            UserManager.getActiveUser().setRatedMovies(getMovieIds(listResponse.getMovies()));
+                            UserManager.getActiveUser().setUsername(username);
+                            listener.onLoginSuccess(username, password);
                         },
-
                         throwable -> listener.onLoginError(),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
+    }
+
+    private List<Integer> getMovieIds(List<Movie> movies) {
+        List<Integer> ids = new ArrayList<>();
+
+        for (Movie movie : movies) {
+            ids.add(movie.getId());
+        }
+        return ids;
     }
 }

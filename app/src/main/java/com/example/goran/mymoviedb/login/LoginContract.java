@@ -1,7 +1,5 @@
 package com.example.goran.mymoviedb.login;
 
-import com.example.goran.mymoviedb.data.model.auth.User;
-
 /**
  * Created by Goran on 10.1.2018..
  */
@@ -10,9 +8,13 @@ public interface LoginContract {
 
     interface View {
 
+        void showProgressDialog();
+
+        void hideProgressDialog();
+
         boolean stayLoggedIn();
 
-        void navigateToMain(User user);
+        void navigateToMain();
 
         void displayUsernameError();
 

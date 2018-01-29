@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
-import android.support.v4.app.Fragment;
+import android.arch.lifecycle.LifecycleOwner;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.details.Credits;
@@ -24,8 +24,8 @@ public class CreditsInteractorImpl extends BaseInteractorImpl implements Credits
     private ApiHelper apiHelper;
 
     @Inject
-    public CreditsInteractorImpl(ApiHelper apiHelper, Fragment fragment) {
-        super(fragment);
+    public CreditsInteractorImpl(ApiHelper apiHelper, LifecycleOwner lifecycleOwner) {
+        super(lifecycleOwner);
         this.apiHelper = apiHelper;
     }
 

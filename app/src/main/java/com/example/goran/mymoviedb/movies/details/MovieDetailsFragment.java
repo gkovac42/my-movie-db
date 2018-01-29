@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.goran.mymoviedb.BaseApplication;
@@ -26,8 +24,8 @@ import com.example.goran.mymoviedb.di.MovieDetailsFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.util.MovieUtils;
+import com.example.goran.mymoviedb.movies.util.ProgressDialog;
 import com.example.goran.mymoviedb.movies.util.RatingDialog;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -45,16 +43,15 @@ import butterknife.OnClick;
 
 public class MovieDetailsFragment extends Fragment implements MovieDetailsContract.View {
 
-    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w600";
+    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
 
     @Inject
     MovieDetailsContract.Presenter presenter;
 
     private SimpleMovieAdapter adapter;
     private RatingDialog ratingDialog;
+    private ProgressDialog progressDialog;
 
-    @BindView(R.id.content_movie) NestedScrollView contentView;
-    @BindView(R.id.progress_movie) ProgressBar progressBar;
     @BindView(R.id.img_movie_poster) SimpleDraweeView imgPoster;
     @BindView(R.id.txt_movie_release) TextView txtReleaseDate;
     @BindView(R.id.txt_movie_desc) TextView txtDesc;
@@ -93,7 +90,6 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Fresco.initialize(getActivity());
 
         (((BaseApplication) getActivity().getApplication()).getAppComponent())
                 .movieDetailsFragmentSubcomponent(new MovieDetailsFragmentModule(this))
@@ -107,7 +103,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        contentView.setVisibility(View.GONE);
+        progressDialog = new ProgressDialog();
 
         adapter = new SimpleMovieAdapter();
         adapter.setListener(new MovieAdapterListener() {
@@ -119,6 +115,16 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
             @Override
             public void onBottomReached() {
 
+            }
+        });
+
+        ratingDialog = new RatingDialog();
+        ratingDialog.setOnClickListener(dialogView -> {
+
+            if (dialogView.getId() == R.id.btn_dialog_rate) {
+                presenter.onClickDlgRate(ratingDialog.getRating());
+            } else {
+                presenter.onClickDlgClear();
             }
         });
 
@@ -134,9 +140,13 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     }
 
     @Override
-    public void hideProgressBar() {
-        progressBar.setVisibility(View.GONE);
-        contentView.setVisibility(View.VISIBLE);
+    public void showProgressDialog() {
+        progressDialog.show(getActivity().getSupportFragmentManager(), "");
+    }
+
+    @Override
+    public void hideProgressDialog() {
+        progressDialog.dismiss();
     }
 
     @Override
@@ -182,18 +192,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
 
     @Override
     public void showRatingDialog() {
-        ratingDialog = new RatingDialog();
-
-        ratingDialog.setOnClickListener(view -> {
-
-            if (view.getId() == R.id.btn_dialog_rate) {
-                presenter.onClickDlgRate(ratingDialog.getRating());
-            } else {
-                presenter.onClickDlgClear();
-            }
-        });
-
-        ratingDialog.show(getActivity().getFragmentManager(), "");
+        ratingDialog.show(getActivity().getSupportFragmentManager(), "");
     }
 
     @Override

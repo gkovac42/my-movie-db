@@ -118,6 +118,11 @@ public class ApiHelper {
                 API_KEY, UserManager.getActiveUser().getSessionId(), page);
     }
 
+    public Observable<ListResponse> getRatedMovies(int page) {
+        return apiService.getRatedMovies(UserManager.getActiveUser().getAccountId(), API_KEY,
+                UserManager.getActiveUser().getSessionId(), page);
+    }
+
     public Observable<FavoriteResponse> postFavoriteMovie(FavoriteRequest favoriteRequest) {
         return apiService.postFavoriteMovie(UserManager.getActiveUser().getAccountId(),
                 API_KEY, UserManager.getActiveUser().getSessionId(), favoriteRequest);

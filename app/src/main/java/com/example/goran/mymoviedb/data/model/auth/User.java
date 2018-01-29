@@ -1,28 +1,28 @@
 package com.example.goran.mymoviedb.data.model.auth;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.util.List;
 
 /**
  * Created by Goran on 11.1.2018..
  */
 
-public class User implements Parcelable {
+public class User {
 
     private String username;
     private String password;
     private String sessionId;
     private int accountId;
 
+    private List<Integer> favoriteMovies;
+    private List<Integer> ratedMovies;
+
     public User() {
 
     }
 
-    public User(String username, String password, String sessionId, int accountId) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.sessionId = sessionId;
-        this.accountId = accountId;
     }
 
     public String getUsername() {
@@ -58,36 +58,43 @@ public class User implements Parcelable {
         this.accountId = accountId;
     }
 
-    protected User(Parcel in) {
-        username = in.readString();
-        password = in.readString();
-        sessionId = in.readString();
-        accountId = in.readInt();
+    public List<Integer> getFavoriteMovies() {
+        return favoriteMovies;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setFavoriteMovies(List<Integer> favoriteMovies) {
+        this.favoriteMovies = favoriteMovies;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(username);
-        dest.writeString(password);
-        dest.writeString(sessionId);
-        dest.writeInt(accountId);
+    public List<Integer> getRatedMovies() {
+        return ratedMovies;
     }
 
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
+    public void setRatedMovies(List<Integer> ratedMovies) {
+        this.ratedMovies = ratedMovies;
+    }
+
+    public void addToFavorite(Integer movieId) {
+        favoriteMovies.add(movieId);
+    }
+
+    public void addToRated(Integer movieId) {
+        ratedMovies.add(movieId);
+    }
+
+    public void removeFromFavorite(Integer movieId) {
+        for (Integer i : favoriteMovies) {
+            if (i == movieId) {
+                favoriteMovies.remove(i);
+            }
         }
+    }
 
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
+    public void removeFromRated(Integer movieId) {
+        for (Integer i : ratedMovies) {
+            if (i == movieId) {
+                ratedMovies.remove(i);
+            }
         }
-    };
+    }
 }

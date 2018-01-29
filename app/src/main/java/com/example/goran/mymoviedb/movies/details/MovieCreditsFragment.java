@@ -19,7 +19,6 @@ import com.example.goran.mymoviedb.data.model.details.Cast;
 import com.example.goran.mymoviedb.di.MovieCreditsFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.CastAdapter;
 import com.example.goran.mymoviedb.person.PersonActivity;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -51,7 +50,6 @@ public class MovieCreditsFragment extends Fragment implements MovieCreditsContra
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Fresco.initialize(getActivity());
 
         (((BaseApplication) getActivity().getApplication()).getAppComponent())
                 .movieCreditsFragmentSubcomponent(new MovieCreditsFragmentModule(this))

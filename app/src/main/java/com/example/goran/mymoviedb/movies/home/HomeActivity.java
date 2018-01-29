@@ -22,7 +22,6 @@ import com.example.goran.mymoviedb.movies.list.MovieListFragment;
 import com.example.goran.mymoviedb.movies.search.MovieSearchFragment;
 import com.example.goran.mymoviedb.movies.util.Category;
 import com.example.goran.mymoviedb.movies.util.LayoutStyle;
-import com.example.goran.mymoviedb.notifications.NotificationService;
 
 import javax.inject.Inject;
 
@@ -64,7 +63,7 @@ public class HomeActivity extends AppCompatActivity
                 .homeActivitySubcomponent(new HomeActivityModule(this))
                 .inject(this);
 
-        NotificationService.scheduleJob(this);
+        //NotificationService.scheduleJob(this);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

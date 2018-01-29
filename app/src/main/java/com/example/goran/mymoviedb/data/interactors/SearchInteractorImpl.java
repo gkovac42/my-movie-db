@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
-import android.support.v4.app.Fragment;
+import android.arch.lifecycle.LifecycleOwner;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
@@ -28,8 +28,8 @@ public class SearchInteractorImpl extends BaseInteractorImpl implements SearchIn
     private ApiHelper apiHelper;
 
     @Inject
-    public SearchInteractorImpl(ApiHelper apiHelper, Fragment fragment) {
-        super(fragment);
+    public SearchInteractorImpl(ApiHelper apiHelper, LifecycleOwner lifecycleOwner) {
+        super(lifecycleOwner);
         this.apiHelper = apiHelper;
     }
 

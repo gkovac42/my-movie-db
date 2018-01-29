@@ -27,7 +27,6 @@ import com.example.goran.mymoviedb.di.MovieSearchFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsActivity;
-import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.List;
 
@@ -76,7 +75,6 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        Fresco.initialize(getActivity());
 
         (((BaseApplication) getActivity().getApplication()).getAppComponent())
                 .movieSearchFragmentSubcomponent(new MovieSearchFragmentModule(this))

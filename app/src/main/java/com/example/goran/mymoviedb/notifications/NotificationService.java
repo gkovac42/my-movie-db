@@ -3,7 +3,6 @@ package com.example.goran.mymoviedb.notifications;
 
 import android.content.Context;
 
-import com.example.goran.mymoviedb.data.local.DatabaseHelper;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
@@ -12,12 +11,6 @@ import com.firebase.jobdispatcher.JobService;
 import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
-
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -31,9 +24,7 @@ public class NotificationService extends JobService {
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
 
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
-
-        Observable<Integer> favoriteMovies = Observable.fromIterable(dbHelper.getFavorites("gkovac42"));
+        /*Observable<Integer> favoriteMovies = Observable.fromIterable(dbHelper.getFavorites("gkovac42"));
         favoriteMovies
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -58,7 +49,7 @@ public class NotificationService extends JobService {
                                    jobFinished(jobParameters, false);
                                }
                            }
-                );
+                );*/
         return true;
     }
 

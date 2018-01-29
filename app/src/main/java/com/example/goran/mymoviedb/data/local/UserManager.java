@@ -27,6 +27,7 @@ public class UserManager {
     public UserManager(Store store, Crypto crypto, SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
         this.crypto = crypto;
+        activeUser = new User();
 
         if (!store.hasKey("password_key")) {
             key = store.generateSymmetricKey("password_key", null);
@@ -60,18 +61,14 @@ public class UserManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("currentUsername", user.getUsername());
         editor.putString("currentPassword", user.getPassword());
-        editor.putString("currentSessionId", user.getSessionId());
-        editor.putInt("currentAccountId", user.getAccountId());
         editor.apply();
     }
 
     public User loadUser() {
         String username = sharedPreferences.getString("currentUsername", null);
         String password = sharedPreferences.getString("currentPassword", null);
-        String sessionId = sharedPreferences.getString("currentSessionId", null);
-        int accountId = sharedPreferences.getInt("currentAccountId", 0);
 
-        return new User(username, password, sessionId, accountId);
+        return new User(username, password);
     }
 
     public void deleteUser() {
@@ -79,7 +76,6 @@ public class UserManager {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove("currentUsername");
             editor.remove("currentPassword");
-            editor.remove("currentSession");
             editor.apply();
         } catch (Exception ignored) {
         }

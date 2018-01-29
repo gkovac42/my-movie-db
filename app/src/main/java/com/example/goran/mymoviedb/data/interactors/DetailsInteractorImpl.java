@@ -1,9 +1,8 @@
 package com.example.goran.mymoviedb.data.interactors;
 
-import android.support.v4.app.Fragment;
+import android.arch.lifecycle.LifecycleOwner;
 import android.util.Log;
 
-import com.example.goran.mymoviedb.data.local.DatabaseHelper;
 import com.example.goran.mymoviedb.data.local.UserManager;
 import com.example.goran.mymoviedb.data.model.FavoriteRequest;
 import com.example.goran.mymoviedb.data.model.RateRequest;
@@ -11,8 +10,6 @@ import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.list.ListResponse;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
 import com.example.goran.mymoviedb.di.scope.PerFragment;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -28,13 +25,11 @@ import io.reactivex.schedulers.Schedulers;
 public class DetailsInteractorImpl extends BaseInteractorImpl implements DetailsInteractor {
 
     private ApiHelper apiHelper;
-    private DatabaseHelper dbHelper;
 
     @Inject
-    public DetailsInteractorImpl(ApiHelper apiHelper, DatabaseHelper databaseHelper, Fragment fragment) {
-        super(fragment);
+    public DetailsInteractorImpl(ApiHelper apiHelper, LifecycleOwner lifecycleOwner) {
+        super(lifecycleOwner);
         this.apiHelper = apiHelper;
-        this.dbHelper = databaseHelper;
     }
 
     public interface DetailsListener {
@@ -90,12 +85,11 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribe(favoriteResponse -> {
 
                             if (favorite) {
-                                dbHelper.insertIntoFavorite(UserManager.getActiveUser().getUsername(), movieId);
+                                UserManager.getActiveUser().addToFavorite(movieId);
                             } else {
-                                dbHelper.deleteFavorite(UserManager.getActiveUser().getUsername(), movieId);
+                                UserManager.getActiveUser().removeFromFavorite(movieId);
                             }
-                        }
-                        ,
+                        },
                         throwable -> Log.i("LOG", "Error"),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
@@ -111,7 +105,7 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(rateResponse ->
-                                dbHelper.insertIntoRated(UserManager.getActiveUser().getUsername(), movieId),
+                                UserManager.getActiveUser().addToRated(movieId),
                         throwable -> Log.i("LOG", "Error"),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
@@ -123,19 +117,9 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(rateResponse ->
-                                dbHelper.deleteRated(UserManager.getActiveUser().getUsername(), movieId),
+                                UserManager.getActiveUser().removeFromRated(movieId),
                         throwable -> Log.i("LOG", "Error"),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
-    }
-
-    @Override
-    public ArrayList<Integer> getFavorites() {
-        return dbHelper.getFavorites(UserManager.getActiveUser().getUsername());
-    }
-
-    @Override
-    public ArrayList<Integer> getRated() {
-        return dbHelper.getRated(UserManager.getActiveUser().getUsername());
     }
 }

@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
-import android.support.v4.app.Fragment;
+import android.arch.lifecycle.LifecycleOwner;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.list.ListResponse;
@@ -27,8 +27,8 @@ public class ListInteractorImpl extends BaseInteractorImpl implements ListIntera
     private ApiHelper apiHelper;
 
     @Inject
-    public ListInteractorImpl(ApiHelper apiHelper, Fragment fragment) {
-        super(fragment);
+    public ListInteractorImpl(ApiHelper apiHelper, LifecycleOwner lifecycleOwner) {
+        super(lifecycleOwner);
         this.apiHelper = apiHelper;
     }
 
@@ -57,6 +57,10 @@ public class ListInteractorImpl extends BaseInteractorImpl implements ListIntera
 
     private Observable<ListResponse> getFavorite(int page) {
         return apiHelper.getFavoriteMovies(page);
+    }
+
+    private Observable<ListResponse> getRated(int page) {
+        return apiHelper.getRatedMovies(page);
     }
 
     @Override

@@ -11,9 +11,9 @@ import android.widget.Toast;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
-import com.example.goran.mymoviedb.data.model.auth.User;
 import com.example.goran.mymoviedb.di.LoginActivityModule;
 import com.example.goran.mymoviedb.movies.home.HomeActivity;
+import com.example.goran.mymoviedb.movies.util.ProgressDialog;
 
 import javax.inject.Inject;
 
@@ -25,6 +25,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Inject
     LoginContract.Presenter presenter;
+
+    private ProgressDialog progressDialog;
 
     @BindView(R.id.txt_username) EditText txtUsername;
     @BindView(R.id.txt_password) EditText txtPassword;
@@ -45,16 +47,27 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         ButterKnife.bind(this);
 
         (((BaseApplication) getApplication()).getAppComponent())
                 .loginActivitySubcomponent(new LoginActivityModule(this))
                 .inject(this);
 
+        progressDialog = new ProgressDialog();
+
         txtResetPassword.setMovementMethod(LinkMovementMethod.getInstance());
 
         presenter.checkForCurrentUser();
+    }
+
+    @Override
+    public void showProgressDialog() {
+        progressDialog.show(getSupportFragmentManager(), "");
+    }
+
+    @Override
+    public void hideProgressDialog() {
+        progressDialog.dismiss();
     }
 
     @Override
@@ -63,9 +76,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     }
 
     @Override
-    public void navigateToMain(User user) {
+    public void navigateToMain() {
         Intent intent = new Intent(this, HomeActivity.class);
-        intent.putExtra("user", user);
         startActivity(intent);
     }
 

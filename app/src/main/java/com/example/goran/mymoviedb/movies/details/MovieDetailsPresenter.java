@@ -23,8 +23,6 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
     private DetailsInteractor detailsInteractor;
 
     private int movieId;
-    private String movieTitle;
-
 
     @Inject
     public MovieDetailsPresenter(MovieDetailsContract.View detailsView, DetailsInteractor detailsInteractor) {
@@ -39,11 +37,11 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
         if (UserManager.getActiveUser() != null) {
             detailsView.enableUserFeatures();
 
-            if (checkIfExists(detailsInteractor.getFavorites())) {
+            if (checkIfExists(UserManager.getActiveUser().getFavoriteMovies())) {
                 detailsView.checkFavorite();
             }
 
-            if (checkIfExists(detailsInteractor.getRated())) {
+            if (checkIfExists(UserManager.getActiveUser().getRatedMovies())) {
                 detailsView.checkRated();
             }
         }
@@ -52,11 +50,14 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
     @Override
 
     public void getMovieDetails() {
+
+        detailsView.showProgressDialog();
+
         detailsInteractor.getMovieDetails(movieId, new DetailsInteractorImpl.DetailsListener() {
             @Override
             public void onDataReady(MovieDetails movieDetails) {
                 detailsView.displayMovieDetails(movieDetails);
-                detailsView.hideProgressBar();
+                detailsView.hideProgressDialog();
             }
 
             @Override
@@ -123,9 +124,9 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
         }
     }
 
-    private boolean checkIfExists(List<Integer> idList) {
-        for (int id : idList) {
-            if (id == movieId) {
+    private boolean checkIfExists(List<Integer> movieIdList) {
+        for (Integer i : movieIdList) {
+            if (i == movieId) {
                 return true;
             }
         }

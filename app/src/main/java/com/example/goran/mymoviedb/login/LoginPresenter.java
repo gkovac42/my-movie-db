@@ -28,12 +28,12 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
     @Override
     public void checkForCurrentUser() {
         // try to load saved user data
-        User currentUser = loginInteractor.loadAndDecryptUser();
+        User savedUser = loginInteractor.loadAndDecryptUser();
 
-        if (currentUser.getUsername() != null) {
-            // if not null use saved username and sessionId
-            UserManager.setActiveUser(currentUser);
-            loginView.navigateToMain(currentUser);
+        if (savedUser.getUsername() != null) {
+            // if not null try to log in
+            loginView.showProgressDialog();
+            loginInteractor.initLogin(savedUser.getUsername(), savedUser.getPassword(), this);
         }
     }
 
@@ -48,36 +48,35 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
 
             // if input is valid start login
         } else {
-
             loginInteractor.initLogin(username, password, this);
+            loginView.showProgressDialog();
         }
     }
 
     @Override
     public void onLoginError() {
+        loginView.hideProgressDialog();
         loginView.displayLoginError();
     }
 
     @Override
-    public void onLoginSuccess(User user) {
+    public void onLoginSuccess(String username, String password) {
 
-        UserManager.setActiveUser(user);
-
-        // if checked save user data
         if (loginView.stayLoggedIn()) {
+            User user = new User(username, password);
             loginInteractor.encryptAndSaveUser(user);
 
         } else {
             loginInteractor.deleteCurrentUser();
         }
 
-        loginView.navigateToMain(user);
+        loginView.hideProgressDialog();
+        loginView.navigateToMain();
     }
 
     @Override
     public void onClickGuest() {
         UserManager.setActiveUser(null);
-        loginView.navigateToMain(null);
+        loginView.navigateToMain();
     }
-
 }

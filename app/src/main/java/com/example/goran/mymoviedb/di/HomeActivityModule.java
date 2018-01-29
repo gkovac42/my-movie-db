@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.di;
 
-import android.support.v7.app.AppCompatActivity;
+import android.arch.lifecycle.LifecycleOwner;
 
 import com.example.goran.mymoviedb.data.interactors.LoginInteractor;
 import com.example.goran.mymoviedb.data.interactors.LoginInteractorImpl;
@@ -27,7 +27,7 @@ public class HomeActivityModule {
 
     @Provides
     @PerActivity
-    AppCompatActivity provideAppcompatActivity() {
+    LifecycleOwner provideLifecycleOwner() {
         return homeActivity;
     }
 

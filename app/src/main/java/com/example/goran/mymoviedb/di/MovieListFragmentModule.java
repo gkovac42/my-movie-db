@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.di;
 
-import android.support.v4.app.Fragment;
+import android.arch.lifecycle.LifecycleOwner;
 
 import com.example.goran.mymoviedb.data.interactors.ListInteractor;
 import com.example.goran.mymoviedb.data.interactors.ListInteractorImpl;
@@ -27,7 +27,7 @@ public class MovieListFragmentModule {
 
     @Provides
     @PerFragment
-    Fragment provideFragment() {
+    LifecycleOwner provideLifecycleOwner() {
         return movieListFragment;
     }
 

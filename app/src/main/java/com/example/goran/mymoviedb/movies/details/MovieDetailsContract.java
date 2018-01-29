@@ -13,7 +13,9 @@ public interface MovieDetailsContract {
 
     interface View {
 
-        void hideProgressBar();
+        void showProgressDialog();
+
+        void hideProgressDialog();
 
         void enableUserFeatures();
 
