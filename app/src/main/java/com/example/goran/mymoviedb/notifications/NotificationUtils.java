@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.example.goran.mymoviedb.R;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
@@ -55,6 +56,8 @@ public class NotificationUtils {
         Long currentDate = Calendar.getInstance().getTimeInMillis();
 
         int triggerDelay = (int) ((releaseDate - currentDate) / 1000);
+
+        Log.i("NOTIFICATION", title + " " + triggerDelay);
 
         return dispatcher.newJobBuilder()
                 .setExtras(extras)
