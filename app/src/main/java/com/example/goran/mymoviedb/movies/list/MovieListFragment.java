@@ -1,6 +1,7 @@
 package com.example.goran.mymoviedb.movies.list;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -68,7 +69,12 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
 
         presenter.initView(getLayoutStyle());
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        } else {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        }
+
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter((RecyclerView.Adapter) adapter);
 

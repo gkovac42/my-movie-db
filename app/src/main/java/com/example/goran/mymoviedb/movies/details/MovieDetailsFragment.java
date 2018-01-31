@@ -26,6 +26,7 @@ import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.util.MovieUtils;
 import com.example.goran.mymoviedb.movies.util.ProgressDialog;
 import com.example.goran.mymoviedb.movies.util.RatingDialog;
+import com.example.goran.mymoviedb.notifications.NotificationUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -49,8 +50,8 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     MovieDetailsContract.Presenter presenter;
 
     private SimpleMovieAdapter adapter;
-    private RatingDialog ratingDialog;
     private ProgressDialog progressDialog;
+    private RatingDialog ratingDialog;
 
     @BindView(R.id.img_movie_poster) SimpleDraweeView imgPoster;
     @BindView(R.id.txt_movie_release) TextView txtReleaseDate;
@@ -105,6 +106,17 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
 
         progressDialog = new ProgressDialog();
 
+        ratingDialog = new RatingDialog();
+        ratingDialog.setOnClickListener(dialogView -> {
+
+            if (dialogView.getId() == R.id.btn_dialog_rate) {
+                presenter.onClickDlgRate(ratingDialog.getRating());
+
+            } else {
+                presenter.onClickDlgClear();
+            }
+        });
+
         adapter = new SimpleMovieAdapter();
         adapter.setListener(new MovieAdapterListener() {
             @Override
@@ -118,27 +130,16 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
             }
         });
 
-        ratingDialog = new RatingDialog();
-        ratingDialog.setOnClickListener(dialogView -> {
-
-            if (dialogView.getId() == R.id.btn_dialog_rate) {
-                presenter.onClickDlgRate(ratingDialog.getRating());
-            } else {
-                presenter.onClickDlgClear();
-            }
-        });
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(adapter);
 
-        presenter.initPresenter(
-                getActivity().getIntent().getIntExtra("movie_id", 0));
-
+        presenter.initPresenter(getActivity().getIntent().getIntExtra("movie_id", 0));
         presenter.getMovieDetails();
         presenter.getSimilarMovies();
     }
 
+    // progress dialog
     @Override
     public void showProgressDialog() {
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
@@ -149,12 +150,12 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
         progressDialog.dismiss();
     }
 
+    // user interaction
     @Override
     public void enableUserFeatures() {
         btnFavorite.setVisibility(View.VISIBLE);
         btnRate.setVisibility(View.VISIBLE);
     }
-
 
     @Override
     public boolean isFavorite() {
@@ -200,6 +201,7 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
         ratingDialog.dismiss();
     }
 
+    // movie details
     @Override
     public void displayMovieDetails(MovieDetails movieDetails) {
 
@@ -247,8 +249,19 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
         startActivity(intent);
     }
 
+    // notifications
+    @Override
+    public void scheduleNotification(String title, Long releaseDate) {
+        NotificationUtils.scheduleJob(title, releaseDate, getActivity());
+    }
+
+    @Override
+    public void cancelNotification(String title) {
+        NotificationUtils.cancelJob(getActivity(), title);
+    }
+
     @Override
     public void showNotification(String message) {
-
+        NotificationUtils.showNotification(getActivity(), message);
     }
 }

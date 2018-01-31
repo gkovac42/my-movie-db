@@ -1,12 +1,16 @@
 package com.example.goran.mymoviedb.movies.details;
 
+import android.text.format.DateUtils;
+
 import com.example.goran.mymoviedb.data.interactors.DetailsInteractor;
 import com.example.goran.mymoviedb.data.interactors.DetailsInteractorImpl;
 import com.example.goran.mymoviedb.data.interactors.ListInteractorImpl;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.scope.PerFragment;
+import com.example.goran.mymoviedb.movies.util.MovieUtils;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,6 +26,8 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
     private DetailsInteractor detailsInteractor;
 
     private int movieId;
+    private String movieTitle;
+    private Long movieReleaseDate;
 
     @Inject
     public MovieDetailsPresenter(MovieDetailsContract.View detailsView, DetailsInteractor detailsInteractor) {
@@ -51,7 +57,6 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
     }
 
     @Override
-
     public void getMovieDetails() {
 
         detailsView.showProgressDialog();
@@ -59,6 +64,10 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
         detailsInteractor.getMovieDetails(movieId, new DetailsInteractorImpl.DetailsListener() {
             @Override
             public void onDataReady(MovieDetails movieDetails) {
+
+                movieTitle = movieDetails.getTitle();
+                movieReleaseDate = MovieUtils.dateStringToLong(movieDetails.getReleaseDate());
+
                 detailsView.displayMovieDetails(movieDetails);
                 detailsView.hideProgressDialog();
             }
@@ -121,9 +130,17 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
             detailsInteractor.setFavorite(true, movieId);
             detailsView.checkFavorite();
 
+            if (DateUtils.isToday(movieReleaseDate)) {
+                detailsView.showNotification(movieTitle);
+
+            } else if (movieReleaseDate > Calendar.getInstance().getTimeInMillis()) {
+                detailsView.scheduleNotification(movieTitle, movieReleaseDate);
+            }
+
         } else {
             detailsInteractor.setFavorite(false, movieId);
             detailsView.uncheckFavorite();
+            detailsView.cancelNotification(movieTitle);
         }
     }
 

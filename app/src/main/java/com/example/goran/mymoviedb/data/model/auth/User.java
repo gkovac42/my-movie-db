@@ -1,5 +1,6 @@
 package com.example.goran.mymoviedb.data.model.auth;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,8 +14,8 @@ public class User {
     private String sessionId;
     private int accountId;
 
-    private List<Integer> favoriteMovies;
-    private List<Integer> ratedMovies;
+    private ArrayList<Integer> favoriteMovies;
+    private ArrayList<Integer> ratedMovies;
 
     public User() {
 
@@ -58,11 +59,11 @@ public class User {
         this.accountId = accountId;
     }
 
-    public List<Integer> getFavoriteMovies() {
+    public ArrayList<Integer> getFavoriteMovies() {
         return favoriteMovies;
     }
 
-    public void setFavoriteMovies(List<Integer> favoriteMovies) {
+    public void setFavoriteMovies(ArrayList<Integer> favoriteMovies) {
         this.favoriteMovies = favoriteMovies;
     }
 
@@ -70,7 +71,7 @@ public class User {
         return ratedMovies;
     }
 
-    public void setRatedMovies(List<Integer> ratedMovies) {
+    public void setRatedMovies(ArrayList<Integer> ratedMovies) {
         this.ratedMovies = ratedMovies;
     }
 

@@ -46,18 +46,12 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
 
     @Override
     public void saveUser(User user) {
-        String encryptedPassword = userManager.encrypt(user.getPassword());
-        user.setPassword(encryptedPassword);
         userManager.saveUser(user);
     }
 
     @Override
     public User loadUser() {
-        User user = userManager.loadUser();
-        String decryptedPassword = userManager.decrypt(user.getPassword());
-        user.setPassword(decryptedPassword);
-
-        return user;
+        return userManager.loadUser();
     }
 
     @Override
@@ -113,8 +107,8 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
                         disposable -> getCompositeDisposable().add(disposable));
     }
 
-    private List<Integer> getMovieIds(List<Movie> movies) {
-        List<Integer> ids = new ArrayList<>();
+    private ArrayList<Integer> getMovieIds(List<Movie> movies) {
+        ArrayList<Integer> ids = new ArrayList<>();
 
         for (Movie movie : movies) {
             ids.add(movie.getId());

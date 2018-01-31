@@ -9,7 +9,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -32,11 +31,11 @@ public class MovieUtils {
     }
 
     // converts String to Date
-    public static Date StringToDate(String date) {
+    public static Long dateStringToLong(String date) {
         DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
 
         try {
-            return format.parse(date);
+            return format.parse(date).getTime();
 
         } catch (ParseException e) {
             e.printStackTrace();

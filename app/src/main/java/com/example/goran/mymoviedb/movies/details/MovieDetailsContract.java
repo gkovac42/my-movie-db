@@ -41,6 +41,10 @@ public interface MovieDetailsContract {
 
         void navigateToSimilar(int id);
 
+        void scheduleNotification(String title, Long releaseDate);
+
+        void cancelNotification(String title);
+
         void showNotification(String message);
 
     }

@@ -57,15 +57,22 @@ public class UserManager {
     }
 
     public void saveUser(User user) {
+
+        String password = encrypt(user.getPassword());
+
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("currentUsername", user.getUsername());
-        editor.putString("currentPassword", user.getPassword());
+
+        editor.putString("currentPassword", password);
         editor.apply();
     }
 
     public User loadUser() {
+
         String username = sharedPreferences.getString("currentUsername", null);
         String password = sharedPreferences.getString("currentPassword", null);
+
+        password = decrypt(password);
 
         return new User(username, password);
     }

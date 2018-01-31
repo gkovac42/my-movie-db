@@ -30,4 +30,5 @@ public interface AppComponent {
     MovieSearchFragmentSubcomponent movieSearchFragmentSubcomponent(MovieSearchFragmentModule movieSearchFragmentModule);
 
     PersonActivitySubcomponent personActivitySubcomponent(PersonActivityModule personActivityModule);
+
 }
