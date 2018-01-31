@@ -12,7 +12,6 @@ import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
 
 import java.util.Calendar;
@@ -48,12 +47,12 @@ public class NotificationUtils {
         notificationManager.notify(1, notificationBuilder.build());
     }
 
-    private static Job createJob(FirebaseJobDispatcher dispatcher, String title, Long releaseDate) {
+    private static Job createJob(FirebaseJobDispatcher dispatcher, String title, long releaseDate) {
 
         Bundle extras = new Bundle();
         extras.putString("movie_title", title);
 
-        Long currentDate = Calendar.getInstance().getTimeInMillis();
+        long currentDate = Calendar.getInstance().getTimeInMillis();
 
         int triggerDelay = (int) ((releaseDate - currentDate) / 1000);
 
@@ -67,7 +66,6 @@ public class NotificationUtils {
                 .setReplaceCurrent(false)
                 .setRecurring(false)
                 .setTrigger(Trigger.executionWindow(triggerDelay, triggerDelay + 600))
-                .setRetryStrategy(RetryStrategy.DEFAULT_LINEAR)
                 .build();
     }
 

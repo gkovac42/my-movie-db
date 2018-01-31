@@ -32,7 +32,7 @@ public class MovieUtils {
 
     // converts String to Date
     public static Long dateStringToLong(String date) {
-        DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
         try {
             return format.parse(date).getTime();
