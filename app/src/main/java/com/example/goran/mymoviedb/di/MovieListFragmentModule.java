@@ -48,4 +48,5 @@ public class MovieListFragmentModule {
     ListInteractor provideListInteractor(ListInteractorImpl interactor) {
         return interactor;
     }
+
 }

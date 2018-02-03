@@ -1,10 +1,10 @@
 package com.example.goran.mymoviedb.movies.adapters;
 
 import android.net.Uri;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.goran.mymoviedb.R;
@@ -47,7 +47,7 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        RelativeLayout listItem = (RelativeLayout) LayoutInflater.from(
+        ConstraintLayout listItem = (ConstraintLayout) LayoutInflater.from(
                 parent.getContext()).inflate(R.layout.list_item_simple, parent, false);
 
         return new ViewHolder(listItem);
@@ -57,7 +57,7 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         try {
 
-            RelativeLayout listItem = holder.listItem;
+            ConstraintLayout listItem = holder.listItem;
 
             Movie movie = movies.get(position);
 
@@ -84,12 +84,12 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private RelativeLayout listItem;
+        private ConstraintLayout listItem;
 
-        ViewHolder(RelativeLayout relativeLayout) {
-            super(relativeLayout);
+        ViewHolder(ConstraintLayout constraintLayout) {
+            super(constraintLayout);
 
-            listItem = relativeLayout;
+            listItem = constraintLayout;
 
             listItem.setOnClickListener(v -> {
 

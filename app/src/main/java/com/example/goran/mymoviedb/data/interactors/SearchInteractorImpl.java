@@ -1,6 +1,8 @@
 package com.example.goran.mymoviedb.data.interactors;
 
+import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
@@ -26,6 +28,7 @@ import io.reactivex.schedulers.Schedulers;
 public class SearchInteractorImpl extends BaseInteractorImpl implements SearchInteractor {
 
     private ApiHelper apiHelper;
+    private SearchListener listener;
 
     @Inject
     public SearchInteractorImpl(ApiHelper apiHelper, LifecycleOwner lifecycleOwner) {
@@ -37,19 +40,18 @@ public class SearchInteractorImpl extends BaseInteractorImpl implements SearchIn
 
         void onResultsReady(List<Movie> movieList);
 
-        void onError();
-    }
-
-    public interface KeywordListener {
-
         void onKeywordsReady(List<Keyword> keywordList);
 
         void onError();
-
     }
 
     @Override
-    public void searchByTitle(String query, int page, SearchListener listener) {
+    public void setListener(SearchListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void searchByTitle(String query, int page) {
         Observable<ListResponse> observable = apiHelper.searchByTitle(query, page);
         observable.map(listResponse -> listResponse.getMovies())
                 .subscribeOn(Schedulers.io())
@@ -61,7 +63,7 @@ public class SearchInteractorImpl extends BaseInteractorImpl implements SearchIn
     }
 
     @Override
-    public void getKeywords(String query, KeywordListener listener) {
+    public void getKeywords(String query) {
         Observable<KeywordResponse> observable = apiHelper.getKeywords(query);
         observable.map(keywordResponse -> keywordResponse.getKeywords())
                 .subscribeOn(Schedulers.io())
@@ -73,7 +75,7 @@ public class SearchInteractorImpl extends BaseInteractorImpl implements SearchIn
     }
 
     @Override
-    public void searchByKeywordId(int keywordId, int page, SearchListener listener) {
+    public void searchByKeywordId(int keywordId, int page) {
         Observable<ListResponse> observable = apiHelper.searchByKeywordId(keywordId, page);
         observable.map(listResponse -> listResponse.getMovies())
                 .subscribeOn(Schedulers.io())
@@ -84,8 +86,8 @@ public class SearchInteractorImpl extends BaseInteractorImpl implements SearchIn
                         disposable -> getCompositeDisposable().add(disposable));
     }
 
-    @Override
-    public void dispose() {
-        getCompositeDisposable().dispose();
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    private void removeListener() {
+        this.listener = null;
     }
 }

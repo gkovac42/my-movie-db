@@ -16,6 +16,7 @@ import com.example.goran.mymoviedb.di.PersonActivityModule;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsActivity;
+import com.example.goran.mymoviedb.movies.util.ProgressDialog;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -33,6 +34,7 @@ public class PersonActivity extends AppCompatActivity implements PersonContract.
     @Inject
     PersonContract.Presenter presenter;
 
+    private ProgressDialog progressDialog;
     private SimpleMovieAdapter adapter;
 
     @BindView(R.id.img_person_profile) SimpleDraweeView imgProfile;
@@ -71,6 +73,17 @@ public class PersonActivity extends AppCompatActivity implements PersonContract.
 
         presenter.loadPersonDetails();
 
+    }
+
+    @Override
+    public void showProgressDialog() {
+        progressDialog = new ProgressDialog();
+        progressDialog.show(getSupportFragmentManager(), "");
+    }
+
+    @Override
+    public void hideProgressDialog() {
+        progressDialog.dismiss();
     }
 
     @Override

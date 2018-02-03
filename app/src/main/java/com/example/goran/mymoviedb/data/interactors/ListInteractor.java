@@ -6,6 +6,8 @@ package com.example.goran.mymoviedb.data.interactors;
 
 public interface ListInteractor {
 
-    void getMovieList(int category, int page, ListInteractorImpl.ListListener listener);
+    void setListener(ListInteractorImpl.ListListener listener);
+
+    void getMovieList(int category, int page);
 
 }

@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="vertical">
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:padding="@dimen/layout_margin">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/layout_margin"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:layout_marginRight="@dimen/margin_normal"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
@@ -20,8 +24,7 @@
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_normal">
+            android:layout_height="wrap_content">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_credits_cast"
@@ -29,6 +32,13 @@
                 android:layout_height="wrap_content" />
 
         </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <TextView
             style="@style/TextLarge"
@@ -39,8 +49,7 @@
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_normal">
+            android:layout_height="wrap_content">
 
 
             <android.support.v7.widget.RecyclerView
@@ -49,6 +58,5 @@
                 android:layout_height="wrap_content" />
 
         </android.support.v7.widget.CardView>
-
     </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</LinearLayout>

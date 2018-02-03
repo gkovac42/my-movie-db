@@ -1,6 +1,8 @@
 package com.example.goran.mymoviedb.data.interactors;
 
+import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.list.ListResponse;
@@ -25,6 +27,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ListInteractorImpl extends BaseInteractorImpl implements ListInteractor {
 
     private ApiHelper apiHelper;
+    private ListListener listener;
 
     @Inject
     public ListInteractorImpl(ApiHelper apiHelper, LifecycleOwner lifecycleOwner) {
@@ -64,7 +67,12 @@ public class ListInteractorImpl extends BaseInteractorImpl implements ListIntera
     }
 
     @Override
-    public void getMovieList(int category, int page, ListListener listener) {
+    public void setListener(ListListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void getMovieList(int category, int page) {
 
         Observable<ListResponse> listObservable;
 
@@ -96,5 +104,10 @@ public class ListInteractorImpl extends BaseInteractorImpl implements ListIntera
                         throwable -> listener.onError(),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    private void removeListener() {
+        this.listener = null;
     }
 }

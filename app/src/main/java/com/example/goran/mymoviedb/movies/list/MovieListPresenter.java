@@ -29,6 +29,8 @@ public class MovieListPresenter implements MovieListContract.Presenter, ListInte
     public MovieListPresenter(MovieListContract.View listView, ListInteractor listInteractor) {
         this.listView = listView;
         this.listInteractor = listInteractor;
+
+        listInteractor.setListener(this);
     }
 
     @Override
@@ -48,15 +50,12 @@ public class MovieListPresenter implements MovieListContract.Presenter, ListInte
             case LayoutStyle.LINEAR_SIMPLE:
                 listView.setLinearSimpleLayout();
                 break;
-            case LayoutStyle.GRID:
-                // TODO - grid layout
-                break;
         }
     }
 
     @Override
     public void loadMovies() {
-        listInteractor.getMovieList(category, currentPage++, this);
+        listInteractor.getMovieList(category, currentPage++);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.example.goran.mymoviedb.movies.details;
 
 import android.content.Intent;
-import android.net.Uri;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,16 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.details.Cast;
+import com.example.goran.mymoviedb.data.model.details.Crew;
 import com.example.goran.mymoviedb.di.MovieCreditsFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.CastAdapter;
+import com.example.goran.mymoviedb.movies.adapters.CrewAdapter;
 import com.example.goran.mymoviedb.person.PersonActivity;
-import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
@@ -37,15 +36,11 @@ public class MovieCreditsFragment extends Fragment implements MovieCreditsContra
     @Inject
     MovieCreditsContract.Presenter presenter;
 
-    private CastAdapter adapter;
+    private CastAdapter castAdapter;
+    private CrewAdapter crewAdapter;
 
-    @BindView(R.id.txt_credits_director) TextView txtDirector;
-    @BindView(R.id.img_credits_director) SimpleDraweeView imgDirector;
-    @BindView(R.id.txt_credits_writer) TextView txtWriter;
-    @BindView(R.id.img_credits_writer) SimpleDraweeView imgWriter;
-    @BindView(R.id.view_director) LinearLayout directorView;
-    @BindView(R.id.view_writer) LinearLayout writerView;
-    @BindView(R.id.recycler_credits_cast) RecyclerView recyclerView;
+    @BindView(R.id.recycler_credits_crew) RecyclerView recyclerViewCrew;
+    @BindView(R.id.recycler_credits_cast) RecyclerView recyclerViewCast;
 
     @Nullable
     @Override
@@ -63,36 +58,38 @@ public class MovieCreditsFragment extends Fragment implements MovieCreditsContra
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        adapter = new CastAdapter();
-        adapter.setListener(personId -> presenter.onClickPerson(personId));
+        crewAdapter = new CrewAdapter();
+        crewAdapter.setListener(personId -> presenter.onClickPerson(personId));
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setAdapter(adapter);
+        castAdapter = new CastAdapter();
+        castAdapter.setListener(personId -> presenter.onClickPerson(personId));
+
+        recyclerViewCrew.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewCrew.setAdapter(crewAdapter);
+
+        recyclerViewCast.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewCast.setAdapter(castAdapter);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            recyclerViewCrew.setNestedScrollingEnabled(false);
+            recyclerViewCast.setNestedScrollingEnabled(false);
+        }
 
         presenter.initPresenter(getActivity().getIntent().getIntExtra("movie_id", 0));
         presenter.loadCredits();
     }
 
-    @Override
-    public void displayDirector(String name, Uri profile, int id) {
-        txtDirector.setText(name);
-        imgDirector.setImageURI(profile);
-        directorView.setOnClickListener(view -> presenter.onClickPerson(id));
-
-    }
 
     @Override
-    public void displayWriter(String name, Uri profile, int id) {
-        txtWriter.setText(name);
-        imgWriter.setImageURI(profile);
-        writerView.setOnClickListener(view -> presenter.onClickPerson(id));
+    public void displayCrew(List<Crew> crew) {
+        crewAdapter.setDataSource(crew);
+        crewAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void displayCast(List<Cast> cast) {
-        adapter.setDataSource(cast);
-        adapter.notifyDataSetChanged();
+        castAdapter.setDataSource(cast);
+        castAdapter.notifyDataSetChanged();
     }
 
     @Override

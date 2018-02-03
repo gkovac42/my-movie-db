@@ -1,8 +1,7 @@
 package com.example.goran.mymoviedb.movies.details;
 
-import android.net.Uri;
-
 import com.example.goran.mymoviedb.data.model.details.Cast;
+import com.example.goran.mymoviedb.data.model.details.Crew;
 
 import java.util.List;
 
@@ -14,9 +13,7 @@ public interface MovieCreditsContract {
 
     interface View {
 
-        void displayDirector(String name, Uri profile, int id);
-
-        void displayWriter(String name, Uri profile, int id);
+        void displayCrew(List<Crew> crew);
 
         void displayCast(List<Cast> cast);
 

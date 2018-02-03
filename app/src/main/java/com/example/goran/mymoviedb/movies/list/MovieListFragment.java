@@ -126,5 +126,4 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
     public void setLinearSimpleLayout() {
         adapter = new SimpleMovieAdapter();
     }
-
 }

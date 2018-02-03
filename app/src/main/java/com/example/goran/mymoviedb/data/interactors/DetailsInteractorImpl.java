@@ -1,6 +1,8 @@
 package com.example.goran.mymoviedb.data.interactors;
 
+import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.local.UserManager;
@@ -8,6 +10,7 @@ import com.example.goran.mymoviedb.data.model.FavoriteRequest;
 import com.example.goran.mymoviedb.data.model.RateRequest;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.list.ListResponse;
+import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
 import com.example.goran.mymoviedb.di.scope.PerFragment;
 
@@ -27,6 +30,7 @@ import io.reactivex.schedulers.Schedulers;
 public class DetailsInteractorImpl extends BaseInteractorImpl implements DetailsInteractor {
 
     private ApiHelper apiHelper;
+    private DetailsListener listener;
 
     @Inject
     public DetailsInteractorImpl(ApiHelper apiHelper, LifecycleOwner lifecycleOwner) {
@@ -36,26 +40,33 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
 
     public interface DetailsListener {
 
-        void onDataReady(MovieDetails movieDetails);
+        void onDetailsReady(MovieDetails movieDetails);
+
+        void onSimilarReady(List<Movie> movies);
 
         void onError();
     }
 
     @Override
-    public void getMovieDetails(int movieId, DetailsListener listener) {
+    public void setListener(DetailsListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void getMovieDetails(int movieId) {
 
         Observable<MovieDetails> observable = apiHelper.getMovieDetails(movieId);
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        movieDetails -> listener.onDataReady(movieDetails),
+                        movieDetails -> listener.onDetailsReady(movieDetails),
                         throwable -> listener.onError(),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
     }
 
     @Override
-    public void getSimilarList(int movieId, ListInteractorImpl.ListListener listener) {
+    public void getSimilarList(int movieId) {
 
         Observable<ListResponse> listObservable = apiHelper.getSimilarMovies(movieId, 1);
 
@@ -63,7 +74,7 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        movies -> listener.onDataReady(movies),
+                        movies -> listener.onSimilarReady(movies),
                         throwable -> listener.onError(),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
@@ -131,5 +142,10 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
     @Override
     public List<Integer> getUserRatedIds() {
         return UserManager.getActiveUser().getRatedMovies();
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    private void removeListener() {
+        this.listener = null;
     }
 }

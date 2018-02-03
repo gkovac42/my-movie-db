@@ -17,13 +17,13 @@ import javax.inject.Inject;
 
 @PerFragment
 public class MovieSearchPresenter implements
-        MovieSearchContract.Presenter, SearchInteractorImpl.SearchListener, SearchInteractorImpl.KeywordListener {
+        MovieSearchContract.Presenter, SearchInteractorImpl.SearchListener {
 
     private SearchInteractor searchInteractor;
     private MovieSearchContract.View searchView;
 
-    private List<Keyword> keywords = new ArrayList<>();
-    private List<Movie> results = new ArrayList<>();
+    private List<Keyword> keywords;
+    private List<Movie> results;
 
     private String query;
     private int keywordId;
@@ -33,6 +33,12 @@ public class MovieSearchPresenter implements
     public MovieSearchPresenter(SearchInteractor searchInteractor, MovieSearchContract.View searchView) {
         this.searchInteractor = searchInteractor;
         this.searchView = searchView;
+
+        this.keywords = new ArrayList<>();
+        this.results = new ArrayList<>();
+
+        searchInteractor.setListener(this);
+
     }
 
     @Override
@@ -51,11 +57,11 @@ public class MovieSearchPresenter implements
     private void search(Boolean byTitle) {
 
         if (byTitle) {
-            searchInteractor.searchByTitle(query, currentPage++, this);
+            searchInteractor.searchByTitle(query, currentPage++);
 
         } else {
             getKeywordId(query);
-            searchInteractor.searchByKeywordId(keywordId, currentPage++, this);
+            searchInteractor.searchByKeywordId(keywordId, currentPage++);
         }
     }
 
@@ -82,7 +88,7 @@ public class MovieSearchPresenter implements
 
     @Override
     public void loadKeywords(String query) {
-        searchInteractor.getKeywords(query, this);
+        searchInteractor.getKeywords(query);
     }
 
     @Override

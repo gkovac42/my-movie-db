@@ -8,9 +8,11 @@ import java.util.List;
 
 public interface DetailsInteractor {
 
-    void getMovieDetails(int movieId, DetailsInteractorImpl.DetailsListener listener);
+    void setListener(DetailsInteractorImpl.DetailsListener listener);
 
-    void getSimilarList(int movieId, ListInteractorImpl.ListListener listener);
+    void getMovieDetails(int movieId);
+
+    void getSimilarList(int movieId);
 
     void setFavorite(boolean favorite, int movieId);
 

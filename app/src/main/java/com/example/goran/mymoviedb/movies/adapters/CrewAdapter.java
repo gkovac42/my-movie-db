@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.goran.mymoviedb.R;
-import com.example.goran.mymoviedb.data.model.details.Cast;
+import com.example.goran.mymoviedb.data.model.details.Crew;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -18,23 +18,23 @@ import java.util.List;
  * Created by Goran on 8.11.2017..
  */
 
-public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
+public class CrewAdapter extends RecyclerView.Adapter<CrewAdapter.ViewHolder> {
 
     private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
 
-    private List<Cast> cast;
+    private List<Crew> crew;
     private ItemClickListener listener;
 
-    public CastAdapter(List<Cast> cast) {
-        this.cast = cast;
+    public CrewAdapter(List<Crew> crew) {
+        this.crew = crew;
     }
 
-    public CastAdapter() {
-        cast = new ArrayList<>();
+    public CrewAdapter() {
+        crew = new ArrayList<>();
     }
 
-    public void setDataSource(List<Cast> cast) {
-        this.cast = cast;
+    public void setDataSource(List<Crew> crew) {
+        this.crew = crew;
     }
 
     public interface ItemClickListener {
@@ -59,20 +59,20 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
         ConstraintLayout listItem = holder.listItem;
 
-        Cast movieCast = cast.get(position);
+        Crew movieCrew = crew.get(position);
 
         SimpleDraweeView imgPoster = listItem.findViewById(R.id.img_item_profile);
         TextView txtName = listItem.findViewById(R.id.txt_item_name);
         TextView txtCharacter = listItem.findViewById(R.id.txt_item_character);
 
-        imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movieCast.getProfilePath()));
-        txtName.setText((movieCast.getName()));
-        txtCharacter.setText(movieCast.getCharacter());
+        imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movieCrew.getProfilePath()));
+        txtName.setText((movieCrew.getName()));
+        txtCharacter.setText(movieCrew.getJob());
     }
 
     @Override
     public int getItemCount() {
-        return cast.size();
+        return crew.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -86,7 +86,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
             listItem.setOnClickListener(v -> {
 
-                int id = cast.get(getAdapterPosition()).getId();
+                int id = crew.get(getAdapterPosition()).getId();
 
                 if (listener != null) {
                     listener.onClick(id);

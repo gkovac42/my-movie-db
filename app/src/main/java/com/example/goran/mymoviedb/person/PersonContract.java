@@ -13,6 +13,10 @@ public interface PersonContract {
 
     interface View {
 
+        void showProgressDialog();
+
+        void hideProgressDialog();
+
         void displayPersonDetails(Person person);
 
         void displayRelatedMovies(List<Movie> movies);
@@ -28,5 +32,4 @@ public interface PersonContract {
 
         void onClickRelatedMovie(int movieId);
     }
-
 }

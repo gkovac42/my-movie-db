@@ -8,6 +8,8 @@ import com.example.goran.mymoviedb.data.model.auth.User;
 
 public interface LoginInteractor extends BaseInteractor {
 
+    void setListener(LoginInteractorImpl.LoginListener listener);
+
     void initLogin(String username, String password, LoginInteractorImpl.LoginListener listener);
 
     void saveUser(User user);

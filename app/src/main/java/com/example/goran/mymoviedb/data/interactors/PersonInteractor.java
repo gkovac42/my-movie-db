@@ -6,8 +6,10 @@ package com.example.goran.mymoviedb.data.interactors;
 
 public interface PersonInteractor extends BaseInteractor {
 
-    void getPersonDetails(int personId, PersonInteractorImpl.PersonListener listener);
+    void setListener(PersonInteractorImpl.PersonListener listener);
 
-    void getRelatedMovies(int personId, PersonInteractorImpl.PersonListener listener);
+    void getPersonDetails(int personId);
+
+    void getRelatedMovies(int personId);
 
 }

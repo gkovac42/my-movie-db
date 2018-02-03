@@ -1,6 +1,8 @@
 package com.example.goran.mymoviedb.data.interactors;
 
+import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.local.UserManager;
@@ -29,6 +31,7 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
 
     private ApiHelper apiHelper;
     private UserManager userManager;
+    private LoginListener listener;
 
     @Inject
     public LoginInteractorImpl(ApiHelper apiHelper, UserManager userManager, LifecycleOwner lifecycleOwner) {
@@ -42,6 +45,11 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
         void onLoginError();
 
         void onLoginSuccess(String username, String password);
+    }
+
+    @Override
+    public void setListener(LoginListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -114,5 +122,10 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
             ids.add(movie.getId());
         }
         return ids;
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    private void removeListener() {
+        this.listener = null;
     }
 }

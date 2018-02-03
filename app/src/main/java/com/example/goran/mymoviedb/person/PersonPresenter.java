@@ -26,6 +26,8 @@ public class PersonPresenter implements PersonContract.Presenter, PersonInteract
     public PersonPresenter(PersonContract.View personView, PersonInteractor personInteractor) {
         this.personView = personView;
         this.personInteractor = personInteractor;
+
+        personInteractor.setListener(this);
     }
 
     @Override
@@ -35,18 +37,15 @@ public class PersonPresenter implements PersonContract.Presenter, PersonInteract
 
     @Override
     public void loadPersonDetails() {
-        personInteractor.getPersonDetails(personId, this);
-        personInteractor.getRelatedMovies(personId, this);
-    }
-
-    @Override
-    public void onClickRelatedMovie(int movieId) {
-        personView.navigateToRelatedMovie(movieId);
+        personView.showProgressDialog();
+        personInteractor.getPersonDetails(personId);
+        personInteractor.getRelatedMovies(personId);
     }
 
     @Override
     public void onDataReady(Person person) {
         personView.displayPersonDetails(person);
+        personView.hideProgressDialog();
     }
 
     @Override
@@ -58,4 +57,10 @@ public class PersonPresenter implements PersonContract.Presenter, PersonInteract
     public void onError() {
 
     }
+
+    @Override
+    public void onClickRelatedMovie(int movieId) {
+        personView.navigateToRelatedMovie(movieId);
+    }
+
 }

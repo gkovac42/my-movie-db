@@ -4,7 +4,6 @@ import android.text.format.DateUtils;
 
 import com.example.goran.mymoviedb.data.interactors.DetailsInteractor;
 import com.example.goran.mymoviedb.data.interactors.DetailsInteractorImpl;
-import com.example.goran.mymoviedb.data.interactors.ListInteractorImpl;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.scope.PerFragment;
@@ -20,7 +19,7 @@ import javax.inject.Inject;
  */
 
 @PerFragment
-public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
+public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, DetailsInteractorImpl.DetailsListener {
 
     private MovieDetailsContract.View detailsView;
     private DetailsInteractor detailsInteractor;
@@ -33,6 +32,8 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
     public MovieDetailsPresenter(MovieDetailsContract.View detailsView, DetailsInteractor detailsInteractor) {
         this.detailsView = detailsView;
         this.detailsInteractor = detailsInteractor;
+
+        detailsInteractor.setListener(this);
     }
 
     @Override
@@ -58,40 +59,26 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
 
     @Override
     public void getMovieDetails() {
-
         detailsView.showProgressDialog();
+        detailsInteractor.getMovieDetails(movieId);
+    }
 
-        detailsInteractor.getMovieDetails(movieId, new DetailsInteractorImpl.DetailsListener() {
-            @Override
-            public void onDataReady(MovieDetails movieDetails) {
-
-                movieTitle = movieDetails.getTitle();
-                movieReleaseDate = MovieUtils.dateStringToLong(movieDetails.getReleaseDate());
-
-                detailsView.displayMovieDetails(movieDetails);
-                detailsView.hideProgressDialog();
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        });
+    @Override
+    public void onDetailsReady(MovieDetails movieDetails) {
+        movieTitle = movieDetails.getTitle();
+        movieReleaseDate = MovieUtils.dateStringToLong(movieDetails.getReleaseDate());
+        detailsView.displayMovieDetails(movieDetails);
+        detailsView.hideProgressDialog();
     }
 
     @Override
     public void getSimilarMovies() {
-        detailsInteractor.getSimilarList(movieId, new ListInteractorImpl.ListListener() {
-            @Override
-            public void onDataReady(List<Movie> movieList) {
-                detailsView.displaySimilarMovies(movieList);
-            }
+        detailsInteractor.getSimilarList(movieId);
+    }
 
-            @Override
-            public void onError() {
-
-            }
-        });
+    @Override
+    public void onSimilarReady(List<Movie> movies) {
+        detailsView.displaySimilarMovies(movies);
     }
 
     @Override
@@ -151,5 +138,10 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
             }
         }
         return false;
+    }
+
+    @Override
+    public void onError() {
+
     }
 }

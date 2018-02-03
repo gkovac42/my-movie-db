@@ -14,10 +14,11 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class BaseInteractorImpl implements BaseInteractor, LifecycleObserver {
 
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private CompositeDisposable compositeDisposable;
 
     public BaseInteractorImpl(LifecycleOwner lifecycleOwner) {
         lifecycleOwner.getLifecycle().addObserver(this);
+        compositeDisposable = new CompositeDisposable();
     }
 
     public CompositeDisposable getCompositeDisposable() {

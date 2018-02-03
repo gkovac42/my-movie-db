@@ -1,10 +1,11 @@
 package com.example.goran.mymoviedb.data.interactors;
 
+import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.details.Credits;
-import com.example.goran.mymoviedb.data.model.details.Crew;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
 import com.example.goran.mymoviedb.di.scope.PerFragment;
 
@@ -22,6 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 public class CreditsInteractorImpl extends BaseInteractorImpl implements CreditsInteractor {
 
     private ApiHelper apiHelper;
+    private CreditsListener listener;
 
     @Inject
     public CreditsInteractorImpl(ApiHelper apiHelper, LifecycleOwner lifecycleOwner) {
@@ -31,41 +33,29 @@ public class CreditsInteractorImpl extends BaseInteractorImpl implements Credits
 
     public interface CreditsListener {
 
-        void onDataReady(Credits credits);
+        void onCreditsReady(Credits credits);
 
         void onError();
     }
 
     @Override
-    public void getCredits(int movieId, CreditsListener listener) {
+    public void setListener(CreditsListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void getCredits(int movieId) {
         Observable<Credits> observable = apiHelper.getMovieCredits(movieId);
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        movieCredits -> listener.onDataReady(movieCredits),
+                        movieCredits -> listener.onCreditsReady(movieCredits),
                         throwable -> listener.onError(), () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
     }
 
-    @Override
-    public Crew getDirector(Credits credits) {
-        for (Crew crew : credits.getCrew()) {
-            if (crew.getJob().equals("Director")) {
-                return crew;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public Crew getWriter(Credits credits) {
-        for (Crew crew : credits.getCrew()) {
-            if (crew.getJob().equals("Screenplay")) {
-                return crew;
-            }
-        }
-
-        return null;
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    private void removeListener() {
+        this.listener = null;
     }
 }

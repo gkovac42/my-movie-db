@@ -6,10 +6,12 @@ package com.example.goran.mymoviedb.data.interactors;
 
 public interface SearchInteractor {
 
-    void searchByTitle(String query, int page, SearchInteractorImpl.SearchListener listener);
+    void setListener(SearchInteractorImpl.SearchListener listener);
 
-    void getKeywords(String query, SearchInteractorImpl.KeywordListener listener);
+    void searchByTitle(String query, int page);
 
-    void searchByKeywordId(int query, int page, SearchInteractorImpl.SearchListener listener);
+    void getKeywords(String query);
+
+    void searchByKeywordId(int query, int page);
 
 }
