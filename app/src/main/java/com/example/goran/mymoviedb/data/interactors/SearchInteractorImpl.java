@@ -1,8 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
-import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
@@ -28,7 +26,6 @@ import io.reactivex.schedulers.Schedulers;
 public class SearchInteractorImpl extends BaseInteractorImpl implements SearchInteractor {
 
     private ApiHelper apiHelper;
-    private SearchListener listener;
 
     @Inject
     public SearchInteractorImpl(ApiHelper apiHelper, LifecycleOwner lifecycleOwner) {
@@ -36,7 +33,7 @@ public class SearchInteractorImpl extends BaseInteractorImpl implements SearchIn
         this.apiHelper = apiHelper;
     }
 
-    public interface SearchListener {
+    public interface SearchListener extends BaseListener {
 
         void onResultsReady(List<Movie> movieList);
 
@@ -46,19 +43,14 @@ public class SearchInteractorImpl extends BaseInteractorImpl implements SearchIn
     }
 
     @Override
-    public void setListener(SearchListener listener) {
-        this.listener = listener;
-    }
-
-    @Override
     public void searchByTitle(String query, int page) {
         Observable<ListResponse> observable = apiHelper.searchByTitle(query, page);
         observable.map(listResponse -> listResponse.getMovies())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        movies -> listener.onResultsReady(movies),
-                        throwable -> listener.onError(), () -> Log.i("LOG", "Complete"),
+                        movies -> ((SearchListener)getListener()).onResultsReady(movies),
+                        throwable -> ((SearchListener)getListener()).onError(), () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
     }
 
@@ -69,8 +61,8 @@ public class SearchInteractorImpl extends BaseInteractorImpl implements SearchIn
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        keywords -> listener.onKeywordsReady(keywords),
-                        throwable -> listener.onError(), () -> Log.i("LOG", "Complete"),
+                        keywords -> ((SearchListener)getListener()).onKeywordsReady(keywords),
+                        throwable -> ((SearchListener)getListener()).onError(), () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
     }
 
@@ -81,13 +73,8 @@ public class SearchInteractorImpl extends BaseInteractorImpl implements SearchIn
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        movies -> listener.onResultsReady(movies),
-                        throwable -> listener.onError(), () -> Log.i("LOG", "Complete"),
+                        movies -> ((SearchListener)getListener()).onResultsReady(movies),
+                        throwable -> ((SearchListener)getListener()).onError(), () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private void removeListener() {
-        this.listener = null;
     }
 }

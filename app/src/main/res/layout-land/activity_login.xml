@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/layout_margin"
+    android:layout_margin="@dimen/layout_margin_large"
     android:orientation="vertical">
 
     <EditText
@@ -16,6 +17,7 @@
         android:hint="@string/txt_username"
         android:inputType="text"
         android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/txt_password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,6 +31,7 @@
         android:hint="@string/txt_password"
         android:inputType="textPassword"
         android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/chk_stay_logged_in"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_username" />
 
@@ -38,7 +41,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/margin_small"
+        app:layout_constraintBottom_toTopOf="@+id/textView7"
         app:layout_constraintEnd_toEndOf="@+id/textView7"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/txt_password" />
 
@@ -50,7 +55,9 @@
         android:text="@string/txt_stay"
         android:textColor="@android:color/secondary_text_dark"
         android:textSize="@dimen/text_small"
+        app:layout_constraintBottom_toTopOf="@+id/btn_login"
         app:layout_constraintEnd_toEndOf="@+id/btn_login"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/btn_login"
         app:layout_constraintTop_toBottomOf="@+id/chk_stay_logged_in" />
 
@@ -59,9 +66,10 @@
         android:layout_width="264dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginTop="8dp"
         android:text="@string/txt_login"
         android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/txt_guest"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -75,26 +83,30 @@
         android:text="@string/txt_sign_up"
         android:textSize="@dimen/text_normal"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/txt_reset_password"
         app:layout_constraintEnd_toEndOf="@+id/btn_login"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/btn_login"
         app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
     <TextView
         android:id="@+id/txt_reset_password"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginTop="16dp"
         android:text="@string/txt_forgot_password"
         android:textColorLink="@android:color/secondary_text_dark"
         android:textSize="@dimen/text_small"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btn_login"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/btn_login"
         app:layout_constraintTop_toBottomOf="@+id/txt_guest" />
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_large"
@@ -102,6 +114,7 @@
         android:layout_marginTop="@dimen/margin_large"
         app:layout_constraintBottom_toBottomOf="@+id/txt_reset_password"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toEndOf="@+id/txt_username"
         app:layout_constraintTop_toTopOf="@+id/txt_username"
         app:srcCompat="@drawable/tmdb_logo" />

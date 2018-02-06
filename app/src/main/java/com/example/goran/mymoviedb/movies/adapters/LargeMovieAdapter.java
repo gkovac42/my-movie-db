@@ -21,7 +21,7 @@ import java.util.List;
 
 public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.ViewHolder> implements BaseMovieAdapter {
 
-    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w600";
+    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
     private List<Movie> movies;
     private MovieAdapterListener listener;

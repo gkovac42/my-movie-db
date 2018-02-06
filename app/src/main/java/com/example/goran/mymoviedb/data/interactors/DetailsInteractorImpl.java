@@ -1,8 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
-import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.local.UserManager;
@@ -30,7 +28,6 @@ import io.reactivex.schedulers.Schedulers;
 public class DetailsInteractorImpl extends BaseInteractorImpl implements DetailsInteractor {
 
     private ApiHelper apiHelper;
-    private DetailsListener listener;
 
     @Inject
     public DetailsInteractorImpl(ApiHelper apiHelper, LifecycleOwner lifecycleOwner) {
@@ -38,7 +35,7 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
         this.apiHelper = apiHelper;
     }
 
-    public interface DetailsListener {
+    public interface DetailsListener extends BaseListener {
 
         void onDetailsReady(MovieDetails movieDetails);
 
@@ -47,10 +44,6 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
         void onError();
     }
 
-    @Override
-    public void setListener(DetailsListener listener) {
-        this.listener = listener;
-    }
 
     @Override
     public void getMovieDetails(int movieId) {
@@ -59,8 +52,8 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        movieDetails -> listener.onDetailsReady(movieDetails),
-                        throwable -> listener.onError(),
+                        movieDetails -> ((DetailsListener)getListener()).onDetailsReady(movieDetails),
+                        throwable -> ((DetailsListener)getListener()).onError(),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
     }
@@ -74,8 +67,8 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        movies -> listener.onSimilarReady(movies),
-                        throwable -> listener.onError(),
+                        movies -> ((DetailsListener)getListener()).onSimilarReady(movies),
+                        throwable -> ((DetailsListener)getListener()).onError(),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
     }
@@ -142,10 +135,5 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
     @Override
     public List<Integer> getUserRatedIds() {
         return UserManager.getActiveUser().getRatedMovies();
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private void removeListener() {
-        this.listener = null;
     }
 }

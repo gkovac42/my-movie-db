@@ -1,8 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
-import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.details.Credits;
@@ -23,7 +21,6 @@ import io.reactivex.schedulers.Schedulers;
 public class CreditsInteractorImpl extends BaseInteractorImpl implements CreditsInteractor {
 
     private ApiHelper apiHelper;
-    private CreditsListener listener;
 
     @Inject
     public CreditsInteractorImpl(ApiHelper apiHelper, LifecycleOwner lifecycleOwner) {
@@ -31,17 +28,13 @@ public class CreditsInteractorImpl extends BaseInteractorImpl implements Credits
         this.apiHelper = apiHelper;
     }
 
-    public interface CreditsListener {
+    public interface CreditsListener extends BaseListener {
 
         void onCreditsReady(Credits credits);
 
         void onError();
     }
 
-    @Override
-    public void setListener(CreditsListener listener) {
-        this.listener = listener;
-    }
 
     @Override
     public void getCredits(int movieId) {
@@ -49,13 +42,8 @@ public class CreditsInteractorImpl extends BaseInteractorImpl implements Credits
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        movieCredits -> listener.onCreditsReady(movieCredits),
-                        throwable -> listener.onError(), () -> Log.i("LOG", "Complete"),
+                        movieCredits -> ((CreditsListener)getListener()).onCreditsReady(movieCredits),
+                        throwable -> ((CreditsListener)getListener()).onError(), () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private void removeListener() {
-        this.listener = null;
     }
 }

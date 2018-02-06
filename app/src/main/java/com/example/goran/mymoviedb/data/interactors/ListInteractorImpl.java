@@ -1,8 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
-import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.list.ListResponse;
@@ -27,7 +25,6 @@ import io.reactivex.schedulers.Schedulers;
 public class ListInteractorImpl extends BaseInteractorImpl implements ListInteractor {
 
     private ApiHelper apiHelper;
-    private ListListener listener;
 
     @Inject
     public ListInteractorImpl(ApiHelper apiHelper, LifecycleOwner lifecycleOwner) {
@@ -35,7 +32,7 @@ public class ListInteractorImpl extends BaseInteractorImpl implements ListIntera
         this.apiHelper = apiHelper;
     }
 
-    public interface ListListener {
+    public interface ListListener extends BaseListener {
 
         void onDataReady(List<Movie> movieList);
 
@@ -62,14 +59,6 @@ public class ListInteractorImpl extends BaseInteractorImpl implements ListIntera
         return apiHelper.getFavoriteMovies(page);
     }
 
-    private Observable<ListResponse> getRated(int page) {
-        return apiHelper.getRatedMovies(page);
-    }
-
-    @Override
-    public void setListener(ListListener listener) {
-        this.listener = listener;
-    }
 
     @Override
     public void getMovieList(int category, int page) {
@@ -100,14 +89,9 @@ public class ListInteractorImpl extends BaseInteractorImpl implements ListIntera
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        movies -> listener.onDataReady(movies),
-                        throwable -> listener.onError(),
+                        movies -> ((ListListener)getListener()).onDataReady(movies),
+                        throwable -> ((ListListener)getListener()).onError(),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private void removeListener() {
-        this.listener = null;
     }
 }

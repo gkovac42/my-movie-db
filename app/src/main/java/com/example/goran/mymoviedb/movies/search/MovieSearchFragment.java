@@ -3,6 +3,7 @@ package com.example.goran.mymoviedb.movies.search;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,8 @@ import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.MovieSearchFragmentModule;
+import com.example.goran.mymoviedb.movies.adapters.BaseMovieAdapter;
+import com.example.goran.mymoviedb.movies.adapters.LargeMovieAdapter;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsActivity;
@@ -45,7 +48,7 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
     @Inject
     MovieSearchContract.Presenter presenter;
 
-    private SimpleMovieAdapter resultAdapter;
+    private BaseMovieAdapter resultAdapter;
     private ArrayAdapter<Keyword> keywordAdapter;
 
     @BindView(R.id.txt_search_query) AutoCompleteTextView txtSearchQuery;
@@ -90,7 +93,15 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
 
         rbtnTitle.setChecked(true);
 
-        resultAdapter = new SimpleMovieAdapter();
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            resultAdapter = new SimpleMovieAdapter();
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        } else {
+            resultAdapter = new LargeMovieAdapter();
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                    LinearLayoutManager.HORIZONTAL, false));
+        }
+
         resultAdapter.setListener(new MovieAdapterListener() {
             @Override
             public void onClick(int movieId) {
@@ -103,8 +114,7 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
             }
         });
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(resultAdapter);
+        recyclerView.setAdapter((RecyclerView.Adapter) resultAdapter);
 
         keywordAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1);
     }
@@ -133,7 +143,7 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
     @Override
     public void displaySearchResults(List<Movie> movieList) {
         resultAdapter.setDataSource(movieList);
-        resultAdapter.notifyDataSetChanged();
+        ((RecyclerView.Adapter) resultAdapter).notifyDataSetChanged();
     }
 
     @Override

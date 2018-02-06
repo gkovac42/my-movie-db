@@ -21,7 +21,6 @@ import com.example.goran.mymoviedb.login.LoginActivity;
 import com.example.goran.mymoviedb.movies.list.MovieListFragment;
 import com.example.goran.mymoviedb.movies.search.MovieSearchFragment;
 import com.example.goran.mymoviedb.movies.util.Category;
-import com.example.goran.mymoviedb.movies.util.LayoutStyle;
 
 import javax.inject.Inject;
 
@@ -135,25 +134,25 @@ public class HomeActivity extends AppCompatActivity
 
     public void showPlayingNowList() {
         getSupportActionBar().setTitle(R.string.title_playing_now);
-        showFragment(MovieListFragment.newInstance(Category.NOW_PLAYING, LayoutStyle.LINEAR_LARGE));
+        showFragment(MovieListFragment.newInstance(Category.NOW_PLAYING));
     }
 
     @Override
     public void showUpcomingList() {
         getSupportActionBar().setTitle(R.string.title_upcoming);
-        showFragment(MovieListFragment.newInstance(Category.UPCOMING, LayoutStyle.LINEAR_LARGE));
+        showFragment(MovieListFragment.newInstance(Category.UPCOMING));
     }
 
     @Override
     public void showPopularList() {
         getSupportActionBar().setTitle(R.string.title_popular);
-        showFragment(MovieListFragment.newInstance(Category.POPULAR, LayoutStyle.LINEAR_LARGE));
+        showFragment(MovieListFragment.newInstance(Category.POPULAR));
     }
 
     @Override
     public void showTopRatedList() {
         getSupportActionBar().setTitle(R.string.title_top_rated);
-        showFragment(MovieListFragment.newInstance(Category.TOP_RATED, LayoutStyle.LINEAR_LARGE));
+        showFragment(MovieListFragment.newInstance(Category.TOP_RATED));
     }
 
     public void showSearchFragment() {
@@ -164,7 +163,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void showFavoriteList() {
         getSupportActionBar().setTitle(R.string.title_favorite);
-        showFragment(MovieListFragment.newInstance(Category.FAVORITE, LayoutStyle.LINEAR_SIMPLE));
+        showFragment(MovieListFragment.newInstance(Category.FAVORITE));
     }
 
     @Override

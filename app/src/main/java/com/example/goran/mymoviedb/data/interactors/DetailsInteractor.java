@@ -6,9 +6,7 @@ import java.util.List;
  * Created by Goran on 23.1.2018..
  */
 
-public interface DetailsInteractor {
-
-    void setListener(DetailsInteractorImpl.DetailsListener listener);
+public interface DetailsInteractor extends BaseInteractor{
 
     void getMovieDetails(int movieId);
 

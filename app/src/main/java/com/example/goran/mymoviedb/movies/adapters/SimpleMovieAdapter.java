@@ -1,7 +1,7 @@
 package com.example.goran.mymoviedb.movies.adapters;
 
 import android.net.Uri;
-import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -21,7 +21,7 @@ import java.util.List;
 
 public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.ViewHolder> implements BaseMovieAdapter {
 
-    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
+    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w185";
 
     private List<Movie> movies;
     private MovieAdapterListener listener;
@@ -47,7 +47,7 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        ConstraintLayout listItem = (ConstraintLayout) LayoutInflater.from(
+        CardView listItem = (CardView) LayoutInflater.from(
                 parent.getContext()).inflate(R.layout.list_item_simple, parent, false);
 
         return new ViewHolder(listItem);
@@ -57,7 +57,7 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         try {
 
-            ConstraintLayout listItem = holder.listItem;
+            CardView listItem = holder.listItem;
 
             Movie movie = movies.get(position);
 
@@ -84,12 +84,12 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ConstraintLayout listItem;
+        private CardView listItem;
 
-        ViewHolder(ConstraintLayout constraintLayout) {
-            super(constraintLayout);
+        ViewHolder(CardView cardView) {
+            super(cardView);
 
-            listItem = constraintLayout;
+            listItem = cardView;
 
             listItem.setOnClickListener(v -> {
 

@@ -14,18 +14,12 @@ public interface MovieListContract {
 
         void navigateToMovie(int movieId);
 
-        void setLinearLargeLayout();
-
-        void setLinearSimpleLayout();
-
         void updateAdapter(List<Movie> movies);
     }
 
     interface Presenter {
 
         void initPresenter(int category);
-
-        void initView(int style);
 
         void loadMovies();
 

@@ -20,7 +20,7 @@ import java.util.List;
 
 public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
-    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
+    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w185";
 
     private List<Cast> cast;
     private ItemClickListener listener;

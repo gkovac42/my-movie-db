@@ -1,8 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
-import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.list.Movie;
@@ -25,7 +23,6 @@ import io.reactivex.schedulers.Schedulers;
 public class PersonInteractorImpl extends BaseInteractorImpl implements PersonInteractor {
 
     private ApiHelper apiHelper;
-    private PersonListener listener;
 
     @Inject
     public PersonInteractorImpl(ApiHelper apiHelper, LifecycleOwner lifecycleOwner) {
@@ -33,7 +30,7 @@ public class PersonInteractorImpl extends BaseInteractorImpl implements PersonIn
         this.apiHelper = apiHelper;
     }
 
-    public interface PersonListener {
+    public interface PersonListener extends BaseListener {
 
         void onDataReady(Person person);
 
@@ -43,19 +40,14 @@ public class PersonInteractorImpl extends BaseInteractorImpl implements PersonIn
     }
 
     @Override
-    public void setListener(PersonListener listener) {
-        this.listener = listener;
-    }
-
-    @Override
     public void getPersonDetails(int personId) {
         apiHelper.getPerson(personId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
 
-                        person -> listener.onDataReady(person),
-                        throwable -> listener.onError(),
+                        person -> ((PersonListener)getListener()).onDataReady(person),
+                        throwable -> ((PersonListener)getListener()).onError(),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
     }
@@ -68,14 +60,9 @@ public class PersonInteractorImpl extends BaseInteractorImpl implements PersonIn
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
 
-                        movies -> listener.onDataReady(movies),
-                        throwable -> listener.onError(),
+                        movies -> ((PersonListener)getListener()).onDataReady(movies),
+                        throwable -> ((PersonListener)getListener()).onError(),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private void removeListener() {
-        this.listener = null;
     }
 }

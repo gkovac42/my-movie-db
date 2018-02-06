@@ -10,7 +10,8 @@
         android:id="@+id/img_item_profile"
         android:layout_width="@dimen/list_item_width"
         android:layout_height="@dimen/list_item_height"
-        app:failureImage="@drawable/ic_person_outline_login_144dp"
+        app:failureImage="@drawable/ic_person_outline_transparent_24dp"
+        app:failureImageScaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

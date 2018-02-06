@@ -4,7 +4,6 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.util.Log;
 
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -15,10 +14,19 @@ import io.reactivex.disposables.CompositeDisposable;
 public class BaseInteractorImpl implements BaseInteractor, LifecycleObserver {
 
     private CompositeDisposable compositeDisposable;
+    private BaseListener listener;
 
     public BaseInteractorImpl(LifecycleOwner lifecycleOwner) {
         lifecycleOwner.getLifecycle().addObserver(this);
         compositeDisposable = new CompositeDisposable();
+    }
+
+    public interface BaseListener {
+
+    }
+
+    public BaseListener getListener() {
+        return listener;
     }
 
     public CompositeDisposable getCompositeDisposable() {
@@ -26,9 +34,19 @@ public class BaseInteractorImpl implements BaseInteractor, LifecycleObserver {
     }
 
     @Override
+    public void setListener(BaseListener listener) {
+        this.listener = listener;
+    }
+
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public void dispose() {
-        Log.i("BASE_INTERACTOR", "Dispose successful");
-        compositeDisposable.dispose();
+    private void cleanUp() {
+
+        if (listener != null) {
+            setListener(null);
+        }
+
+        if (!compositeDisposable.isDisposed()) {
+            compositeDisposable.dispose();
+        }
     }
 }

@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 
 public class PersonActivity extends AppCompatActivity implements PersonContract.View {
 
-    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
+    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
     @Inject
     PersonContract.Presenter presenter;

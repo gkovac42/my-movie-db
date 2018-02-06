@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_movie"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context="com.example.goran.mymoviedb.movies.details.MovieDetailsActivity">
 
     <android.support.constraint.ConstraintLayout
@@ -43,7 +43,6 @@
 
                 <TextView
                     android:id="@+id/txt_movie_rating"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -52,6 +51,7 @@
                     android:drawablePadding="8dp"
                     android:drawableStart="@drawable/ic_star_white_24dp"
                     android:paddingBottom="8dp"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_weight="1"
@@ -60,7 +60,6 @@
 
                 <TextView
                     android:id="@+id/txt_movie_votes"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -69,13 +68,13 @@
                     android:drawablePadding="8dp"
                     android:drawableStart="@drawable/ic_person_white_24dp"
                     android:paddingBottom="8dp"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/img_movie_poster"
                     app:layout_constraintTop_toBottomOf="@+id/txt_movie_rating" />
 
                 <TextView
                     android:id="@+id/txt_movie_runtime"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -84,13 +83,13 @@
                     android:drawablePadding="8dp"
                     android:drawableStart="@drawable/ic_time_white_24dp"
                     android:paddingBottom="8dp"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/img_movie_poster"
                     app:layout_constraintTop_toBottomOf="@+id/txt_movie_release" />
 
                 <TextView
                     android:id="@+id/txt_movie_release"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -99,15 +98,17 @@
                     android:drawablePadding="8dp"
                     android:drawableStart="@drawable/ic_date_range_white_24dp"
                     android:paddingBottom="8dp"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/img_movie_poster"
                     app:layout_constraintTop_toBottomOf="@+id/txt_movie_votes" />
 
                 <ImageButton
                     android:id="@+id/btn_movie_rate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/list_item_height"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_star_border_accent_24dp"
                     android:visibility="invisible"
@@ -115,12 +116,15 @@
                     app:layout_constraintEnd_toStartOf="@+id/btn_movie_favorite"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/img_movie_poster" />
+                    app:layout_constraintStart_toEndOf="@+id/img_movie_poster"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_movie_genre"
+                    app:layout_constraintVertical_bias="1.0" />
 
                 <ImageButton
                     android:id="@+id/btn_movie_favorite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/list_item_height"
+                    android:layout_marginTop="16dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_favorite_border_black_24dp"
                     android:visibility="invisible"
@@ -128,11 +132,12 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@+id/btn_movie_rate" />
+                    app:layout_constraintStart_toEndOf="@+id/btn_movie_rate"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_movie_genre"
+                    app:layout_constraintVertical_bias="1.0" />
 
                 <TextView
                     android:id="@+id/txt_movie_genre"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -141,6 +146,7 @@
                     android:drawablePadding="8dp"
                     android:drawableStart="@drawable/ic_local_movies_white_24dp"
                     android:paddingBottom="8dp"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/img_movie_poster"
                     app:layout_constraintTop_toBottomOf="@+id/txt_movie_runtime" />
@@ -171,10 +177,10 @@
 
             <TextView
                 android:id="@+id/txt_movie_desc"
-                android:textSize="@dimen/text_normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:textSize="@dimen/text_normal" />
         </android.support.v7.widget.CardView>
 
         <TextView
@@ -190,9 +196,11 @@
         <android.support.v7.widget.CardView
             android:id="@+id/card_recycler"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginStart="@dimen/margin_normal"
             android:layout_marginTop="@dimen/margin_small"
+            app:layout_constraintBottom_toBottomOf="@+id/card_more"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_weight="2"
@@ -202,7 +210,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_movie_similar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
@@ -221,113 +229,113 @@
 
                 <TextView
                     android:id="@+id/textView"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/original_title"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textView2"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/margin_small"
                     android:text="@string/language"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/margin_small"
                     android:text="@string/status"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
                 <TextView
                     android:id="@+id/textView4"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/margin_small"
                     android:text="@string/budget"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
                 <TextView
                     android:id="@+id/textView5"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/margin_small"
                     android:text="@string/revenue"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
                 <TextView
                     android:id="@+id/textView6"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/margin_small"
                     android:text="@string/homepage"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
                 <TextView
                     android:id="@+id/txt_movie_original_title"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintStart_toEndOf="@+id/textView"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/txt_movie_language"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/margin_small"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintStart_toEndOf="@+id/textView2"
                     app:layout_constraintTop_toBottomOf="@+id/txt_movie_original_title" />
 
                 <TextView
                     android:id="@+id/txt_movie_status"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/margin_small"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintStart_toEndOf="@+id/textView3"
                     app:layout_constraintTop_toBottomOf="@+id/txt_movie_language" />
 
                 <TextView
                     android:id="@+id/txt_movie_budget"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/margin_small"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintStart_toEndOf="@+id/textView4"
                     app:layout_constraintTop_toBottomOf="@+id/txt_movie_status" />
 
                 <TextView
                     android:id="@+id/txt_movie_revenue"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/margin_small"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintStart_toEndOf="@+id/textView5"
                     app:layout_constraintTop_toBottomOf="@+id/txt_movie_budget" />
 
                 <TextView
                     android:id="@+id/txt_movie_homepage"
-                    android:textSize="@dimen/text_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/margin_small"
+                    android:textSize="@dimen/text_normal"
                     app:layout_constraintStart_toEndOf="@+id/textView6"
                     app:layout_constraintTop_toBottomOf="@+id/txt_movie_revenue" />
 

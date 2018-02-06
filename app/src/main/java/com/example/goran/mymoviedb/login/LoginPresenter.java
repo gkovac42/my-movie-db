@@ -19,9 +19,11 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
     private LoginContract.View loginView;
 
     @Inject
-    public LoginPresenter(LoginInteractor model, LoginContract.View view) {
-        this.loginInteractor = model;
+    public LoginPresenter(LoginInteractor interactor, LoginContract.View view) {
+        this.loginInteractor = interactor;
         this.loginView = view;
+
+        loginInteractor.setListener(this);
     }
 
     @Override
@@ -32,7 +34,7 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
         if (savedUser.getUsername() != null) {
             // if not null try to log in
             loginView.showProgressDialog();
-            loginInteractor.initLogin(savedUser.getUsername(), savedUser.getPassword(), this);
+            loginInteractor.initLogin(savedUser.getUsername(), savedUser.getPassword());
         }
     }
 
@@ -47,7 +49,7 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
 
             // if input is valid start login
         } else {
-            loginInteractor.initLogin(username, password, this);
+            loginInteractor.initLogin(username, password);
             loginView.showProgressDialog();
         }
     }
@@ -64,9 +66,6 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
         if (loginView.stayLoggedIn()) {
             User user = new User(username, password);
             loginInteractor.saveUser(user);
-
-        } else {
-            loginInteractor.deleteSavedUser();
         }
 
         loginView.hideProgressDialog();

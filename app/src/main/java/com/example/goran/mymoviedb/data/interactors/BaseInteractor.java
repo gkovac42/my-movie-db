@@ -6,5 +6,6 @@ package com.example.goran.mymoviedb.data.interactors;
 
 public interface BaseInteractor {
 
-    void dispose();
+    void setListener(BaseInteractorImpl.BaseListener listener);
+
 }

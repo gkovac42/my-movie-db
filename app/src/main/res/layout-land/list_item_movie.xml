@@ -14,15 +14,17 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_item_poster"
-            android:layout_width="@dimen/backdrop_width_land"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/margin_small"
             android:scaleType="centerCrop"
+            app:failureImage="@drawable/ic_help_outline_white_24dp"
+            app:failureImageScaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@+id/txt_item_title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/img_item_poster"
-            android:layout_marginBottom="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_small"
             app:layout_constraintBottom_toTopOf="@+id/txt_item_desc"
             app:layout_constraintStart_toStartOf="parent" />
 

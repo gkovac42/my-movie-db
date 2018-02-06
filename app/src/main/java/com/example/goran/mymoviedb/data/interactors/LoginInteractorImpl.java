@@ -1,8 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
-import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.OnLifecycleEvent;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.local.UserManager;
@@ -31,7 +29,6 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
 
     private ApiHelper apiHelper;
     private UserManager userManager;
-    private LoginListener listener;
 
     @Inject
     public LoginInteractorImpl(ApiHelper apiHelper, UserManager userManager, LifecycleOwner lifecycleOwner) {
@@ -40,17 +37,13 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
         this.userManager = userManager;
     }
 
-    public interface LoginListener {
+    public interface LoginListener extends BaseListener {
 
         void onLoginError();
 
         void onLoginSuccess(String username, String password);
     }
 
-    @Override
-    public void setListener(LoginListener listener) {
-        this.listener = listener;
-    }
 
     @Override
     public void saveUser(User user) {
@@ -78,7 +71,7 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
     }
 
     @Override
-    public void initLogin(String username, String password, LoginListener listener) {
+    public void initLogin(String username, String password) {
 
         UserManager.setActiveUser(new User());
 
@@ -98,6 +91,7 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
                     UserManager.getActiveUser().setAccountId(account.getId());
                     return apiHelper.getFavoriteMovies(1);
                 })
+
                 // get user favorite and rated movies
                 .flatMap(listResponse -> {
                     UserManager.getActiveUser().setFavoriteMovies(getMovieIds(listResponse.getMovies()));
@@ -108,9 +102,9 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
                 .subscribe(listResponse -> {
                             UserManager.getActiveUser().setRatedMovies(getMovieIds(listResponse.getMovies()));
                             UserManager.getActiveUser().setUsername(username);
-                            listener.onLoginSuccess(username, password);
+                            ((LoginListener) getListener()).onLoginSuccess(username, password);
                         },
-                        throwable -> listener.onLoginError(),
+                        throwable -> ((LoginListener) getListener()).onLoginError(),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
     }
@@ -122,10 +116,5 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
             ids.add(movie.getId());
         }
         return ids;
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private void removeListener() {
-        this.listener = null;
     }
 }

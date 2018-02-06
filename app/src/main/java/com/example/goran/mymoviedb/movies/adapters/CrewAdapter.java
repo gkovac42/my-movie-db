@@ -20,7 +20,7 @@ import java.util.List;
 
 public class CrewAdapter extends RecyclerView.Adapter<CrewAdapter.ViewHolder> {
 
-    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
+    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w185";
 
     private List<Crew> crew;
     private ItemClickListener listener;
