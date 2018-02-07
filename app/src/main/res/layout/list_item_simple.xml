@@ -31,7 +31,6 @@
             android:paddingLeft="@dimen/margin_normal"
             android:paddingRight="@dimen/margin_normal"
             android:paddingStart="@dimen/margin_normal"
-            android:textSize="@dimen/text_normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

@@ -142,6 +142,6 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
 
     @Override
     public void onError() {
-
+        detailsView.hideProgressDialog();
     }
 }

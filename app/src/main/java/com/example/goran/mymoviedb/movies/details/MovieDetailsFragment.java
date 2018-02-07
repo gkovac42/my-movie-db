@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.goran.mymoviedb.BaseApplication;
+import com.example.goran.mymoviedb.BaseFragment;
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.list.Movie;
@@ -25,7 +25,6 @@ import com.example.goran.mymoviedb.di.MovieDetailsFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.util.MovieUtils;
-import com.example.goran.mymoviedb.movies.util.ProgressDialog;
 import com.example.goran.mymoviedb.movies.util.RatingDialog;
 import com.example.goran.mymoviedb.notifications.NotificationUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -43,7 +42,7 @@ import butterknife.OnClick;
  * Created by Goran on 25.12.2017..
  */
 
-public class MovieDetailsFragment extends Fragment implements MovieDetailsContract.View {
+public class MovieDetailsFragment extends BaseFragment implements MovieDetailsContract.View {
 
     private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
 
@@ -51,7 +50,6 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
     MovieDetailsContract.Presenter presenter;
 
     private SimpleMovieAdapter adapter;
-    private ProgressDialog progressDialog;
     private RatingDialog ratingDialog;
 
     @BindView(R.id.img_movie_poster) SimpleDraweeView imgPoster;
@@ -105,8 +103,6 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        progressDialog = new ProgressDialog();
-
         ratingDialog = new RatingDialog();
         ratingDialog.setOnClickListener(dialogView -> {
 
@@ -143,16 +139,6 @@ public class MovieDetailsFragment extends Fragment implements MovieDetailsContra
         presenter.getSimilarMovies();
     }
 
-    // progress dialog
-    @Override
-    public void showProgressDialog() {
-        progressDialog.show(getActivity().getSupportFragmentManager(), "");
-    }
-
-    @Override
-    public void hideProgressDialog() {
-        progressDialog.dismiss();
-    }
 
     // user interaction
     @Override

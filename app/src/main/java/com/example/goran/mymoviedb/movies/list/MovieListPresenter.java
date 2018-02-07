@@ -41,20 +41,20 @@ public class MovieListPresenter implements MovieListContract.Presenter, ListInte
 
     @Override
     public void loadMovies() {
+        listView.showProgressDialog();
         listInteractor.getMovieList(category, currentPage++);
     }
 
     @Override
     public void onDataReady(List<Movie> movieList) {
-
+        listView.hideProgressDialog();
         movies.addAll(movieList);
-
         listView.updateAdapter(movies);
     }
 
     @Override
     public void onError() {
-
+        listView.hideProgressDialog();
     }
 
     @Override

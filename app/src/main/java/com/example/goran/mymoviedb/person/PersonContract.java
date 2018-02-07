@@ -1,5 +1,6 @@
 package com.example.goran.mymoviedb.person;
 
+import com.example.goran.mymoviedb.BaseView;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.data.model.person.Person;
 
@@ -11,11 +12,7 @@ import java.util.List;
 
 public interface PersonContract {
 
-    interface View {
-
-        void showProgressDialog();
-
-        void hideProgressDialog();
+    interface View extends BaseView {
 
         void displayPersonDetails(Person person);
 

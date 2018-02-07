@@ -3,11 +3,8 @@ package com.example.goran.mymoviedb.movies.search;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,12 +18,11 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 
 import com.example.goran.mymoviedb.BaseApplication;
+import com.example.goran.mymoviedb.BaseFragment;
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.MovieSearchFragmentModule;
-import com.example.goran.mymoviedb.movies.adapters.BaseMovieAdapter;
-import com.example.goran.mymoviedb.movies.adapters.LargeMovieAdapter;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsActivity;
@@ -43,12 +39,12 @@ import butterknife.OnClick;
  * Created by Goran on 4.1.2018..
  */
 
-public class MovieSearchFragment extends Fragment implements MovieSearchContract.View, TextWatcher {
+public class MovieSearchFragment extends BaseFragment implements MovieSearchContract.View, TextWatcher {
 
     @Inject
     MovieSearchContract.Presenter presenter;
 
-    private BaseMovieAdapter resultAdapter;
+    private SimpleMovieAdapter resultAdapter;
     private ArrayAdapter<Keyword> keywordAdapter;
 
     @BindView(R.id.txt_search_query) AutoCompleteTextView txtSearchQuery;
@@ -93,15 +89,7 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
 
         rbtnTitle.setChecked(true);
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            resultAdapter = new SimpleMovieAdapter();
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        } else {
-            resultAdapter = new LargeMovieAdapter();
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
-                    LinearLayoutManager.HORIZONTAL, false));
-        }
-
+        resultAdapter = new SimpleMovieAdapter();
         resultAdapter.setListener(new MovieAdapterListener() {
             @Override
             public void onClick(int movieId) {
@@ -114,23 +102,24 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
             }
         });
 
-        recyclerView.setAdapter((RecyclerView.Adapter) resultAdapter);
+        recyclerView.setAdapter(resultAdapter);
 
         keywordAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1);
     }
 
     @Override
-    public void showProgressBar() {
+    public void showProgressDialog() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void hideProgressBar() {
+    public void hideProgressDialog() {
         progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void hideKeyboard() {
+
         InputMethodManager inputMethodManager =
                 (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
 
@@ -143,7 +132,7 @@ public class MovieSearchFragment extends Fragment implements MovieSearchContract
     @Override
     public void displaySearchResults(List<Movie> movieList) {
         resultAdapter.setDataSource(movieList);
-        ((RecyclerView.Adapter) resultAdapter).notifyDataSetChanged();
+        resultAdapter.notifyDataSetChanged();
     }
 
     @Override

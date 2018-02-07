@@ -44,7 +44,7 @@ public class MovieSearchPresenter implements
     @Override
     public void onClickSearch(String query, Boolean byTitle) {
 
-        searchView.showProgressBar();
+        searchView.showProgressDialog();
         searchView.hideKeyboard();
 
         this.currentPage = 1;
@@ -105,7 +105,7 @@ public class MovieSearchPresenter implements
     public void onResultsReady(List<Movie> movieList) {
         results.addAll(movieList);
         searchView.displaySearchResults(results);
-        searchView.hideProgressBar();
+        searchView.hideProgressDialog();
     }
 
     @Override
@@ -116,7 +116,7 @@ public class MovieSearchPresenter implements
 
     @Override
     public void onError() {
-        searchView.hideProgressBar();
+        searchView.hideProgressDialog();
     }
 
 }

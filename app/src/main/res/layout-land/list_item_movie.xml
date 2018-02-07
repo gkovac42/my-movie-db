@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="@dimen/backdrop_width_land"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_marginEnd="@dimen/margin_normal"
-    android:layout_marginRight="@dimen/margin_normal">
+    android:layout_margin="@dimen/margin_small">
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="?attr/selectableItemBackground"
-        android:padding="@dimen/layout_margin">
+        android:padding="@dimen/margin_normal">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/img_item_poster"
@@ -37,7 +36,6 @@
             android:drawableLeft="@drawable/ic_star_white_24dp"
             android:drawablePadding="@dimen/margin_small"
             android:drawableStart="@drawable/ic_star_white_24dp"
-            android:textSize="@dimen/text_normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -51,7 +49,6 @@
             android:drawableLeft="@drawable/ic_person_white_24dp"
             android:drawablePadding="@dimen/margin_small"
             android:drawableStart="@drawable/ic_person_white_24dp"
-            android:textSize="@dimen/text_normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/txt_item_genre"
             app:layout_constraintStart_toEndOf="@+id/txt_item_rating" />
@@ -66,7 +63,6 @@
             android:drawableLeft="@drawable/ic_local_movies_white_24dp"
             android:drawablePadding="@dimen/margin_small"
             android:drawableStart="@drawable/ic_local_movies_white_24dp"
-            android:textSize="@dimen/text_normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -88,7 +84,6 @@
             android:layout_marginBottom="@dimen/margin_normal"
             android:ellipsize="end"
             android:maxLines="4"
-            android:textSize="@dimen/text_normal"
             app:layout_constraintBottom_toTopOf="@+id/txt_item_rating"
             app:layout_constraintStart_toStartOf="parent" />
 

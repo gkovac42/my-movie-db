@@ -2,18 +2,17 @@ package com.example.goran.mymoviedb.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.text.method.LinkMovementMethod;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.goran.mymoviedb.BaseActivity;
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.di.LoginActivityModule;
 import com.example.goran.mymoviedb.movies.home.HomeActivity;
-import com.example.goran.mymoviedb.movies.util.ProgressDialog;
 
 import javax.inject.Inject;
 
@@ -21,12 +20,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity implements LoginContract.View {
+public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Inject
     LoginContract.Presenter presenter;
-
-    private ProgressDialog progressDialog;
 
     @BindView(R.id.txt_username) EditText txtUsername;
     @BindView(R.id.txt_password) EditText txtPassword;
@@ -53,22 +50,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 .loginActivitySubcomponent(new LoginActivityModule(this))
                 .inject(this);
 
-        progressDialog = new ProgressDialog();
-
         txtResetPassword.setMovementMethod(LinkMovementMethod.getInstance());
 
         presenter.checkForCurrentUser();
     }
 
-    @Override
-    public void showProgressDialog() {
-        progressDialog.show(getSupportFragmentManager(), "");
-    }
-
-    @Override
-    public void hideProgressDialog() {
-        progressDialog.dismiss();
-    }
 
     @Override
     public boolean stayLoggedIn() {

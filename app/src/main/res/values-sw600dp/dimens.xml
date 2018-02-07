@@ -12,22 +12,23 @@
     <dimen name="text_normal">16sp</dimen>
     <dimen name="text_large">20sp</dimen>
 
-    <dimen name="layout_margin">16dp</dimen>
-    <dimen name="layout_margin_large">32dp</dimen>
+    <dimen name="layout_margin">8dp</dimen>
+    <dimen name="layout_margin_large">16dp</dimen>
 
-    <dimen name="margin_small">8dp</dimen>
-    <dimen name="margin_normal">16dp</dimen>
-    <dimen name="margin_large">32dp</dimen>
-    <dimen name="margin_xl">64dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_normal">8dp</dimen>
+    <dimen name="margin_large">16dp</dimen>
+    <dimen name="margin_xl">32dp</dimen>
 
     <dimen name="poster_width">270dp</dimen>
     <dimen name="poster_height">450dp</dimen>
 
     <dimen name="backdrop_width_land">256dp</dimen>
-    <dimen name="backdrop_height_portrait">224dp</dimen>
+    <dimen name="backdrop_height_portrait">192dp</dimen>
 
     <dimen name="person_height_port">384dp</dimen>
 
     <dimen name="list_item_width">96dp</dimen>
     <dimen name="list_item_height">96dp</dimen>
+    <dimen name="list_item_height_land">144dp</dimen>
 </resources>

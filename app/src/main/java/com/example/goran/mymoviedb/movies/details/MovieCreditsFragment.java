@@ -1,11 +1,9 @@
 package com.example.goran.mymoviedb.movies.details;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,16 +62,11 @@ public class MovieCreditsFragment extends Fragment implements MovieCreditsContra
         castAdapter = new CastAdapter();
         castAdapter.setListener(personId -> presenter.onClickPerson(personId));
 
-        recyclerViewCrew.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         recyclerViewCrew.setAdapter(crewAdapter);
-
-        recyclerViewCast.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewCrew.setNestedScrollingEnabled(false);
         recyclerViewCast.setAdapter(castAdapter);
-
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            recyclerViewCrew.setNestedScrollingEnabled(false);
-            recyclerViewCast.setNestedScrollingEnabled(false);
-        }
+        recyclerViewCast.setNestedScrollingEnabled(false);
 
         presenter.initPresenter(getActivity().getIntent().getIntExtra("movie_id", 0));
         presenter.loadCredits();

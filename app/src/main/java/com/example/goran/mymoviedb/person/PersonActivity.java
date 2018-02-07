@@ -3,11 +3,10 @@ package com.example.goran.mymoviedb.person;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import com.example.goran.mymoviedb.BaseActivity;
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.list.Movie;
@@ -16,7 +15,6 @@ import com.example.goran.mymoviedb.di.PersonActivityModule;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsActivity;
-import com.example.goran.mymoviedb.movies.util.ProgressDialog;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -27,14 +25,13 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PersonActivity extends AppCompatActivity implements PersonContract.View {
+public class PersonActivity extends BaseActivity implements PersonContract.View {
 
     private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
     @Inject
     PersonContract.Presenter presenter;
 
-    private ProgressDialog progressDialog;
     private SimpleMovieAdapter adapter;
 
     @BindView(R.id.img_person_profile) SimpleDraweeView imgProfile;
@@ -67,24 +64,12 @@ public class PersonActivity extends AppCompatActivity implements PersonContract.
 
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         presenter.initPresenter(getIntent().getIntExtra("person_id", 0));
-
         presenter.loadPersonDetails();
 
     }
 
-    @Override
-    public void showProgressDialog() {
-        progressDialog = new ProgressDialog();
-        progressDialog.show(getSupportFragmentManager(), "");
-    }
-
-    @Override
-    public void hideProgressDialog() {
-        progressDialog.dismiss();
-    }
 
     @Override
     public void displayPersonDetails(Person person) {

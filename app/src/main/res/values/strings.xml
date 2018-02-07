@@ -12,7 +12,7 @@
     <string name="tab_credits">Credits</string>
 
     <!--Login Screen-->
-    <string name="txt_intro">Please login with an existing account or continue as guest.</string>
+    <string name="txt_intro">Welcome to MyMovieDb!\n Please login with an existing account or continue as guest.</string>
     <string name="txt_username">username</string>
     <string name="txt_password">password</string>
     <string name="txt_stay">Stay logged in?</string>

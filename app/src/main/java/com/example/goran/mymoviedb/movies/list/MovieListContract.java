@@ -1,5 +1,6 @@
 package com.example.goran.mymoviedb.movies.list;
 
+import com.example.goran.mymoviedb.BaseView;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public interface MovieListContract {
 
-    interface View {
+    interface View extends BaseView {
 
         void navigateToMovie(int movieId);
 

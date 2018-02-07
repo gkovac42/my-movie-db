@@ -55,7 +55,7 @@ public class PersonPresenter implements PersonContract.Presenter, PersonInteract
 
     @Override
     public void onError() {
-
+        personView.hideProgressDialog();
     }
 
     @Override

@@ -1,17 +1,15 @@
 package com.example.goran.mymoviedb.movies.list;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.goran.mymoviedb.BaseApplication;
+import com.example.goran.mymoviedb.BaseFragment;
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.MovieListFragmentModule;
@@ -31,7 +29,7 @@ import butterknife.ButterKnife;
  * Created by Goran on 22.12.2017..
  */
 
-public class MovieListFragment extends Fragment implements MovieListContract.View {
+public class MovieListFragment extends BaseFragment implements MovieListContract.View {
 
     @Inject
     MovieListContract.Presenter presenter;
@@ -78,13 +76,6 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
         });
 
         recyclerView.setAdapter(adapter);
-
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        } else {
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
-                    LinearLayoutManager.HORIZONTAL, false));
-        }
 
         presenter.initPresenter(getCategory());
         presenter.loadMovies();

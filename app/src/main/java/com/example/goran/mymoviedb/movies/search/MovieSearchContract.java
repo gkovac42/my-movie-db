@@ -1,5 +1,6 @@
 package com.example.goran.mymoviedb.movies.search;
 
+import com.example.goran.mymoviedb.BaseView;
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 
@@ -11,11 +12,7 @@ import java.util.List;
 
 public interface MovieSearchContract {
 
-    interface View {
-
-        void showProgressBar();
-
-        void hideProgressBar();
+    interface View extends BaseView {
 
         void hideKeyboard();
 

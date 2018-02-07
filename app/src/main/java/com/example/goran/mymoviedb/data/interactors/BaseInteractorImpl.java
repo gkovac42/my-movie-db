@@ -11,7 +11,7 @@ import io.reactivex.disposables.CompositeDisposable;
  * Created by Goran on 23.1.2018..
  */
 
-public class BaseInteractorImpl implements BaseInteractor, LifecycleObserver {
+public abstract class BaseInteractorImpl implements BaseInteractor, LifecycleObserver {
 
     private CompositeDisposable compositeDisposable;
     private BaseListener listener;
