@@ -103,6 +103,8 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
+        showProgressDialog();
+
         ratingDialog = new RatingDialog();
         ratingDialog.setOnClickListener(dialogView -> {
 

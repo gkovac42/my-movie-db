@@ -37,7 +37,6 @@ public class PersonPresenter implements PersonContract.Presenter, PersonInteract
 
     @Override
     public void loadPersonDetails() {
-        personView.showProgressDialog();
         personInteractor.getPersonDetails(personId);
         personInteractor.getRelatedMovies(personId);
     }

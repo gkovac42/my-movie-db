@@ -12,19 +12,11 @@ public interface HomeContract {
 
         void hideFavorites();
 
-        void showPlayingNowList();
-
-        void showUpcomingList();
-
-        void showPopularList();
-
-        void showTopRatedList();
-
-        void showSearchFragment();
-
-        void showFavoriteList();
+        void showSelectedMenuItem(int ItemId);
 
         void navigateToLogin();
+
+        void exit();
     }
 
     interface Presenter {
@@ -33,17 +25,9 @@ public interface HomeContract {
 
         void onClickLoginOut();
 
-        void onClickPlayingNow();
+        void onClickMenuItem(int itemId);
 
-        void onClickUpcoming();
-
-        void onClickPopular();
-
-        void onClickTopRated();
-
-        void onClickSearch();
-
-        void onClickFavorite();
+        void onBackPressed();
 
     }
 }

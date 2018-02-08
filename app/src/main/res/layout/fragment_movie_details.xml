@@ -29,6 +29,8 @@
                     android:id="@+id/img_movie_poster"
                     android:layout_width="@dimen/poster_width"
                     android:layout_height="@dimen/poster_height"
+                    android:adjustViewBounds="false"
+                    android:cropToPadding="false"
                     android:scaleType="fitStart"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

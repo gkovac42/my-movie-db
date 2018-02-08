@@ -68,8 +68,8 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
             loginInteractor.saveUser(user);
         }
 
-        loginView.hideProgressDialog();
         loginView.navigateToMain();
+        /*loginView.hideProgressDialog();*/
     }
 
     @Override

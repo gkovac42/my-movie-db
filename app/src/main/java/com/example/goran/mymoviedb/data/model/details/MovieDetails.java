@@ -11,9 +11,6 @@ import java.util.List;
 
 public class MovieDetails {
 
-    @SerializedName("adult")
-    @Expose
-    private Boolean adult;
     @SerializedName("backdrop_path")
     @Expose
     private String backdropPath;
@@ -62,9 +59,6 @@ public class MovieDetails {
     @SerializedName("title")
     @Expose
     private String title;
-    @SerializedName("video")
-    @Expose
-    private Boolean video;
     @SerializedName("vote_average")
     @Expose
     private Double voteAverage;
@@ -72,13 +66,6 @@ public class MovieDetails {
     @Expose
     private Integer voteCount;
 
-    public Boolean getAdult() {
-        return adult;
-    }
-
-    public void setAdult(Boolean adult) {
-        this.adult = adult;
-    }
 
     public String getBackdropPath() {
         return backdropPath;
@@ -206,14 +193,6 @@ public class MovieDetails {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Boolean getVideo() {
-        return video;
-    }
-
-    public void setVideo(Boolean video) {
-        this.video = video;
     }
 
     public Double getVoteAverage() {

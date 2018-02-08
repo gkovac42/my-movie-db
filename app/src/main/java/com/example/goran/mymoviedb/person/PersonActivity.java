@@ -15,7 +15,6 @@ import com.example.goran.mymoviedb.di.PersonActivityModule;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsActivity;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -40,7 +39,6 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Fresco.initialize(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person);
         ButterKnife.bind(this);
@@ -48,6 +46,8 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
         (((BaseApplication) getApplication()).getAppComponent())
                 .personActivitySubcomponent(new PersonActivityModule(this))
                 .inject(this);
+
+        showProgressDialog();
 
         adapter = new SimpleMovieAdapter();
         adapter.setListener(new MovieAdapterListener() {

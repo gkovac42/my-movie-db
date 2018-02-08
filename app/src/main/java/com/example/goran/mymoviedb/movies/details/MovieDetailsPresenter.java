@@ -59,7 +59,6 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
 
     @Override
     public void getMovieDetails() {
-        detailsView.showProgressDialog();
         detailsInteractor.getMovieDetails(movieId);
     }
 

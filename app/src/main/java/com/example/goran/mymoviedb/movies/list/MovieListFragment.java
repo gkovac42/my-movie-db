@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.BaseFragment;
@@ -35,6 +36,7 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
     MovieListContract.Presenter presenter;
 
     @BindView(R.id.recycler_list) RecyclerView recyclerView;
+    @BindView(R.id.progress_list) ProgressBar progressBar;
 
     private LargeMovieAdapter adapter;
 
@@ -87,6 +89,16 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
     }
 
     @Override
+    public void showProgressDialog() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressDialog() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
     public void updateAdapter(List<Movie> movies) {
         adapter.setDataSource(movies);
         adapter.notifyDataSetChanged();
@@ -97,5 +109,11 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
         Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
         intent.putExtra("movie_id", movieId);
         startActivity(intent);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        hideProgressDialog();
     }
 }

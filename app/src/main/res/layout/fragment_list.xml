@@ -14,4 +14,11 @@
         android:scrollbars="vertical"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
+    <ProgressBar
+        android:id="@+id/progress_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
 </LinearLayout>

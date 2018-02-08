@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -55,10 +56,8 @@ public class MovieSearchFragment extends BaseFragment implements MovieSearchCont
 
     @OnClick(R.id.btn_search)
     public void onClickSearch() {
-
-        Boolean searchByTitle = rbtnTitle.isChecked();
-        String query = txtSearchQuery.getText().toString();
-        presenter.onClickSearch(query, searchByTitle);
+        presenter.onClickSearch(txtSearchQuery.getText().toString(),
+                rbtnTitle.isChecked());
     }
 
     @OnClick(R.id.rbtn_search_keyword)
@@ -88,6 +87,14 @@ public class MovieSearchFragment extends BaseFragment implements MovieSearchCont
         ButterKnife.bind(this, view);
 
         rbtnTitle.setChecked(true);
+
+        txtSearchQuery.setOnEditorActionListener((textView, i, keyEvent) -> {
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                presenter.onClickSearch(txtSearchQuery.getText().toString(),
+                        rbtnTitle.isChecked());
+            }
+            return false;
+        });
 
         resultAdapter = new SimpleMovieAdapter();
         resultAdapter.setListener(new MovieAdapterListener() {

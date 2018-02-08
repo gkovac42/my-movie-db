@@ -9,6 +9,7 @@ import com.example.goran.mymoviedb.data.model.auth.RequestToken;
 import com.example.goran.mymoviedb.data.model.auth.Session;
 import com.example.goran.mymoviedb.data.model.auth.TokenValidation;
 import com.example.goran.mymoviedb.data.model.details.Credits;
+import com.example.goran.mymoviedb.data.model.details.GenreList;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.keywords.KeywordResponse;
 import com.example.goran.mymoviedb.data.model.list.ListResponse;
@@ -85,6 +86,17 @@ public interface TMDbApiService {
     Observable<ListResponse> searchByKeywordId(@Query("api_key") String apiKey,
                                                @Query("with_keywords") int keywordId,
                                                @Query("page") int page);
+
+    @GET("discover/movie")
+    Observable<ListResponse> searchByGenre(@Query("api_key") String apiKey,
+                                               @Query("with_genres") String genreId,
+                                               @Query("page") int page);
+
+    @GET("genre/movie/list")
+    Observable<GenreList> getGenreList(@Query("api_key") String apiKey);
+
+
+
 
     // PERSON REQUESTS
 

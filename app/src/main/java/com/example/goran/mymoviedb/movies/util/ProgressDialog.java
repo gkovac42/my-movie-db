@@ -29,4 +29,14 @@ public class ProgressDialog extends DialogFragment {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (getDialog() != null) {
+            getDialog().getWindow().setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+        }
+    }
 }

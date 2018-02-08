@@ -14,4 +14,11 @@
         app:layoutManager="android.support.v7.widget.GridLayoutManager"
         app:spanCount="2" />
 
+    <ProgressBar
+        android:id="@+id/progress_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
 </LinearLayout>

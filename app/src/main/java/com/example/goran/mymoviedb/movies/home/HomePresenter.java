@@ -48,32 +48,12 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void onClickPlayingNow() {
-        homeView.showPlayingNowList();
+    public void onClickMenuItem(int itemId) {
+        homeView.showSelectedMenuItem(itemId);
     }
 
     @Override
-    public void onClickUpcoming() {
-        homeView.showUpcomingList();
-    }
-
-    @Override
-    public void onClickPopular() {
-        homeView.showPopularList();
-    }
-
-    @Override
-    public void onClickTopRated() {
-        homeView.showTopRatedList();
-    }
-
-    @Override
-    public void onClickSearch() {
-        homeView.showSearchFragment();
-    }
-
-    @Override
-    public void onClickFavorite() {
-        homeView.showFavoriteList();
+    public void onBackPressed() {
+        homeView.exit();
     }
 }

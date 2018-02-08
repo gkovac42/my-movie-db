@@ -10,6 +10,7 @@ import com.example.goran.mymoviedb.data.model.auth.RequestToken;
 import com.example.goran.mymoviedb.data.model.auth.Session;
 import com.example.goran.mymoviedb.data.model.auth.TokenValidation;
 import com.example.goran.mymoviedb.data.model.details.Credits;
+import com.example.goran.mymoviedb.data.model.details.GenreList;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.keywords.KeywordResponse;
 import com.example.goran.mymoviedb.data.model.list.ListResponse;
@@ -99,6 +100,14 @@ public class ApiHelper {
 
     public Observable<ListResponse> searchByKeywordId(int keywordId, int page) {
         return apiService.searchByKeywordId(API_KEY, keywordId, page);
+    }
+
+    public Observable<GenreList> getGenreList() {
+        return apiService.getGenreList(API_KEY);
+    }
+
+    public Observable<ListResponse> searchByGenre(String genreId, int page) {
+        return apiService.searchByGenre(API_KEY, genreId, page);
     }
 
     // person

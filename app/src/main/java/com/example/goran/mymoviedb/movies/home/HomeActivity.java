@@ -34,6 +34,8 @@ public class HomeActivity extends AppCompatActivity
     @Inject
     HomeContract.Presenter presenter;
 
+    private int selectedItemId;
+
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -79,7 +81,11 @@ public class HomeActivity extends AppCompatActivity
 
         presenter.initView();
 
-        presenter.onClickPlayingNow();
+        if (savedInstanceState != null) {
+            selectedItemId = savedInstanceState.getInt("selected_item");
+        }
+
+        presenter.onClickMenuItem(selectedItemId);
     }
 
     @Override
@@ -88,37 +94,26 @@ public class HomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            presenter.onBackPressed();
         }
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        int id = item.getItemId();
+        selectedItemId = item.getItemId();
 
-        switch (id) {
-            case R.id.nav_playing_now:
-                presenter.onClickPlayingNow();
-                break;
-            case R.id.nav_upcoming:
-                presenter.onClickUpcoming();
-                break;
-            case R.id.nav_popular:
-                presenter.onClickPopular();
-                break;
-            case R.id.nav_top_rated:
-                presenter.onClickTopRated();
-                break;
-            case R.id.nav_search:
-                presenter.onClickSearch();
-                break;
-            case R.id.nav_favorite:
-                presenter.onClickFavorite();
-                break;
-        }
+        presenter.onClickMenuItem(selectedItemId);
+
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("selected_item", selectedItemId);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -132,36 +127,59 @@ public class HomeActivity extends AppCompatActivity
         navigationView.getMenu().getItem(4).setVisible(false);
     }
 
-    public void showPlayingNowList() {
+    @Override
+    public void showSelectedMenuItem(int itemId) {
+
+        switch (selectedItemId) {
+            case R.id.nav_playing_now:
+                showPlayingNow();
+                break;
+            case R.id.nav_upcoming:
+                showUpcoming();
+                break;
+            case R.id.nav_popular:
+                showPopular();
+                break;
+            case R.id.nav_top_rated:
+                showTopRated();
+                break;
+            case R.id.nav_search:
+                showSearch();
+                break;
+            case R.id.nav_favorite:
+                showFavorite();
+                break;
+            default:
+                showPlayingNow();
+        }
+    }
+
+    private void showPlayingNow() {
         getSupportActionBar().setTitle(R.string.title_playing_now);
         showFragment(MovieListFragment.newInstance(Category.NOW_PLAYING));
     }
 
-    @Override
-    public void showUpcomingList() {
+    private void showUpcoming() {
         getSupportActionBar().setTitle(R.string.title_upcoming);
         showFragment(MovieListFragment.newInstance(Category.UPCOMING));
     }
 
-    @Override
-    public void showPopularList() {
+    private void showPopular() {
         getSupportActionBar().setTitle(R.string.title_popular);
         showFragment(MovieListFragment.newInstance(Category.POPULAR));
     }
 
-    @Override
-    public void showTopRatedList() {
+    private void showTopRated() {
         getSupportActionBar().setTitle(R.string.title_top_rated);
         showFragment(MovieListFragment.newInstance(Category.TOP_RATED));
     }
 
-    public void showSearchFragment() {
+    private void showSearch() {
         getSupportActionBar().setTitle(R.string.title_search);
         showFragment(new MovieSearchFragment());
     }
 
-    @Override
-    public void showFavoriteList() {
+    private void showFavorite() {
         getSupportActionBar().setTitle(R.string.title_favorite);
         showFragment(MovieListFragment.newInstance(Category.FAVORITE));
     }
@@ -169,6 +187,14 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void navigateToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void exit() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 }

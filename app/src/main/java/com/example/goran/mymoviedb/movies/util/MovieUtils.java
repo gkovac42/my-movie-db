@@ -52,7 +52,7 @@ public class MovieUtils {
             genres.add(genre.getName());
         }
 
-        return TextUtils.join(",\n", genres);
+        return TextUtils.join(", ", genres);
     }
 
     // localized id to genre name converter to avoid unnecessary network calls

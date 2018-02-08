@@ -14,7 +14,9 @@ public abstract class BaseFragment extends Fragment implements BaseView {
 
     @Override
     public void showProgressDialog() {
-        progressDialog = new ProgressDialog();
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog();
+        }
         progressDialog.show(getActivity().getSupportFragmentManager(), "");
     }
 

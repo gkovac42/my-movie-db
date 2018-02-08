@@ -27,7 +27,7 @@
             android:title="@string/nav_favorite" />
         <item
             android:id="@+id/nav_search"
-            android:icon="@drawable/ic_search_black_24dp"
+            android:icon="@drawable/ic_search_white_24dp"
             android:title="@string/nav_search" />
 
     </group>

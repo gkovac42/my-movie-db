@@ -22,7 +22,7 @@ public abstract class BaseInteractorImpl implements BaseInteractor, LifecycleObs
     }
 
     public interface BaseListener {
-
+        // interactor listeners extend this
     }
 
     public BaseListener getListener() {
@@ -40,11 +40,9 @@ public abstract class BaseInteractorImpl implements BaseInteractor, LifecycleObs
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     private void cleanUp() {
-
         if (listener != null) {
             setListener(null);
         }
-
         if (!compositeDisposable.isDisposed()) {
             compositeDisposable.dispose();
         }

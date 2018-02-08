@@ -1,44 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/bg_gradient"
     android:orientation="vertical"
-    android:padding="@dimen/layout_margin"
+    android:padding="@dimen/margin_normal"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/tmdb_nav_logo" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/tmdb_logo_horizontal" />
 
     <TextView
         android:id="@+id/txt_nav_user"
         style="@style/TextLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_xl"
-        android:text="@string/nav_guest"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView" />
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:text="@string/nav_guest" />
 
     <TextView
         android:id="@+id/txt_nav_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_gravity="center"
         android:background="?attr/selectableItemBackground"
-        android:text="@string/nav_log_in"
-        android:textSize="@dimen/text_small"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView" />
+        android:text="@string/nav_log_in" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
