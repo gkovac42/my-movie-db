@@ -4,14 +4,12 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="text_small">12sp</dimen>
     <dimen name="text_normal">14sp</dimen>
     <dimen name="text_large">18sp</dimen>
 
     <dimen name="layout_margin">8dp</dimen>
-    <dimen name="layout_margin_large">16dp</dimen>
 
     <dimen name="margin_small">4dp</dimen>
     <dimen name="margin_normal">8dp</dimen>
@@ -28,6 +26,7 @@
 
     <dimen name="list_item_width">64dp</dimen>
     <dimen name="list_item_height">64dp</dimen>
-    <dimen name="list_item_height_land">96dp</dimen>
+
+    <dimen name="user_btn_size">64dp</dimen>
 
 </resources>

@@ -27,7 +27,6 @@ public class User {
     }
 
     public String getUsername() {
-
         return username;
     }
 
@@ -84,7 +83,7 @@ public class User {
     }
 
     public void removeFromFavorite(Integer movieId) {
-        for (Integer i : favoriteMovies) {
+        for (int i : favoriteMovies) {
             if (i == movieId) {
                 favoriteMovies.remove(i);
             }
@@ -92,7 +91,7 @@ public class User {
     }
 
     public void removeFromRated(Integer movieId) {
-        for (Integer i : ratedMovies) {
+        for (int i : ratedMovies) {
             if (i == movieId) {
                 ratedMovies.remove(i);
             }

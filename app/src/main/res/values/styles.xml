@@ -20,11 +20,6 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <!--<style name="NavDrawerTextStyle" parent="TextAppearance.AppCompat.Menu">
-        <item name="android:textSize">@dimen/text_normal</item>
-        <item name="android:textStyle">bold</item>
-    </style>
--->
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

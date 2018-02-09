@@ -40,6 +40,8 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
     public void initPresenter(int movieId) {
         this.movieId = movieId;
 
+        detailsView.showProgressDialog();
+
         if (detailsInteractor.userNotNull()) {
             detailsView.enableUserFeatures();
 
@@ -66,7 +68,9 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
     public void onDetailsReady(MovieDetails movieDetails) {
         movieTitle = movieDetails.getTitle();
         movieReleaseDate = MovieUtils.dateStringToLong(movieDetails.getReleaseDate());
+
         detailsView.displayMovieDetails(movieDetails);
+
         detailsView.hideProgressDialog();
     }
 

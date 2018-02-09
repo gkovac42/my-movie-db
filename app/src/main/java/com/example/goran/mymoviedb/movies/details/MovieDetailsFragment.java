@@ -7,9 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +62,6 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
     @BindView(R.id.txt_movie_budget) TextView txtBudget;
     @BindView(R.id.txt_movie_revenue) TextView txtRevenue;
     @BindView(R.id.txt_movie_runtime) TextView txtRuntime;
-    @BindView(R.id.txt_movie_homepage) TextView txtHomepage;
     @BindView(R.id.btn_movie_rate) ImageButton btnRate;
     @BindView(R.id.btn_movie_favorite) ImageButton btnFavorite;
     @BindView(R.id.recycler_movie_similar) RecyclerView recyclerView;
@@ -103,8 +100,6 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        showProgressDialog();
-
         ratingDialog = new RatingDialog();
         ratingDialog.setOnClickListener(dialogView -> {
 
@@ -130,7 +125,6 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
         });
 
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             recyclerView.setNestedScrollingEnabled(false);
@@ -219,9 +213,6 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
         txtRevenue.setText(String.valueOf(movieDetails.getRevenue() + "$"));
 
         txtRuntime.setText(String.valueOf(movieDetails.getRuntime() + " min"));
-
-        txtHomepage.setText(movieDetails.getHomepage());
-        txtHomepage.setMovementMethod(LinkMovementMethod.getInstance());
 
         txtOriginalTitle.setText(movieDetails.getOriginalTitle());
 

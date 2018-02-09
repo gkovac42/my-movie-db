@@ -31,7 +31,7 @@
     <string name="title_search">MyMovieDb - Search</string>
     <string name="title_favorite">MyMovieDb - Favorite</string>
 
-    GenreListnres-->
+    Genres-->
     <string name="action">action</string>
     <string name="drama">drama</string>
     <string name="comedy">comedy</string>
@@ -47,7 +47,7 @@
 
     <!--Search-->
     <string name="by_title">by title</string>
-    <string name="search_movie_database">Search movie database...</string>
+    <string name="search_movie_database">Search movie database…</string>
     <string name="by_keyword">by keyword</string>
 
     <!--Details-->
