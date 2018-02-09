@@ -68,8 +68,6 @@ public class UserManager {
         editor.putString("currentPassword", password);
         editor.apply();
 
-        Log.i("SAVING USERNAME:", user.getUsername());
-        Log.i("SAVING PASSWORD:", password);
     }
 
     public User loadUser() {
@@ -77,13 +75,7 @@ public class UserManager {
         String username = sharedPreferences.getString("currentUsername", null);
         String password = sharedPreferences.getString("currentPassword", null);
 
-        Log.i("LOADING USERNAME:", username);
-        Log.i("LOADING PASSWORD:", password);
-
         String decryptedPassword = decrypt(password);
-
-        Log.i("LOADING USERNAME:", username);
-        Log.i("LOADING PASSWORD:", decryptedPassword);
 
         return new User(username, decryptedPassword);
     }
