@@ -6,8 +6,7 @@ import android.util.Log;
 import com.example.goran.mymoviedb.data.local.UserManager;
 import com.example.goran.mymoviedb.data.model.FavoriteRequest;
 import com.example.goran.mymoviedb.data.model.RateRequest;
-import com.example.goran.mymoviedb.data.model.details.MovieDetails;
-import com.example.goran.mymoviedb.data.model.list.Movie;
+import com.example.goran.mymoviedb.data.model.list.MovieData;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
 import com.example.goran.mymoviedb.di.scope.PerFragment;
 
@@ -35,35 +34,28 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
 
     public interface DetailsListener extends BaseListener {
 
-        void onDetailsReady(MovieDetails movieDetails);
-
-        void onSimilarReady(List<Movie> movies);
+        void onDataReady(MovieData movieData);
 
         void onError();
     }
 
 
     @Override
-    public void getMovieDetails(int movieId) {
+    public void getMovieData(int movieId) {
 
         apiHelper.getMovieDetails(movieId)
+
+                .zipWith(apiHelper.getSimilarMovies(movieId, 1), (movieDetails, listResponse) -> {
+                    MovieData movieData = new MovieData();
+                    movieData.setMovieDetails(movieDetails);
+                    movieData.setSimilarMovies(listResponse.getMovies());
+                    return movieData;
+                })
+
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        movieDetails -> ((DetailsListener) getListener()).onDetailsReady(movieDetails),
-                        throwable -> ((DetailsListener) getListener()).onError(),
-                        () -> Log.i("LOG", "Complete"),
-                        disposable -> getCompositeDisposable().add(disposable));
-    }
-
-    @Override
-    public void getSimilarList(int movieId) {
-
-        apiHelper.getSimilarMovies(movieId, 1)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        listResponse -> ((DetailsListener) getListener()).onSimilarReady(listResponse.getMovies()),
+                        movieData -> ((DetailsListener) getListener()).onDataReady(movieData),
                         throwable -> ((DetailsListener) getListener()).onError(),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));

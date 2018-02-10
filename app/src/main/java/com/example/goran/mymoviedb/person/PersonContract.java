@@ -25,7 +25,7 @@ public interface PersonContract {
 
         void initPresenter(int personId);
 
-        void loadPersonDetails();
+        void loadPersonData();
 
         void onClickRelatedMovie(int movieId);
     }

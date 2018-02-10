@@ -6,11 +6,9 @@ import java.util.List;
  * Created by Goran on 23.1.2018..
  */
 
-public interface DetailsInteractor extends BaseInteractor{
+public interface DetailsInteractor extends BaseInteractor {
 
-    void getMovieDetails(int movieId);
-
-    void getSimilarList(int movieId);
+    void getMovieData(int movieId);
 
     void setFavorite(boolean favorite, int movieId);
 

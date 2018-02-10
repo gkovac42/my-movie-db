@@ -2,11 +2,8 @@ package com.example.goran.mymoviedb.person;
 
 import com.example.goran.mymoviedb.data.interactors.PersonInteractor;
 import com.example.goran.mymoviedb.data.interactors.PersonInteractorImpl;
-import com.example.goran.mymoviedb.data.model.list.Movie;
-import com.example.goran.mymoviedb.data.model.person.Person;
+import com.example.goran.mymoviedb.data.model.person.PersonData;
 import com.example.goran.mymoviedb.di.scope.PerActivity;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -36,20 +33,17 @@ public class PersonPresenter implements PersonContract.Presenter, PersonInteract
     }
 
     @Override
-    public void loadPersonDetails() {
-        personInteractor.getPersonDetails(personId);
-        personInteractor.getRelatedMovies(personId);
+    public void loadPersonData() {
+        personView.showProgressDialog();
+        personInteractor.getPersonData(personId);
+
     }
 
     @Override
-    public void onDataReady(Person person) {
-        personView.displayPersonDetails(person);
+    public void onDataReady(PersonData personData) {
+        personView.displayPersonDetails(personData.getPerson());
+        personView.displayRelatedMovies(personData.getRelatedMovies());
         personView.hideProgressDialog();
-    }
-
-    @Override
-    public void onDataReady(List<Movie> movies) {
-        personView.displayRelatedMovies(movies);
     }
 
     @Override

@@ -6,8 +6,6 @@ package com.example.goran.mymoviedb.data.interactors;
 
 public interface PersonInteractor extends BaseInteractor {
 
-    void getPersonDetails(int personId);
-
-    void getRelatedMovies(int personId);
+    void getPersonData(int personId);
 
 }

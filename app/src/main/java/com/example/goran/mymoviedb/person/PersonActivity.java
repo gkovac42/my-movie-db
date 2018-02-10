@@ -47,8 +47,6 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
                 .personActivitySubcomponent(new PersonActivityModule(this))
                 .inject(this);
 
-        showProgressDialog();
-
         adapter = new SimpleMovieAdapter();
         adapter.setListener(new MovieAdapterListener() {
             @Override
@@ -66,7 +64,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
         recyclerView.setNestedScrollingEnabled(false);
 
         presenter.initPresenter(getIntent().getIntExtra("person_id", 0));
-        presenter.loadPersonDetails();
+        presenter.loadPersonData();
 
     }
 

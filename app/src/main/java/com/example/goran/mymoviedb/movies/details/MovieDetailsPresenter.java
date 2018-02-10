@@ -4,8 +4,7 @@ import android.text.format.DateUtils;
 
 import com.example.goran.mymoviedb.data.interactors.DetailsInteractor;
 import com.example.goran.mymoviedb.data.interactors.DetailsInteractorImpl;
-import com.example.goran.mymoviedb.data.model.details.MovieDetails;
-import com.example.goran.mymoviedb.data.model.list.Movie;
+import com.example.goran.mymoviedb.data.model.list.MovieData;
 import com.example.goran.mymoviedb.di.scope.PerFragment;
 import com.example.goran.mymoviedb.movies.util.MovieUtils;
 
@@ -60,28 +59,18 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
     }
 
     @Override
-    public void getMovieDetails() {
-        detailsInteractor.getMovieDetails(movieId);
+    public void loadMovieData() {
+        detailsInteractor.getMovieData(movieId);
     }
 
     @Override
-    public void onDetailsReady(MovieDetails movieDetails) {
-        movieTitle = movieDetails.getTitle();
-        movieReleaseDate = MovieUtils.dateStringToLong(movieDetails.getReleaseDate());
+    public void onDataReady(MovieData movieData) {
+        movieTitle = movieData.getMovieDetails().getTitle();
+        movieReleaseDate = MovieUtils.dateStringToLong(movieData.getMovieDetails().getReleaseDate());
 
-        detailsView.displayMovieDetails(movieDetails);
-
+        detailsView.displayMovieDetails(movieData.getMovieDetails());
+        detailsView.displaySimilarMovies(movieData.getSimilarMovies());
         detailsView.hideProgressDialog();
-    }
-
-    @Override
-    public void getSimilarMovies() {
-        detailsInteractor.getSimilarList(movieId);
-    }
-
-    @Override
-    public void onSimilarReady(List<Movie> movies) {
-        detailsView.displaySimilarMovies(movies);
     }
 
     @Override

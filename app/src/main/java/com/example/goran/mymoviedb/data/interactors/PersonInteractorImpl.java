@@ -3,12 +3,9 @@ package com.example.goran.mymoviedb.data.interactors;
 import android.arch.lifecycle.LifecycleOwner;
 import android.util.Log;
 
-import com.example.goran.mymoviedb.data.model.list.Movie;
-import com.example.goran.mymoviedb.data.model.person.Person;
+import com.example.goran.mymoviedb.data.model.person.PersonData;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
 import com.example.goran.mymoviedb.di.scope.PerActivity;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -32,34 +29,27 @@ public class PersonInteractorImpl extends BaseInteractorImpl implements PersonIn
 
     public interface PersonListener extends BaseListener {
 
-        void onDataReady(Person person);
-
-        void onDataReady(List<Movie> movies);
+        void onDataReady(PersonData personData);
 
         void onError();
     }
 
+    @Override
+    public void getPersonData(int personId) {
 
-    public void getPersonDetails(int personId) {
+        apiHelper.getPerson(personId).zipWith(apiHelper.getPersonRelatedMovies(personId), (person, listResponse) -> {
 
-        apiHelper.getPerson(personId)
+            PersonData personData = new PersonData();
+            personData.setPerson(person);
+            personData.setRelatedMovies(listResponse.getMovies());
+
+            return personData;
+        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        person -> ((PersonListener)getListener()).onDataReady(person),
-                        throwable -> ((PersonListener)getListener()).onError(),
-                        () -> Log.i("LOG", "Complete"),
-                        disposable -> getCompositeDisposable().add(disposable));
-    }
-
-    public void getRelatedMovies(int personId) {
-
-        apiHelper.getPersonRelatedMovies(personId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        listResponse -> ((PersonListener)getListener()).onDataReady(listResponse.getMovies()),
-                        throwable -> ((PersonListener)getListener()).onError(),
+                        personData -> ((PersonListener) getListener()).onDataReady(personData),
+                        throwable -> ((PersonListener) getListener()).onError(),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
     }

@@ -131,8 +131,7 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
         }
 
         presenter.initPresenter(getActivity().getIntent().getIntExtra("movie_id", 0));
-        presenter.getMovieDetails();
-        presenter.getSimilarMovies();
+        presenter.loadMovieData();
     }
 
 

@@ -50,9 +50,7 @@ public interface MovieDetailsContract {
 
         void initPresenter(int movieId);
 
-        void getMovieDetails();
-
-        void getSimilarMovies();
+        void loadMovieData();
 
         void onClickSimilar(int movieId);
 
