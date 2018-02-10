@@ -4,7 +4,6 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.util.Log;
 
 import com.example.goran.mymoviedb.data.local.UserManager;
-import com.example.goran.mymoviedb.data.model.auth.RequestToken;
 import com.example.goran.mymoviedb.data.model.auth.User;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
@@ -15,7 +14,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -76,10 +74,9 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
         UserManager.setActiveUser(new User());
 
         // get requestToken, use flatmap to validate it with username & password and create session
-        Observable<RequestToken> observable = apiHelper.createRequestToken();
-
-        observable.flatMap(requestToken ->
-                apiHelper.validateRequestToken(username, password, requestToken.getRequestToken()))
+        apiHelper.createRequestToken()
+                .flatMap(requestToken ->
+                        apiHelper.validateRequestToken(username, password, requestToken.getRequestToken()))
 
                 .flatMap(tokenValidation ->
                         apiHelper.createSession(tokenValidation.getRequestToken()))

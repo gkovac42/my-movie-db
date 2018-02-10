@@ -9,7 +9,6 @@ import com.example.goran.mymoviedb.di.scope.PerFragment;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -38,12 +37,12 @@ public class CreditsInteractorImpl extends BaseInteractorImpl implements Credits
 
     @Override
     public void getCredits(int movieId) {
-        Observable<Credits> observable = apiHelper.getMovieCredits(movieId);
-        observable.subscribeOn(Schedulers.io())
+        apiHelper.getMovieCredits(movieId)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        movieCredits -> ((CreditsListener)getListener()).onCreditsReady(movieCredits),
-                        throwable -> ((CreditsListener)getListener()).onError(), () -> Log.i("LOG", "Complete"),
+                        movieCredits -> ((CreditsListener) getListener()).onCreditsReady(movieCredits),
+                        throwable -> ((CreditsListener) getListener()).onError(), () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
     }
 }

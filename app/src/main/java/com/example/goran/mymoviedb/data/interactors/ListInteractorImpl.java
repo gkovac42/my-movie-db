@@ -1,7 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.list.ListResponse;
 import com.example.goran.mymoviedb.data.model.list.Movie;
@@ -59,7 +58,6 @@ public class ListInteractorImpl extends BaseInteractorImpl implements ListIntera
         return apiHelper.getFavoriteMovies(page);
     }
 
-
     @Override
     public void getMovieList(int category, int page) {
 
@@ -85,13 +83,11 @@ public class ListInteractorImpl extends BaseInteractorImpl implements ListIntera
                 listObservable = getNowPlaying(page);
         }
 
-        listObservable.map(listResponse -> listResponse.getMovies())
-                .subscribeOn(Schedulers.io())
+        listObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        movies -> ((ListListener)getListener()).onDataReady(movies),
-                        throwable -> ((ListListener)getListener()).onError(),
-                        () -> Log.i("LOG", "Complete"),
+                        listResponse -> ((ListListener) getListener()).onDataReady(listResponse.getMovies()),
+                        throwable -> ((ListListener) getListener()).onError(), () -> {},
                         disposable -> getCompositeDisposable().add(disposable));
     }
 }

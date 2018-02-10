@@ -39,28 +39,26 @@ public class PersonInteractorImpl extends BaseInteractorImpl implements PersonIn
         void onError();
     }
 
-    @Override
+
     public void getPersonDetails(int personId) {
+
         apiHelper.getPerson(personId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-
                         person -> ((PersonListener)getListener()).onDataReady(person),
                         throwable -> ((PersonListener)getListener()).onError(),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
     }
 
-    @Override
     public void getRelatedMovies(int personId) {
+
         apiHelper.getPersonRelatedMovies(personId)
-                .map(listResponse -> listResponse.getMovies())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-
-                        movies -> ((PersonListener)getListener()).onDataReady(movies),
+                        listResponse -> ((PersonListener)getListener()).onDataReady(listResponse.getMovies()),
                         throwable -> ((PersonListener)getListener()).onError(),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));

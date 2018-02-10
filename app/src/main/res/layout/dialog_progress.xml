@@ -8,6 +8,7 @@
         android:layout_width="@dimen/backdrop_width_land"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:paddingBottom="@dimen/margin_normal"
         style="?android:attr/progressBarStyleHorizontal"
         android:indeterminate="true" />
 
