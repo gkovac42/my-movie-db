@@ -9,7 +9,6 @@ import com.example.goran.mymoviedb.di.scope.PerFragment;
 import com.example.goran.mymoviedb.movies.util.MovieUtils;
 
 import java.util.Calendar;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -43,18 +42,6 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
 
         if (detailsInteractor.userNotNull()) {
             detailsView.enableUserFeatures();
-
-            List<Integer> favoriteMovies = detailsInteractor.getUserFavoriteIds();
-
-            if (checkIfExists(favoriteMovies)) {
-                detailsView.checkFavorite();
-            }
-
-            List<Integer> ratedMovies = detailsInteractor.getUserRatedIds();
-
-            if (checkIfExists(ratedMovies)) {
-                detailsView.checkRated();
-            }
         }
     }
 
@@ -67,6 +54,14 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
     public void onDataReady(MovieData movieData) {
         movieTitle = movieData.getMovieDetails().getTitle();
         movieReleaseDate = MovieUtils.dateStringToLong(movieData.getMovieDetails().getReleaseDate());
+
+        if (movieData.getAccountStates().getRated().getClass() != Boolean.class) {
+            detailsView.checkRated();
+        }
+
+        if (movieData.getAccountStates().getFavorite()) {
+            detailsView.checkFavorite();
+        }
 
         detailsView.displayMovieDetails(movieData.getMovieDetails());
         detailsView.displaySimilarMovies(movieData.getSimilarMovies());
@@ -123,17 +118,13 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
         }
     }
 
-    private boolean checkIfExists(List<Integer> movieIdList) {
-        for (Integer i : movieIdList) {
-            if (i == movieId) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public void onError() {
         detailsView.hideProgressDialog();
+    }
+
+    @Override
+    public void onUserActionError() {
+        detailsView.displayUserActionError();
     }
 }

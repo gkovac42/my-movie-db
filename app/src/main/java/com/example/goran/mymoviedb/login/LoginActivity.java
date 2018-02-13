@@ -52,7 +52,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
         txtResetPassword.setMovementMethod(LinkMovementMethod.getInstance());
 
-        presenter.checkForCurrentUser();
+        presenter.checkForSavedUser();
     }
 
 

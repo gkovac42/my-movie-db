@@ -6,6 +6,7 @@ import com.example.goran.mymoviedb.data.model.FavoriteResponse;
 import com.example.goran.mymoviedb.data.model.RateRequest;
 import com.example.goran.mymoviedb.data.model.RateResponse;
 import com.example.goran.mymoviedb.data.model.auth.Account;
+import com.example.goran.mymoviedb.data.model.auth.AccountStates;
 import com.example.goran.mymoviedb.data.model.auth.RequestToken;
 import com.example.goran.mymoviedb.data.model.auth.Session;
 import com.example.goran.mymoviedb.data.model.auth.TokenValidation;
@@ -147,6 +148,10 @@ public class ApiHelper {
 
     public Observable<RateResponse> deleteMovieRating(int movieId) {
         return apiService.deleteMovieRating(movieId, API_KEY, UserManager.getActiveUser().getSessionId());
+    }
+
+    public Observable<AccountStates> getAccountStates(int movieId) {
+        return apiService.getAccountStates(movieId, API_KEY, UserManager.getActiveUser().getSessionId());
     }
 
 }

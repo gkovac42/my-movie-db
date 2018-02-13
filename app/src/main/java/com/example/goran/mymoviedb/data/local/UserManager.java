@@ -1,11 +1,11 @@
 package com.example.goran.mymoviedb.data.local;
 
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.auth.User;
 import com.yakivmospan.scytale.Crypto;
 import com.yakivmospan.scytale.Store;
+
 
 import javax.crypto.SecretKey;
 import javax.inject.Inject;
@@ -20,6 +20,7 @@ public class UserManager {
 
     private SecretKey key;
     private Crypto crypto;
+    private Store store;
     private SharedPreferences sharedPreferences;
 
     private static User activeUser;
@@ -28,15 +29,8 @@ public class UserManager {
     public UserManager(Store store, Crypto crypto, SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
         this.crypto = crypto;
-
-        if (!store.hasKey("password_key")) {
-            key = store.generateSymmetricKey("password_key", null);
-        } else {
-            key = store.getSymmetricKey("password_key", null);
-        }
-
-        Log.i("STORE KEY", key.toString());
-
+        this.store = store;
+        this.key = getKey();
     }
 
     public static User getActiveUser() {
@@ -47,46 +41,50 @@ public class UserManager {
         activeUser = user;
     }
 
-    public String encrypt(String password) {
+    private SecretKey getKey() {
+        if (!store.hasKey("password_key")) {
+            return store.generateSymmetricKey("password_key", null);
+
+        } else {
+            return store.getSymmetricKey("password_key", null);
+        }
+    }
+
+    private String encrypt(String password) {
         return crypto.encrypt(password, key);
     }
 
-    public String decrypt(String password) {
+    private String decrypt(String password) {
         try {
             return crypto.decrypt(password, key);
+
         } catch (Exception e) {
             return null;
         }
     }
 
     public void saveUser(User user) {
-
-        String password = encrypt(user.getPassword());
+        String encryptedPassword = encrypt(user.getPassword());
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("currentUsername", user.getUsername());
-        editor.putString("currentPassword", password);
+        editor.putString("username", user.getUsername());
+        editor.putString("password", encryptedPassword);
         editor.apply();
 
     }
 
     public User loadUser() {
-
-        String username = sharedPreferences.getString("currentUsername", null);
-        String password = sharedPreferences.getString("currentPassword", null);
-
+        String username = sharedPreferences.getString("username", null);
+        String password = sharedPreferences.getString("password", null);
         String decryptedPassword = decrypt(password);
 
         return new User(username, decryptedPassword);
     }
 
     public void deleteUser() {
-        try {
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.remove("currentUsername");
-            editor.remove("currentPassword");
+            editor.remove("username");
+            editor.remove("password");
             editor.apply();
-        } catch (Exception ignored) {
-        }
     }
 }

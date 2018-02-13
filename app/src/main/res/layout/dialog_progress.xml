@@ -2,22 +2,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="0dp"
+    android:layout_margin="0dp"
     android:background="@drawable/bg_gradient">
 
     <ProgressBar
         android:layout_width="@dimen/backdrop_width_land"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:paddingBottom="@dimen/margin_normal"
-        style="?android:attr/progressBarStyleHorizontal"
+        android:paddingBottom="@dimen/margin_large"
         android:indeterminate="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingTop="@dimen/margin_xl"
-        android:textColor="@android:color/secondary_text_dark"
-        android:text="Loading..."/>
 
 </FrameLayout>

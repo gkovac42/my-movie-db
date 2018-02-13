@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.BaseFragment;
@@ -184,6 +185,11 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
     @Override
     public void dismissRatingDialog() {
         ratingDialog.dismiss();
+    }
+
+    @Override
+    public void displayUserActionError() {
+        Toast.makeText(getActivity(), "Action failed, please try again.", Toast.LENGTH_SHORT).show();
     }
 
     // movie details

@@ -5,6 +5,7 @@ import com.example.goran.mymoviedb.data.model.FavoriteResponse;
 import com.example.goran.mymoviedb.data.model.RateRequest;
 import com.example.goran.mymoviedb.data.model.RateResponse;
 import com.example.goran.mymoviedb.data.model.auth.Account;
+import com.example.goran.mymoviedb.data.model.auth.AccountStates;
 import com.example.goran.mymoviedb.data.model.auth.RequestToken;
 import com.example.goran.mymoviedb.data.model.auth.Session;
 import com.example.goran.mymoviedb.data.model.auth.TokenValidation;
@@ -146,4 +147,8 @@ public interface TMDbApiService {
                                                @Query("api_key") String apiKey,
                                                @Query("session_id") String sessionId);
 
+    @GET ("movie/{movie_id}/account_states")
+    Observable<AccountStates> getAccountStates(@Path("movie_id") int movieId,
+                                               @Query("api_key") String apiKey,
+                                               @Query("session_id") String sessionId);
 }

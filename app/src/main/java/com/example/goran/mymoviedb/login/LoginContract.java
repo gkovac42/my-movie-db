@@ -24,7 +24,7 @@ public interface LoginContract {
 
     interface Presenter {
 
-        void checkForCurrentUser();
+        void checkForSavedUser();
 
         void onClickLogin(String username, String password);
 

@@ -1,7 +1,6 @@
 package com.example.goran.mymoviedb.movies.home;
 
 import com.example.goran.mymoviedb.data.interactors.LoginInteractor;
-import com.example.goran.mymoviedb.data.local.UserManager;
 import com.example.goran.mymoviedb.data.model.auth.User;
 import com.example.goran.mymoviedb.di.scope.PerActivity;
 
@@ -30,7 +29,7 @@ public class HomePresenter implements HomeContract.Presenter {
         activeUser = loginInteractor.getActiveUser();
 
         if (activeUser != null) {
-            homeView.displayUsername(activeUser.getUsername());
+            homeView.displayActiveUser(activeUser.getUsername());
 
         } else {
             homeView.hideFavorites();
@@ -40,10 +39,10 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void onClickLoginOut() {
         if (activeUser != null) {
+            loginInteractor.deleteActiveUser();
             loginInteractor.deleteSavedUser();
         }
 
-        UserManager.setActiveUser(null);
         homeView.navigateToLogin();
     }
 

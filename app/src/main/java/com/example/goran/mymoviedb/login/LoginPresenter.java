@@ -27,27 +27,24 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
     }
 
     @Override
-    public void checkForCurrentUser() {
-        // try to load saved user data
+    public void checkForSavedUser() {
         User savedUser = loginInteractor.loadUser();
 
         if (savedUser.getUsername() != null) {
-            // if not null try to log in
-            loginView.showProgressDialog();
             loginInteractor.initLogin(savedUser.getUsername(), savedUser.getPassword());
+            loginView.showProgressDialog();
         }
     }
 
     @Override
     public void onClickLogin(String username, String password) {
-        // check user input
+
         if (!UserInput.usernameValid(username)) {
             loginView.displayUsernameError();
 
         } else if (!UserInput.passwordValid(password)) {
             loginView.displayPasswordError();
 
-            // if input is valid start login
         } else {
             loginInteractor.initLogin(username, password);
             loginView.showProgressDialog();
@@ -62,19 +59,16 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
 
     @Override
     public void onLoginSuccess(String username, String password) {
-
         if (loginView.stayLoggedIn()) {
             User user = new User(username, password);
             loginInteractor.saveUser(user);
         }
 
         loginView.navigateToMain();
-        /*loginView.hideProgressDialog();*/
     }
 
     @Override
     public void onClickGuest() {
-        loginInteractor.deleteActiveUser();
         loginView.navigateToMain();
     }
 }

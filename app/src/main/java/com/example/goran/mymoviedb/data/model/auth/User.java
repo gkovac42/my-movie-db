@@ -1,8 +1,5 @@
 package com.example.goran.mymoviedb.data.model.auth;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Goran on 11.1.2018..
  */
@@ -13,9 +10,6 @@ public class User {
     private String password;
     private String sessionId;
     private int accountId;
-
-    private ArrayList<Integer> favoriteMovies;
-    private ArrayList<Integer> ratedMovies;
 
     public User() {
 
@@ -58,43 +52,4 @@ public class User {
         this.accountId = accountId;
     }
 
-    public ArrayList<Integer> getFavoriteMovies() {
-        return favoriteMovies;
-    }
-
-    public void setFavoriteMovies(ArrayList<Integer> favoriteMovies) {
-        this.favoriteMovies = favoriteMovies;
-    }
-
-    public List<Integer> getRatedMovies() {
-        return ratedMovies;
-    }
-
-    public void setRatedMovies(ArrayList<Integer> ratedMovies) {
-        this.ratedMovies = ratedMovies;
-    }
-
-    public void addToFavorite(Integer movieId) {
-        favoriteMovies.add(movieId);
-    }
-
-    public void addToRated(Integer movieId) {
-        ratedMovies.add(movieId);
-    }
-
-    public void removeFromFavorite(Integer movieId) {
-        for (int i : favoriteMovies) {
-            if (i == movieId) {
-                favoriteMovies.remove(i);
-            }
-        }
-    }
-
-    public void removeFromRated(Integer movieId) {
-        for (int i : ratedMovies) {
-            if (i == movieId) {
-                ratedMovies.remove(i);
-            }
-        }
-    }
 }

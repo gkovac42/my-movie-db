@@ -32,6 +32,8 @@ public interface MovieDetailsContract {
 
         void dismissRatingDialog();
 
+        void displayUserActionError();
+
         void displayMovieDetails(MovieDetails movieDetails);
 
         void displaySimilarMovies(List<Movie> movieList);

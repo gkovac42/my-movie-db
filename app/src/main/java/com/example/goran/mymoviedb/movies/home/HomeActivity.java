@@ -117,7 +117,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void displayUsername(String username) {
+    public void displayActiveUser(String username) {
         txtUser.setText(username);
         txtLogInOut.setText(R.string.nav_log_out);
     }

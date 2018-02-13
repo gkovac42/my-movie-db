@@ -8,7 +8,7 @@ public interface HomeContract {
 
     interface View {
 
-        void displayUsername(String username);
+        void displayActiveUser(String username);
 
         void hideFavorites();
 

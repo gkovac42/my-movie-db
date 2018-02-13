@@ -5,12 +5,8 @@ import android.util.Log;
 
 import com.example.goran.mymoviedb.data.local.UserManager;
 import com.example.goran.mymoviedb.data.model.auth.User;
-import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
 import com.example.goran.mymoviedb.di.scope.PerActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -84,34 +80,16 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
                     UserManager.getActiveUser().setSessionId(session.getSessionId());
                     return apiHelper.getAccountId(session.getSessionId());
                 })
-                .flatMap(account -> {
-                    UserManager.getActiveUser().setAccountId(account.getId());
-                    return apiHelper.getFavoriteMovies(1);
-                })
 
-                // get user favorite and rated movies
-                .flatMap(listResponse -> {
-                    UserManager.getActiveUser().setFavoriteMovies(getMovieIds(listResponse.getMovies()));
-                    return apiHelper.getRatedMovies(1);
-                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(listResponse -> {
-                            UserManager.getActiveUser().setRatedMovies(getMovieIds(listResponse.getMovies()));
+                .subscribe(account -> {
+                            UserManager.getActiveUser().setAccountId(account.getId());
                             UserManager.getActiveUser().setUsername(username);
                             ((LoginListener) getListener()).onLoginSuccess(username, password);
                         },
                         throwable -> ((LoginListener) getListener()).onLoginError(),
                         () -> Log.i("LOG", "Complete"),
                         disposable -> getCompositeDisposable().add(disposable));
-    }
-
-    private ArrayList<Integer> getMovieIds(List<Movie> movies) {
-        ArrayList<Integer> ids = new ArrayList<>();
-
-        for (Movie movie : movies) {
-            ids.add(movie.getId());
-        }
-        return ids;
     }
 }
