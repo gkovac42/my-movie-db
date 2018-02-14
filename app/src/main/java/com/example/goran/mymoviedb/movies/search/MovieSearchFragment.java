@@ -62,12 +62,12 @@ public class MovieSearchFragment extends BaseFragment implements MovieSearchCont
 
     @OnClick(R.id.rbtn_search_keyword)
     public void onSelectKeyword() {
-        presenter.onSelectKeyword();
+        presenter.onSelectByKeyword();
     }
 
     @OnClick(R.id.rbtn_search_title)
     public void onSelectTitle() {
-        presenter.onSelectTitle();
+        presenter.onSelectByTitle();
     }
 
     @Nullable

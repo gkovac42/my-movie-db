@@ -32,9 +32,9 @@ public interface MovieSearchContract {
 
         void onClickSearch(String query, Boolean searchByTitle);
 
-        void onSelectKeyword();
+        void onSelectByKeyword();
 
-        void onSelectTitle();
+        void onSelectByTitle();
 
         void loadKeywords(String query);
 

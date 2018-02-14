@@ -15,6 +15,11 @@ public class MovieData {
     private AccountStates accountStates;
     private List<Movie> similarMovies;
 
+    public MovieData(MovieDetails movieDetails, List<Movie> similarMovies) {
+        this.movieDetails = movieDetails;
+        this.similarMovies = similarMovies;
+    }
+
     public MovieData(MovieDetails movieDetails, AccountStates accountStates, List<Movie> similarMovies) {
         this.movieDetails = movieDetails;
         this.accountStates = accountStates;

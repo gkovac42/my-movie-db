@@ -19,8 +19,8 @@ import javax.inject.Inject;
 public class MovieSearchPresenter implements
         MovieSearchContract.Presenter, SearchInteractorImpl.SearchListener {
 
-    private SearchInteractor searchInteractor;
-    private MovieSearchContract.View searchView;
+    private MovieSearchContract.View view;
+    private SearchInteractor interactor;
 
     private List<Keyword> keywords;
     private List<Movie> results;
@@ -30,22 +30,20 @@ public class MovieSearchPresenter implements
     private int currentPage;
 
     @Inject
-    public MovieSearchPresenter(SearchInteractor searchInteractor, MovieSearchContract.View searchView) {
-        this.searchInteractor = searchInteractor;
-        this.searchView = searchView;
+    public MovieSearchPresenter(SearchInteractor interactor, MovieSearchContract.View view) {
+        this.view = view;
+        this.interactor = interactor;
+        this.interactor.setListener(this);
 
-        this.keywords = new ArrayList<>();
-        this.results = new ArrayList<>();
-
-        searchInteractor.setListener(this);
-
+        keywords = new ArrayList<>();
+        results = new ArrayList<>();
     }
 
     @Override
     public void onClickSearch(String query, Boolean byTitle) {
 
-        searchView.showProgressDialog();
-        searchView.hideKeyboard();
+        view.showProgressDialog();
+        view.hideKeyboard();
 
         this.currentPage = 1;
         this.query = query;
@@ -57,11 +55,11 @@ public class MovieSearchPresenter implements
     private void search(Boolean byTitle) {
 
         if (byTitle) {
-            searchInteractor.searchByTitle(query, currentPage++);
+            interactor.searchByTitle(query, currentPage++);
 
         } else {
             getKeywordId(query);
-            searchInteractor.searchByKeywordId(keywordId, currentPage++);
+            interactor.searchByKeywordId(keywordId, currentPage++);
         }
     }
 
@@ -77,23 +75,23 @@ public class MovieSearchPresenter implements
     }
 
     @Override
-    public void onSelectKeyword() {
-        searchView.initTextWatcher();
+    public void onSelectByKeyword() {
+        view.initTextWatcher();
     }
 
     @Override
-    public void onSelectTitle() {
-        searchView.removeTextWatcher();
+    public void onSelectByTitle() {
+        view.removeTextWatcher();
     }
 
     @Override
     public void loadKeywords(String query) {
-        searchInteractor.getKeywords(query);
+        interactor.getKeywords(query);
     }
 
     @Override
     public void onClickResult(int movieId) {
-        searchView.navigateToResult(movieId);
+        view.navigateToResult(movieId);
     }
 
     @Override
@@ -104,19 +102,19 @@ public class MovieSearchPresenter implements
     @Override
     public void onResultsReady(List<Movie> movieList) {
         results.addAll(movieList);
-        searchView.displaySearchResults(results);
-        searchView.hideProgressDialog();
+        view.displaySearchResults(results);
+        view.hideProgressDialog();
     }
 
     @Override
     public void onKeywordsReady(List<Keyword> keywordList) {
         keywords = keywordList;
-        searchView.displayKeywords(keywords);
+        view.displayKeywords(keywords);
     }
 
     @Override
     public void onError() {
-        searchView.hideProgressDialog();
+        view.hideProgressDialog();
     }
 
 }

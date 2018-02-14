@@ -29,6 +29,6 @@
     <dimen name="list_item_width">96dp</dimen>
     <dimen name="list_item_height">96dp</dimen>
 
-    <dimen name="user_btn_size">64dp</dimen>
+    <dimen name="user_btn_size">72dp</dimen>
 
 </resources>

@@ -16,8 +16,8 @@ import javax.inject.Inject;
 @PerFragment
 public class MovieListPresenter implements MovieListContract.Presenter, ListInteractorImpl.ListListener {
 
-    private MovieListContract.View listView;
-    private ListInteractor listInteractor;
+    private MovieListContract.View view;
+    private ListInteractor interactor;
 
     private List<Movie> movies;
 
@@ -25,11 +25,10 @@ public class MovieListPresenter implements MovieListContract.Presenter, ListInte
     private int currentPage;
 
     @Inject
-    public MovieListPresenter(MovieListContract.View listView, ListInteractor listInteractor) {
-        this.listView = listView;
-        this.listInteractor = listInteractor;
-
-        listInteractor.setListener(this);
+    public MovieListPresenter(MovieListContract.View view, ListInteractor interactor) {
+        this.view = view;
+        this.interactor = interactor;
+        this.interactor.setListener(this);
     }
 
     @Override
@@ -41,25 +40,26 @@ public class MovieListPresenter implements MovieListContract.Presenter, ListInte
 
     @Override
     public void loadMovies() {
-        listView.showProgressDialog();
-        listInteractor.getMovieList(category, currentPage++);
+        view.showProgressDialog();
+        interactor.getMovieList(category, currentPage++);
     }
 
     @Override
     public void onDataReady(List<Movie> movieList) {
-        listView.hideProgressDialog();
         movies.addAll(movieList);
-        listView.updateAdapter(movies);
+        view.updateAdapter(movies);
+        view.hideProgressDialog();
     }
 
     @Override
     public void onError() {
-        listView.hideProgressDialog();
+        view.hideProgressDialog();
+        // TODO display error message
     }
 
     @Override
     public void onClickMovie(int movieId) {
-        listView.navigateToMovie(movieId);
+        view.navigateToMovie(movieId);
     }
 
     @Override

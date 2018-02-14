@@ -14,14 +14,13 @@ import javax.inject.Inject;
 @PerActivity
 public class LoginPresenter implements LoginContract.Presenter, LoginInteractorImpl.LoginListener {
 
-    private LoginInteractor interactor;
     private LoginContract.View view;
+    private LoginInteractor interactor;
 
     @Inject
     public LoginPresenter(LoginInteractor interactor, LoginContract.View view) {
-        this.interactor = interactor;
         this.view = view;
-
+        this.interactor = interactor;
         this.interactor.setListener(this);
     }
 
@@ -52,6 +51,7 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
 
     @Override
     public void onLoginError() {
+        interactor.deleteActiveUser();
         view.hideProgressDialog();
         view.displayLoginError();
     }
@@ -67,6 +67,10 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
 
     @Override
     public void onClickGuest() {
+        if (interactor.getActiveUser() != null) {
+            interactor.deleteActiveUser();
+        }
+
         view.navigateToMain();
     }
 

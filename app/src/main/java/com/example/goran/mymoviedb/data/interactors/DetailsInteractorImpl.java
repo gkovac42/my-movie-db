@@ -43,8 +43,7 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
     }
 
 
-    @Override
-    public void getMovieData(int movieId) {
+    private void getUserData(int movieId) {
 
         Observable<MovieDetails> detailsObs = apiHelper.getMovieDetails(movieId);
         Observable<AccountStates> statesObs = apiHelper.getAccountStates(movieId);
@@ -58,8 +57,35 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribe(
 
                         movieData -> ((DetailsListener) getListener()).onDataReady(movieData),
-                        throwable -> ((DetailsListener) getListener()).onError(), () -> {},
+                        throwable -> ((DetailsListener) getListener()).onError(), () -> {
+                        },
                         disposable -> getCompositeDisposable().add(disposable));
+    }
+
+    private void getGuestData(int movieId) {
+
+        apiHelper.getMovieDetails(movieId)
+                .zipWith(apiHelper.getSimilarMovies(movieId, 1), (movieDetails, listResponse)
+                        -> new MovieData(movieDetails, listResponse.getMovies()))
+
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+
+                        movieData -> ((DetailsListener) getListener()).onDataReady(movieData),
+                        throwable -> ((DetailsListener) getListener()).onError(), () -> {
+                        },
+                        disposable -> getCompositeDisposable().add(disposable));
+    }
+
+    @Override
+    public void getMovieData(int movieId) {
+        if (userNotNull()) {
+            getUserData(movieId);
+
+        } else {
+            getGuestData(movieId);
+        }
     }
 
     @Override
@@ -71,9 +97,11 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        favoriteResponse -> {},
+                        favoriteResponse -> {
+                        },
                         throwable -> ((DetailsListener) getListener()).onUserActionError(),
-                        () -> {},
+                        () -> {
+                        },
                         disposable -> getCompositeDisposable().add(disposable));
     }
 
@@ -86,9 +114,11 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        rateResponse -> {},
+                        rateResponse -> {
+                        },
                         throwable -> ((DetailsListener) getListener()).onUserActionError(),
-                        () -> {},
+                        () -> {
+                        },
                         disposable -> getCompositeDisposable().add(disposable));
     }
 
@@ -99,9 +129,11 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        rateResponse -> {},
+                        rateResponse -> {
+                        },
                         throwable -> ((DetailsListener) getListener()).onUserActionError(),
-                        () -> {},
+                        () -> {
+                        },
                         disposable -> getCompositeDisposable().add(disposable));
     }
 

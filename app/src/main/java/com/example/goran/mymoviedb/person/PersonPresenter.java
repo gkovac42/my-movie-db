@@ -14,17 +14,16 @@ import javax.inject.Inject;
 @PerActivity
 public class PersonPresenter implements PersonContract.Presenter, PersonInteractorImpl.PersonListener {
 
-    private PersonContract.View personView;
-    private PersonInteractor personInteractor;
+    private PersonContract.View view;
+    private PersonInteractor interactor;
 
     private int personId;
 
     @Inject
-    public PersonPresenter(PersonContract.View personView, PersonInteractor personInteractor) {
-        this.personView = personView;
-        this.personInteractor = personInteractor;
-
-        personInteractor.setListener(this);
+    public PersonPresenter(PersonContract.View view, PersonInteractor interactor) {
+        this.view = view;
+        this.interactor = interactor;
+        this.interactor.setListener(this);
     }
 
     @Override
@@ -34,26 +33,26 @@ public class PersonPresenter implements PersonContract.Presenter, PersonInteract
 
     @Override
     public void loadPersonData() {
-        personView.showProgressDialog();
-        personInteractor.getPersonData(personId);
+        view.showProgressDialog();
+        interactor.getPersonData(personId);
 
     }
 
     @Override
     public void onDataReady(PersonData personData) {
-        personView.displayPersonDetails(personData.getPerson());
-        personView.displayRelatedMovies(personData.getRelatedMovies());
-        personView.hideProgressDialog();
+        view.displayPersonDetails(personData.getPerson());
+        view.displayRelatedMovies(personData.getRelatedMovies());
+        view.hideProgressDialog();
     }
 
     @Override
     public void onError() {
-        personView.hideProgressDialog();
+        view.hideProgressDialog();
     }
 
     @Override
     public void onClickRelatedMovie(int movieId) {
-        personView.navigateToRelatedMovie(movieId);
+        view.navigateToRelatedMovie(movieId);
     }
 
 }

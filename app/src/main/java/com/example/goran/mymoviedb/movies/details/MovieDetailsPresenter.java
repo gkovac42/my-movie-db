@@ -55,12 +55,14 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
         title = data.getMovieDetails().getTitle();
         releaseDate = MovieUtils.dateStringToLong(data.getMovieDetails().getReleaseDate());
 
-        if (data.getAccountStates().getRated().getClass() != Boolean.class) {
-            view.checkRated();
-        }
+        if (data.getAccountStates() != null) {
+            if (data.getAccountStates().getRated().getClass() != Boolean.class) {
+                view.checkRated();
+            }
 
-        if (data.getAccountStates().getFavorite()) {
-            view.checkFavorite();
+            if (data.getAccountStates().getFavorite()) {
+                view.checkFavorite();
+            }
         }
 
         view.displayMovieDetails(data.getMovieDetails());
