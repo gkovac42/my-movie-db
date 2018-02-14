@@ -4,7 +4,6 @@ import com.example.goran.mymoviedb.data.interactors.LoginInteractor;
 import com.example.goran.mymoviedb.data.interactors.LoginInteractorImpl;
 import com.example.goran.mymoviedb.data.model.auth.User;
 import com.example.goran.mymoviedb.di.scope.PerActivity;
-import com.example.goran.mymoviedb.login.util.UserInput;
 
 import javax.inject.Inject;
 
@@ -15,60 +14,67 @@ import javax.inject.Inject;
 @PerActivity
 public class LoginPresenter implements LoginContract.Presenter, LoginInteractorImpl.LoginListener {
 
-    private LoginInteractor loginInteractor;
-    private LoginContract.View loginView;
+    private LoginInteractor interactor;
+    private LoginContract.View view;
 
     @Inject
     public LoginPresenter(LoginInteractor interactor, LoginContract.View view) {
-        this.loginInteractor = interactor;
-        this.loginView = view;
+        this.interactor = interactor;
+        this.view = view;
 
-        loginInteractor.setListener(this);
+        this.interactor.setListener(this);
     }
 
     @Override
     public void checkForSavedUser() {
-        User savedUser = loginInteractor.loadUser();
+        User tempUser = interactor.loadUser();
 
-        if (savedUser.getUsername() != null) {
-            loginInteractor.initLogin(savedUser.getUsername(), savedUser.getPassword());
-            loginView.showProgressDialog();
+        if (tempUser.getUsername() != null) {
+            interactor.initLogin(tempUser.getUsername(), tempUser.getPassword());
+            view.showProgressDialog();
         }
     }
 
     @Override
     public void onClickLogin(String username, String password) {
 
-        if (!UserInput.usernameValid(username)) {
-            loginView.displayUsernameError();
+        if (!usernameValid(username)) {
+            view.displayUsernameError();
 
-        } else if (!UserInput.passwordValid(password)) {
-            loginView.displayPasswordError();
+        } else if (!passwordValid(password)) {
+            view.displayPasswordError();
 
         } else {
-            loginInteractor.initLogin(username, password);
-            loginView.showProgressDialog();
+            interactor.initLogin(username, password);
+            view.showProgressDialog();
         }
     }
 
     @Override
     public void onLoginError() {
-        loginView.hideProgressDialog();
-        loginView.displayLoginError();
+        view.hideProgressDialog();
+        view.displayLoginError();
     }
 
     @Override
     public void onLoginSuccess(String username, String password) {
-        if (loginView.stayLoggedIn()) {
-            User user = new User(username, password);
-            loginInteractor.saveUser(user);
+        if (view.stayLoggedIn()) {
+            interactor.saveUser(interactor.getActiveUser());
         }
 
-        loginView.navigateToMain();
+        view.navigateToMain();
     }
 
     @Override
     public void onClickGuest() {
-        loginView.navigateToMain();
+        view.navigateToMain();
+    }
+
+    private boolean usernameValid(String username) {
+        return username.length() > 2 && username.length() < 21;
+    }
+
+    private boolean passwordValid(String password) {
+        return password.length() > 7 && password.length() < 21;
     }
 }

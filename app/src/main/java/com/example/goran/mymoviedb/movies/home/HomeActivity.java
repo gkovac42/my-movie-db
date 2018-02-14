@@ -49,12 +49,6 @@ public class HomeActivity extends AppCompatActivity
         presenter.onClickLoginOut();
     }
 
-    private void showFragment(Fragment fragment) {
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_main, fragment)
-                .commit();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,11 +82,17 @@ public class HomeActivity extends AppCompatActivity
         presenter.onClickMenuItem(selectedItemId);
     }
 
+    private void showFragment(Fragment fragment) {
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_main, fragment)
+                .commit();
+    }
+
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+
         } else {
             presenter.onBackPressed();
         }
@@ -128,7 +128,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void showSelectedMenuItem(int itemId) {
+    public void navigateToMenuItem(int itemId) {
 
         switch (selectedItemId) {
             case R.id.nav_playing_now:

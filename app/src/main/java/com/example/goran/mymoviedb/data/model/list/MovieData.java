@@ -12,8 +12,14 @@ import java.util.List;
 public class MovieData {
 
     private MovieDetails movieDetails;
-    private List<Movie> similarMovies;
     private AccountStates accountStates;
+    private List<Movie> similarMovies;
+
+    public MovieData(MovieDetails movieDetails, AccountStates accountStates, List<Movie> similarMovies) {
+        this.movieDetails = movieDetails;
+        this.accountStates = accountStates;
+        this.similarMovies = similarMovies;
+    }
 
     public MovieDetails getMovieDetails() {
         return movieDetails;

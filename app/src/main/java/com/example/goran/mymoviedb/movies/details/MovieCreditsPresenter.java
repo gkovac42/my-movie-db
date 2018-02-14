@@ -14,17 +14,16 @@ import javax.inject.Inject;
 @PerFragment
 public class MovieCreditsPresenter implements MovieCreditsContract.Presenter, CreditsInteractorImpl.CreditsListener {
 
-    private MovieCreditsContract.View creditsView;
-    private CreditsInteractor creditsInteractor;
+    private MovieCreditsContract.View view;
+    private CreditsInteractor interactor;
 
     private int movieId;
 
     @Inject
-    public MovieCreditsPresenter(MovieCreditsContract.View creditsView, CreditsInteractor creditsInteractor) {
-        this.creditsView = creditsView;
-        this.creditsInteractor = creditsInteractor;
-
-        creditsInteractor.setListener(this);
+    public MovieCreditsPresenter(MovieCreditsContract.View view, CreditsInteractor interactor) {
+        this.view = view;
+        this.interactor = interactor;
+        this.interactor.setListener(this);
     }
 
 
@@ -35,13 +34,13 @@ public class MovieCreditsPresenter implements MovieCreditsContract.Presenter, Cr
 
     @Override
     public void loadCredits() {
-        creditsInteractor.getCredits(movieId);
+        interactor.getCredits(movieId);
     }
 
     @Override
     public void onCreditsReady(Credits credits) {
-        creditsView.displayCast(credits.getCast());
-        creditsView.displayCrew(credits.getCrew());
+        view.displayCast(credits.getCast());
+        view.displayCrew(credits.getCrew());
     }
 
     @Override
@@ -51,8 +50,6 @@ public class MovieCreditsPresenter implements MovieCreditsContract.Presenter, Cr
 
     @Override
     public void onClickPerson(int personId) {
-        if (personId != 0) {
-            creditsView.navigateToPerson(personId);
-        }
+        view.navigateToPerson(personId);
     }
 }

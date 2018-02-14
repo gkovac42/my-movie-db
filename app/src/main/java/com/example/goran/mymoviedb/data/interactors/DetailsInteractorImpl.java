@@ -35,7 +35,7 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
 
     public interface DetailsListener extends BaseListener {
 
-        void onDataReady(MovieData movieData);
+        void onDataReady(MovieData data);
 
         void onError();
 
@@ -50,21 +50,15 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
         Observable<AccountStates> statesObs = apiHelper.getAccountStates(movieId);
         Observable<ListResponse> similarObs = apiHelper.getSimilarMovies(movieId, 1);
 
-        Observable.zip(detailsObs, statesObs, similarObs, (movieDetails, accountStates, listResponse) -> {
+        Observable.zip(detailsObs, statesObs, similarObs, (movieDetails, accountStates, listResponse)
+                -> new MovieData(movieDetails, accountStates, listResponse.getMovies()))
 
-            MovieData movieData = new MovieData();
-            movieData.setMovieDetails(movieDetails);
-            movieData.setAccountStates(accountStates);
-            movieData.setSimilarMovies(listResponse.getMovies());
-
-            return movieData;
-        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
+
                         movieData -> ((DetailsListener) getListener()).onDataReady(movieData),
-                        throwable -> ((DetailsListener) getListener()).onError(),
-                        () -> {},
+                        throwable -> ((DetailsListener) getListener()).onError(), () -> {},
                         disposable -> getCompositeDisposable().add(disposable));
     }
 

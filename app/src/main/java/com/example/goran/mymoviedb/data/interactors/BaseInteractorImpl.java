@@ -29,13 +29,13 @@ public abstract class BaseInteractorImpl implements BaseInteractor, LifecycleObs
         return listener;
     }
 
-    public CompositeDisposable getCompositeDisposable() {
-        return compositeDisposable;
-    }
-
     @Override
     public void setListener(BaseListener listener) {
         this.listener = listener;
+    }
+
+    public CompositeDisposable getCompositeDisposable() {
+        return compositeDisposable;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)

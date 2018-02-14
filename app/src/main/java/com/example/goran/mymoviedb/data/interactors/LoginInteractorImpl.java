@@ -1,7 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.util.Log;
 
 import com.example.goran.mymoviedb.data.local.UserManager;
 import com.example.goran.mymoviedb.data.model.auth.User;
@@ -67,15 +66,15 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
     @Override
     public void initLogin(String username, String password) {
 
-        UserManager.setActiveUser(new User());
+        UserManager.setActiveUser(new User(username, password));
 
-        // get requestToken, use flatmap to validate it with username & password and create session
         apiHelper.createRequestToken()
                 .flatMap(requestToken ->
                         apiHelper.validateRequestToken(username, password, requestToken.getRequestToken()))
 
                 .flatMap(tokenValidation ->
                         apiHelper.createSession(tokenValidation.getRequestToken()))
+
                 .flatMap(session -> {
                     UserManager.getActiveUser().setSessionId(session.getSessionId());
                     return apiHelper.getAccountId(session.getSessionId());
@@ -83,13 +82,12 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(account -> {
+                .subscribe(
+                        account -> {
                             UserManager.getActiveUser().setAccountId(account.getId());
-                            UserManager.getActiveUser().setUsername(username);
                             ((LoginListener) getListener()).onLoginSuccess(username, password);
                         },
-                        throwable -> ((LoginListener) getListener()).onLoginError(),
-                        () -> Log.i("LOG", "Complete"),
+                        throwable -> ((LoginListener) getListener()).onLoginError(), () -> {},
                         disposable -> getCompositeDisposable().add(disposable));
     }
 }

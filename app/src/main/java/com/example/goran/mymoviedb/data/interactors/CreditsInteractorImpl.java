@@ -1,7 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.details.Credits;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
@@ -37,12 +36,13 @@ public class CreditsInteractorImpl extends BaseInteractorImpl implements Credits
 
     @Override
     public void getCredits(int movieId) {
+
         apiHelper.getMovieCredits(movieId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         movieCredits -> ((CreditsListener) getListener()).onCreditsReady(movieCredits),
-                        throwable -> ((CreditsListener) getListener()).onError(), () -> Log.i("LOG", "Complete"),
+                        throwable -> ((CreditsListener) getListener()).onError(), () -> {},
                         disposable -> getCompositeDisposable().add(disposable));
     }
 }

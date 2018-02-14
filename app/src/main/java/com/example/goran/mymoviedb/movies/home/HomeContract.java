@@ -12,7 +12,7 @@ public interface HomeContract {
 
         void hideFavorites();
 
-        void showSelectedMenuItem(int ItemId);
+        void navigateToMenuItem(int ItemId);
 
         void navigateToLogin();
 

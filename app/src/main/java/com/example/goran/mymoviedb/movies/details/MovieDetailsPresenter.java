@@ -19,112 +19,112 @@ import javax.inject.Inject;
 @PerFragment
 public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, DetailsInteractorImpl.DetailsListener {
 
-    private MovieDetailsContract.View detailsView;
-    private DetailsInteractor detailsInteractor;
+    private MovieDetailsContract.View view;
+    private DetailsInteractor interactor;
 
     private int movieId;
-    private String movieTitle;
-    private Long movieReleaseDate;
+    private String title;
+    private Long releaseDate;
 
     @Inject
-    public MovieDetailsPresenter(MovieDetailsContract.View detailsView, DetailsInteractor detailsInteractor) {
-        this.detailsView = detailsView;
-        this.detailsInteractor = detailsInteractor;
-
-        detailsInteractor.setListener(this);
+    public MovieDetailsPresenter(MovieDetailsContract.View view, DetailsInteractor interactor) {
+        this.view = view;
+        this.interactor = interactor;
+        this.interactor.setListener(this);
     }
 
     @Override
     public void initPresenter(int movieId) {
         this.movieId = movieId;
 
-        detailsView.showProgressDialog();
+        view.showProgressDialog();
 
-        if (detailsInteractor.userNotNull()) {
-            detailsView.enableUserFeatures();
+        if (interactor.userNotNull()) {
+            view.enableUserFeatures();
         }
     }
 
     @Override
     public void loadMovieData() {
-        detailsInteractor.getMovieData(movieId);
+        interactor.getMovieData(movieId);
     }
 
     @Override
-    public void onDataReady(MovieData movieData) {
-        movieTitle = movieData.getMovieDetails().getTitle();
-        movieReleaseDate = MovieUtils.dateStringToLong(movieData.getMovieDetails().getReleaseDate());
+    public void onDataReady(MovieData data) {
 
-        if (movieData.getAccountStates().getRated().getClass() != Boolean.class) {
-            detailsView.checkRated();
+        title = data.getMovieDetails().getTitle();
+        releaseDate = MovieUtils.dateStringToLong(data.getMovieDetails().getReleaseDate());
+
+        if (data.getAccountStates().getRated().getClass() != Boolean.class) {
+            view.checkRated();
         }
 
-        if (movieData.getAccountStates().getFavorite()) {
-            detailsView.checkFavorite();
+        if (data.getAccountStates().getFavorite()) {
+            view.checkFavorite();
         }
 
-        detailsView.displayMovieDetails(movieData.getMovieDetails());
-        detailsView.displaySimilarMovies(movieData.getSimilarMovies());
-        detailsView.hideProgressDialog();
+        view.displayMovieDetails(data.getMovieDetails());
+        view.displaySimilarMovies(data.getSimilarMovies());
+        view.hideProgressDialog();
     }
 
     @Override
     public void onClickSimilar(int id) {
-        detailsView.navigateToSimilar(id);
+        view.navigateToSimilar(id);
     }
 
     @Override
     public void onClickRate() {
 
-        if (!detailsView.isRated()) {
-            detailsView.showRatingDialog();
+        if (!view.isRated()) {
+            view.showRatingDialog();
 
         } else {
-            detailsInteractor.deleteRating(movieId);
-            detailsView.uncheckRated();
+            interactor.deleteRating(movieId);
+            view.uncheckRated();
         }
     }
 
     @Override
     public void onClickDlgRate(double rating) {
-        detailsInteractor.setRating(movieId, rating);
-        detailsView.checkRated();
-        detailsView.dismissRatingDialog();
+        interactor.setRating(movieId, rating);
+        view.checkRated();
+        view.dismissRatingDialog();
     }
 
     @Override
     public void onClickDlgClear() {
-        detailsView.dismissRatingDialog();
+        view.dismissRatingDialog();
     }
 
     @Override
     public void onClickFavorite() {
 
-        if (!detailsView.isFavorite()) {
-            detailsInteractor.setFavorite(true, movieId);
-            detailsView.checkFavorite();
+        if (!view.isFavorite()) {
+            interactor.setFavorite(true, movieId);
+            view.checkFavorite();
 
-            if (DateUtils.isToday(movieReleaseDate)) {
-                detailsView.showNotification(movieTitle);
+            if (DateUtils.isToday(releaseDate)) {
+                view.showNotification(title);
 
-            } else if (movieReleaseDate > Calendar.getInstance().getTimeInMillis()) {
-                detailsView.scheduleNotification(movieTitle, movieReleaseDate);
+            } else if (releaseDate > Calendar.getInstance().getTimeInMillis()) {
+                view.scheduleNotification(title, releaseDate);
             }
 
         } else {
-            detailsInteractor.setFavorite(false, movieId);
-            detailsView.uncheckFavorite();
-            detailsView.cancelNotification(movieTitle);
+            interactor.setFavorite(false, movieId);
+            view.uncheckFavorite();
+            view.cancelNotification(title);
         }
     }
 
     @Override
     public void onError() {
-        detailsView.hideProgressDialog();
+        view.hideProgressDialog();
     }
 
     @Override
     public void onUserActionError() {
-        detailsView.displayUserActionError();
+        view.displayUserActionError();
     }
 }
