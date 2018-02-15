@@ -26,10 +26,6 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
     private List<Movie> movies;
     private MovieAdapterListener listener;
 
-    public SimpleMovieAdapter(List<Movie> movies) {
-        this.movies = movies;
-    }
-
     public SimpleMovieAdapter() {
         this.movies = new ArrayList<>();
     }
@@ -56,7 +52,6 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         try {
-
             CardView listItem = holder.listItem;
 
             Movie movie = movies.get(position);
@@ -73,7 +68,6 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
             }
 
         } catch (Exception e) {
-            // list response empty
         }
     }
 

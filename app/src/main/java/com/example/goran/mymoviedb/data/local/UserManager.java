@@ -6,7 +6,6 @@ import com.example.goran.mymoviedb.data.model.auth.User;
 import com.yakivmospan.scytale.Crypto;
 import com.yakivmospan.scytale.Store;
 
-
 import javax.crypto.SecretKey;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -18,7 +17,6 @@ import javax.inject.Singleton;
 @Singleton
 public class UserManager {
 
-    private SecretKey key;
     private Crypto crypto;
     private Store store;
     private SharedPreferences sharedPreferences;
@@ -30,7 +28,6 @@ public class UserManager {
         this.sharedPreferences = sharedPreferences;
         this.crypto = crypto;
         this.store = store;
-        this.key = getKey();
     }
 
     public static User getActiveUser() {
@@ -41,26 +38,26 @@ public class UserManager {
         activeUser = user;
     }
 
-    private SecretKey getKey() {
-        if (!store.hasKey("password_key")) {
-            return store.generateSymmetricKey("password_key", null);
+    private SecretKey getSecretKey() {
+
+        final String alias = "password_key";
+
+        if (!store.hasKey(alias)) {
+            return store.generateSymmetricKey(alias, null);
 
         } else {
-            return store.getSymmetricKey("password_key", null);
+            return store.getSymmetricKey(alias, null);
         }
     }
 
     private String encrypt(String password) {
+        SecretKey key = getSecretKey();
         return crypto.encrypt(password, key);
     }
 
     private String decrypt(String password) {
-        try {
-            return crypto.decrypt(password, key);
-
-        } catch (Exception e) {
-            return null;
-        }
+        SecretKey key = getSecretKey();
+        return crypto.decrypt(password, key);
     }
 
     public void saveUser(User user) {
@@ -75,16 +72,21 @@ public class UserManager {
 
     public User loadUser() {
         String username = sharedPreferences.getString("username", null);
-        String password = sharedPreferences.getString("password", null);
-        String decryptedPassword = decrypt(password);
 
-        return new User(username, decryptedPassword);
+        if (username != null) {
+            String password = sharedPreferences.getString("password", null);
+            String decryptedPassword = decrypt(password);
+            return new User(username, decryptedPassword);
+
+        } else {
+            return null;
+        }
     }
 
     public void deleteUser() {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.remove("username");
-            editor.remove("password");
-            editor.apply();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("username");
+        editor.remove("password");
+        editor.apply();
     }
 }

@@ -136,7 +136,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_normal"
+        android:paddingTop="@dimen/margin_normal"
         android:text="@string/txt_forgot_password"
         android:textColorLink="@android:color/secondary_text_dark"
         android:textSize="@dimen/text_small"

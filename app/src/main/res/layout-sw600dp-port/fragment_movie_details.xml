@@ -242,12 +242,14 @@
                     android:id="@+id/txt_movie_genre"
                     android:layout_width="360dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
                     android:drawableLeft="@drawable/ic_local_movies_white_24dp"
                     android:drawablePadding="@dimen/margin_normal"
                     android:drawableStart="@drawable/ic_local_movies_white_24dp"
                     android:paddingBottom="@dimen/margin_normal"
                     android:textSize="@dimen/text_normal"
                     app:layout_constraintBottom_toTopOf="@+id/txt_movie_rating"
+                    app:layout_constraintEnd_toStartOf="@+id/img_movie_poster"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

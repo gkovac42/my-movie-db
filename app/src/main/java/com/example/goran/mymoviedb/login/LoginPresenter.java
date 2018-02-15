@@ -28,7 +28,7 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
     public void checkForSavedUser() {
         User tempUser = interactor.loadUser();
 
-        if (tempUser.getUsername() != null) {
+        if (tempUser != null) {
             interactor.initLogin(tempUser.getUsername(), tempUser.getPassword());
             view.showProgressDialog();
         }
@@ -59,7 +59,8 @@ public class LoginPresenter implements LoginContract.Presenter, LoginInteractorI
     @Override
     public void onLoginSuccess(String username, String password) {
         if (view.stayLoggedIn()) {
-            interactor.saveUser(interactor.getActiveUser());
+            User tempUser = new User(username, password);
+            interactor.saveUser(tempUser);
         }
 
         view.navigateToMain();

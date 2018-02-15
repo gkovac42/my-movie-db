@@ -87,7 +87,8 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
                             UserManager.getActiveUser().setAccountId(account.getId());
                             ((LoginListener) getListener()).onLoginSuccess(username, password);
                         },
-                        throwable -> ((LoginListener) getListener()).onLoginError(), () -> {},
+                        throwable -> ((LoginListener) getListener()).onLoginError(), () -> {
+                        },
                         disposable -> getCompositeDisposable().add(disposable));
     }
 }

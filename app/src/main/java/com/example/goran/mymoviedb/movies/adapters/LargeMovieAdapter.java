@@ -26,10 +26,6 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
     private List<Movie> movies;
     private MovieAdapterListener listener;
 
-    public LargeMovieAdapter(List<Movie> movies) {
-        this.movies = movies;
-    }
-
     public LargeMovieAdapter() {
         movies = new ArrayList<>();
     }

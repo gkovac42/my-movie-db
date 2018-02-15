@@ -1,7 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.person.PersonData;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
@@ -37,20 +36,20 @@ public class PersonInteractorImpl extends BaseInteractorImpl implements PersonIn
     @Override
     public void getPersonData(int personId) {
 
-        apiHelper.getPerson(personId).zipWith(apiHelper.getPersonRelatedMovies(personId), (person, listResponse) -> {
+        apiHelper.getPerson(personId)
+                .zipWith(apiHelper.getPersonRelatedMovies(personId), (person, listResponse) -> {
 
-            PersonData personData = new PersonData();
-            personData.setPerson(person);
-            personData.setRelatedMovies(listResponse.getMovies());
+                    PersonData personData = new PersonData();
+                    personData.setPerson(person);
+                    personData.setRelatedMovies(listResponse.getMovies());
+                    return personData;
+                })
 
-            return personData;
-        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         personData -> ((PersonListener) getListener()).onDataReady(personData),
-                        throwable -> ((PersonListener) getListener()).onError(),
-                        () -> Log.i("LOG", "Complete"),
+                        throwable -> ((PersonListener) getListener()).onError(), () -> {},
                         disposable -> getCompositeDisposable().add(disposable));
     }
 }

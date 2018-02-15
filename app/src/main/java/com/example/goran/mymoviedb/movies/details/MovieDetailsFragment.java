@@ -1,7 +1,6 @@
 package com.example.goran.mymoviedb.movies.details;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -126,10 +125,7 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
         });
 
         recyclerView.setAdapter(adapter);
-
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            recyclerView.setNestedScrollingEnabled(false);
-        }
+        recyclerView.setNestedScrollingEnabled(false);
 
         presenter.initPresenter(getActivity().getIntent().getIntExtra("movie_id", 0));
         presenter.loadMovieData();
