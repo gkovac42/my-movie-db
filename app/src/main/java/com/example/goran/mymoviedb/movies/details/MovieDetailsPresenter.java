@@ -26,6 +26,9 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
     private String title;
     private Long releaseDate;
 
+    private boolean rated;
+    private boolean favorite;
+
     @Inject
     public MovieDetailsPresenter(MovieDetailsContract.View view, DetailsInteractor interactor) {
         this.view = view;
@@ -58,10 +61,12 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
         if (data.getAccountStates() != null) {
             if (data.getAccountStates().getRated().getClass() != Boolean.class) {
                 view.checkRated();
+                rated = true;
             }
 
             if (data.getAccountStates().getFavorite()) {
                 view.checkFavorite();
+                favorite = true;
             }
         }
 
@@ -78,10 +83,11 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
     @Override
     public void onClickRate() {
 
-        if (!view.isRated()) {
+        if (!rated) {
             view.showRatingDialog();
 
         } else {
+            rated = false;
             interactor.deleteRating(movieId);
             view.uncheckRated();
         }
@@ -89,10 +95,12 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
 
     @Override
     public void onClickDlgRate(double rating) {
+        rated = true;
         interactor.setRating(movieId, rating);
         view.checkRated();
         view.dismissRatingDialog();
     }
+
 
     @Override
     public void onClickDlgClear() {
@@ -102,8 +110,9 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
     @Override
     public void onClickFavorite() {
 
-        if (!view.isFavorite()) {
+        if (!favorite) {
             interactor.setFavorite(true, movieId);
+            favorite = true;
             view.checkFavorite();
 
             if (DateUtils.isToday(releaseDate)) {
@@ -115,6 +124,7 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
 
         } else {
             interactor.setFavorite(false, movieId);
+            favorite = false;
             view.uncheckFavorite();
             view.cancelNotification(title);
         }
@@ -123,10 +133,5 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
     @Override
     public void onError() {
         view.hideProgressDialog();
-    }
-
-    @Override
-    public void onUserActionError() {
-        view.displayUserActionError();
     }
 }

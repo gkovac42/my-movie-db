@@ -1,4 +1,4 @@
-package com.example.goran.mymoviedb.data.model.auth;
+package com.example.goran.mymoviedb.data.model.user;
 
 /**
  * Created by Goran on 11.1.2018..

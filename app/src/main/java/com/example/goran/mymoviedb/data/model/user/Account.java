@@ -1,4 +1,4 @@
-package com.example.goran.mymoviedb.data.model.auth;
+package com.example.goran.mymoviedb.data.model.user;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

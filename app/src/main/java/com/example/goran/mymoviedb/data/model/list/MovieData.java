@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.data.model.list;
 
-import com.example.goran.mymoviedb.data.model.auth.AccountStates;
+import com.example.goran.mymoviedb.data.model.user.AccountStates;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 
 import java.util.List;

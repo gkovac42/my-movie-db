@@ -1,15 +1,15 @@
 package com.example.goran.mymoviedb.data.remote;
 
 import com.example.goran.mymoviedb.data.local.UserManager;
-import com.example.goran.mymoviedb.data.model.FavoriteRequest;
-import com.example.goran.mymoviedb.data.model.FavoriteResponse;
-import com.example.goran.mymoviedb.data.model.RateRequest;
-import com.example.goran.mymoviedb.data.model.RateResponse;
-import com.example.goran.mymoviedb.data.model.auth.Account;
-import com.example.goran.mymoviedb.data.model.auth.AccountStates;
-import com.example.goran.mymoviedb.data.model.auth.RequestToken;
-import com.example.goran.mymoviedb.data.model.auth.Session;
-import com.example.goran.mymoviedb.data.model.auth.TokenValidation;
+import com.example.goran.mymoviedb.data.model.user.FavoriteRequest;
+import com.example.goran.mymoviedb.data.model.user.FavoriteResponse;
+import com.example.goran.mymoviedb.data.model.user.RateRequest;
+import com.example.goran.mymoviedb.data.model.user.RateResponse;
+import com.example.goran.mymoviedb.data.model.user.Account;
+import com.example.goran.mymoviedb.data.model.user.AccountStates;
+import com.example.goran.mymoviedb.data.model.user.RequestToken;
+import com.example.goran.mymoviedb.data.model.user.Session;
+import com.example.goran.mymoviedb.data.model.user.TokenValidation;
 import com.example.goran.mymoviedb.data.model.details.Credits;
 import com.example.goran.mymoviedb.data.model.details.GenreList;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;

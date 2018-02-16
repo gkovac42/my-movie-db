@@ -16,10 +16,6 @@ public interface MovieDetailsContract {
 
         void enableUserFeatures();
 
-        boolean isFavorite();
-
-        boolean isRated();
-
         void checkFavorite();
 
         void checkRated();
@@ -31,8 +27,6 @@ public interface MovieDetailsContract {
         void showRatingDialog();
 
         void dismissRatingDialog();
-
-        void displayUserActionError();
 
         void displayMovieDetails(MovieDetails movieDetails);
 

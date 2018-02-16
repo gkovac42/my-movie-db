@@ -2,7 +2,7 @@ package com.example.goran.mymoviedb.data.local;
 
 import android.content.SharedPreferences;
 
-import com.example.goran.mymoviedb.data.model.auth.User;
+import com.example.goran.mymoviedb.data.model.user.User;
 import com.yakivmospan.scytale.Crypto;
 import com.yakivmospan.scytale.Store;
 

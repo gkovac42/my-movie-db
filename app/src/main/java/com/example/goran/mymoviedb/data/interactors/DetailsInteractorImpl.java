@@ -3,9 +3,9 @@ package com.example.goran.mymoviedb.data.interactors;
 import android.arch.lifecycle.LifecycleOwner;
 
 import com.example.goran.mymoviedb.data.local.UserManager;
-import com.example.goran.mymoviedb.data.model.FavoriteRequest;
-import com.example.goran.mymoviedb.data.model.RateRequest;
-import com.example.goran.mymoviedb.data.model.auth.AccountStates;
+import com.example.goran.mymoviedb.data.model.user.FavoriteRequest;
+import com.example.goran.mymoviedb.data.model.user.RateRequest;
+import com.example.goran.mymoviedb.data.model.user.AccountStates;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.list.ListResponse;
 import com.example.goran.mymoviedb.data.model.list.MovieData;
@@ -39,7 +39,6 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
 
         void onError();
 
-        void onUserActionError();
     }
 
 
@@ -99,7 +98,8 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribe(
                         favoriteResponse -> {
                         },
-                        throwable -> ((DetailsListener) getListener()).onUserActionError(),
+                        throwable -> {
+                        },
                         () -> {
                         },
                         disposable -> getCompositeDisposable().add(disposable));
@@ -116,7 +116,8 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribe(
                         rateResponse -> {
                         },
-                        throwable -> ((DetailsListener) getListener()).onUserActionError(),
+                        throwable -> {
+                        },
                         () -> {
                         },
                         disposable -> getCompositeDisposable().add(disposable));
@@ -131,7 +132,8 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribe(
                         rateResponse -> {
                         },
-                        throwable -> ((DetailsListener) getListener()).onUserActionError(),
+                        throwable -> {
+                        },
                         () -> {
                         },
                         disposable -> getCompositeDisposable().add(disposable));

@@ -3,7 +3,7 @@ package com.example.goran.mymoviedb.data.interactors;
 import android.arch.lifecycle.LifecycleOwner;
 
 import com.example.goran.mymoviedb.data.local.UserManager;
-import com.example.goran.mymoviedb.data.model.auth.User;
+import com.example.goran.mymoviedb.data.model.user.User;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
 import com.example.goran.mymoviedb.di.scope.PerActivity;
 

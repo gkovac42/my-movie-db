@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
-import com.example.goran.mymoviedb.data.model.auth.User;
+import com.example.goran.mymoviedb.data.model.user.User;
 
 /**
  * Created by Goran on 23.1.2018..

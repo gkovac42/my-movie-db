@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.goran.mymoviedb.BaseActivity;
@@ -76,6 +77,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
 
         imgProfile.setImageURI(Uri.parse(IMG_BASE_URL + person.getProfilePath()));
 
+        Log.e("profile", person.getProfilePath());
         txtAbout.setText(person.getBiography());
     }
 

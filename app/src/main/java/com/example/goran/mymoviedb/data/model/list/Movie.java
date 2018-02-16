@@ -17,9 +17,6 @@ public class Movie {
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("video")
-    @Expose
-    private Boolean video;
     @SerializedName("vote_average")
     @Expose
     private Double voteAverage;
@@ -29,12 +26,6 @@ public class Movie {
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
-    @SerializedName("original_language")
-    @Expose
-    private String originalLanguage;
-    @SerializedName("original_title")
-    @Expose
-    private String originalTitle;
     @SerializedName("genre_ids")
     @Expose
     private List<Integer> genreIds = null;
@@ -64,10 +55,6 @@ public class Movie {
         this.id = id;
     }
 
-    public Boolean getVideo() {
-        return video;
-    }
-
     public Double getVoteAverage() {
         return voteAverage;
     }
@@ -78,14 +65,6 @@ public class Movie {
 
     public String getPosterPath() {
         return posterPath;
-    }
-
-    public String getOriginalLanguage() {
-        return originalLanguage;
-    }
-
-    public String getOriginalTitle() {
-        return originalTitle;
     }
 
     public List<Integer> getGenreIds() {

@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.BaseFragment;
@@ -65,9 +64,6 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
     @BindView(R.id.btn_movie_rate) ImageButton btnRate;
     @BindView(R.id.btn_movie_favorite) ImageButton btnFavorite;
     @BindView(R.id.recycler_movie_similar) RecyclerView recyclerView;
-
-    private boolean rated;
-    private boolean favorite;
 
     @BindDrawable(R.drawable.ic_favorite_black_24dp) Drawable drwFavorite;
     @BindDrawable(R.drawable.ic_favorite_border_black_24dp) Drawable drwNotFavorite;
@@ -140,37 +136,23 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
     }
 
     @Override
-    public boolean isFavorite() {
-        return favorite;
-    }
-
-    @Override
-    public boolean isRated() {
-        return rated;
-    }
-
-    @Override
     public void checkFavorite() {
         btnFavorite.setImageDrawable(drwFavorite);
-        favorite = true;
     }
 
     @Override
     public void uncheckFavorite() {
         btnFavorite.setImageDrawable(drwNotFavorite);
-        favorite = false;
     }
 
     @Override
     public void checkRated() {
         btnRate.setImageDrawable(drwRated);
-        rated = true;
     }
 
     @Override
     public void uncheckRated() {
         btnRate.setImageDrawable(drwNotRated);
-        rated = false;
     }
 
     @Override
@@ -181,11 +163,6 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
     @Override
     public void dismissRatingDialog() {
         ratingDialog.dismiss();
-    }
-
-    @Override
-    public void displayUserActionError() {
-        Toast.makeText(getActivity(), "Action failed, please try again.", Toast.LENGTH_SHORT).show();
     }
 
     // movie details

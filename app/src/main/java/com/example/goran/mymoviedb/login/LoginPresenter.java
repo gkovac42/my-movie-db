@@ -2,7 +2,7 @@ package com.example.goran.mymoviedb.login;
 
 import com.example.goran.mymoviedb.data.interactors.LoginInteractor;
 import com.example.goran.mymoviedb.data.interactors.LoginInteractorImpl;
-import com.example.goran.mymoviedb.data.model.auth.User;
+import com.example.goran.mymoviedb.data.model.user.User;
 import com.example.goran.mymoviedb.di.scope.PerActivity;
 
 import javax.inject.Inject;

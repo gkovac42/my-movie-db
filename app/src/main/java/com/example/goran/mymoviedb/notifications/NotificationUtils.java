@@ -3,6 +3,7 @@ package com.example.goran.mymoviedb.notifications;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
@@ -37,7 +38,8 @@ public class NotificationUtils {
         }
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "channel_id")
-                .setSmallIcon(R.drawable.tmdb_logo)
+                .setSmallIcon(R.drawable.ic_local_movies_white_24dp)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.tmdb_logo))
                 .setContentTitle("Playing now!")
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
@@ -61,7 +63,7 @@ public class NotificationUtils {
                 .setTag(title)
                 .setReplaceCurrent(false)
                 .setRecurring(false)
-                .setTrigger(Trigger.executionWindow(triggerDelay, triggerDelay + 600))
+                .setTrigger(Trigger.executionWindow(triggerDelay, triggerDelay + 60*60))
                 .build();
     }
 
