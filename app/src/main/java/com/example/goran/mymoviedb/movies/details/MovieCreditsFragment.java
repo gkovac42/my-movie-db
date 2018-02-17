@@ -31,14 +31,14 @@ import butterknife.ButterKnife;
 
 public class MovieCreditsFragment extends Fragment implements MovieCreditsContract.View {
 
+    @BindView(R.id.recycler_credits_crew) RecyclerView recyclerViewCrew;
+    @BindView(R.id.recycler_credits_cast) RecyclerView recyclerViewCast;
+
     @Inject
     MovieCreditsContract.Presenter presenter;
 
     private CastAdapter castAdapter;
     private CrewAdapter crewAdapter;
-
-    @BindView(R.id.recycler_credits_crew) RecyclerView recyclerViewCrew;
-    @BindView(R.id.recycler_credits_cast) RecyclerView recyclerViewCast;
 
     @Nullable
     @Override
@@ -62,13 +62,15 @@ public class MovieCreditsFragment extends Fragment implements MovieCreditsContra
         castAdapter = new CastAdapter();
         castAdapter.setListener(personId -> presenter.onClickPerson(personId));
 
-
         recyclerViewCrew.setAdapter(crewAdapter);
         recyclerViewCrew.setNestedScrollingEnabled(false);
+
         recyclerViewCast.setAdapter(castAdapter);
         recyclerViewCast.setNestedScrollingEnabled(false);
 
-        presenter.initPresenter(getActivity().getIntent().getIntExtra("movie_id", 0));
+        int movieId = getActivity().getIntent().getIntExtra("movie_id", 0);
+
+        presenter.initPresenter(movieId);
         presenter.loadCredits();
     }
 

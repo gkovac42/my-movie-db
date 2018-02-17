@@ -42,17 +42,40 @@ import butterknife.OnClick;
 
 public class MovieSearchFragment extends BaseFragment implements MovieSearchContract.View, TextWatcher {
 
-    @Inject
-    MovieSearchContract.Presenter presenter;
-
-    private SimpleMovieAdapter resultAdapter;
-    private ArrayAdapter<Keyword> keywordAdapter;
-
     @BindView(R.id.txt_search_query) AutoCompleteTextView txtSearchQuery;
     @BindView(R.id.rbtn_search_title) RadioButton rbtnTitle;
     @BindView(R.id.rbtn_search_keyword) RadioButton rbtnKeyword;
     @BindView(R.id.progress_search) ProgressBar progressBar;
     @BindView(R.id.recycler_search_results) RecyclerView recyclerView;
+
+    @Inject
+    MovieSearchContract.Presenter presenter;
+
+    private ArrayAdapter<Keyword> keywordAdapter;
+    private SimpleMovieAdapter resultAdapter;
+
+    void initKeywordAdapter() {
+        keywordAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_list_item_1);
+    }
+
+    void initResultAdapter() {
+        resultAdapter = new SimpleMovieAdapter();
+        resultAdapter.setListener(new MovieAdapterListener() {
+
+            @Override
+            public void onClick(int movieId) {
+                presenter.onClickResult(movieId);
+            }
+
+            @Override
+            public void onBottomReached() {
+                presenter.onBottomReached(rbtnTitle.isChecked());
+            }
+        });
+
+        recyclerView.setAdapter(resultAdapter);
+    }
 
     @OnClick(R.id.btn_search)
     public void onClickSearch() {
@@ -88,30 +111,21 @@ public class MovieSearchFragment extends BaseFragment implements MovieSearchCont
 
         rbtnTitle.setChecked(true);
 
+        initResultAdapter();
+
+        initKeywordAdapter();
+
         txtSearchQuery.setOnEditorActionListener((textView, i, keyEvent) -> {
+
             if (i == EditorInfo.IME_ACTION_DONE) {
-                presenter.onClickSearch(txtSearchQuery.getText().toString(),
+
+                presenter.onClickSearch(
+                        txtSearchQuery.getText().toString(),
                         rbtnTitle.isChecked());
             }
+
             return false;
         });
-
-        resultAdapter = new SimpleMovieAdapter();
-        resultAdapter.setListener(new MovieAdapterListener() {
-            @Override
-            public void onClick(int movieId) {
-                presenter.onClickResult(movieId);
-            }
-
-            @Override
-            public void onBottomReached() {
-                presenter.onBottomReached(rbtnTitle.isChecked());
-            }
-        });
-
-        recyclerView.setAdapter(resultAdapter);
-
-        keywordAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1);
     }
 
     @Override

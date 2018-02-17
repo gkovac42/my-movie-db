@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.BaseFragment;
@@ -41,14 +42,6 @@ import butterknife.OnClick;
 
 public class MovieDetailsFragment extends BaseFragment implements MovieDetailsContract.View {
 
-    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
-
-    @Inject
-    MovieDetailsContract.Presenter presenter;
-
-    private SimpleMovieAdapter adapter;
-    private RatingDialog ratingDialog;
-
     @BindView(R.id.img_movie_poster) SimpleDraweeView imgPoster;
     @BindView(R.id.txt_movie_release) TextView txtReleaseDate;
     @BindView(R.id.txt_movie_desc) TextView txtDesc;
@@ -70,6 +63,45 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
     @BindDrawable(R.drawable.ic_star_accent_24dp) Drawable drwRated;
     @BindDrawable(R.drawable.ic_star_border_accent_24dp) Drawable drwNotRated;
 
+    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
+
+    @Inject
+    MovieDetailsContract.Presenter presenter;
+
+    private SimpleMovieAdapter adapter;
+    private RatingDialog ratingDialog;
+
+    private void initAdapter() {
+        adapter = new SimpleMovieAdapter();
+        adapter.setListener(new MovieAdapterListener() {
+
+            @Override
+            public void onClick(int movieId) {
+                presenter.onClickSimilar(movieId);
+            }
+
+            @Override
+            public void onBottomReached() {
+
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void initRatingDialog() {
+        ratingDialog = new RatingDialog();
+        ratingDialog.setOnClickListener(dialogView -> {
+
+            if (dialogView.getId() == R.id.btn_dialog_rate) {
+                presenter.onClickDlgRate(ratingDialog.getRating());
+
+            } else {
+                presenter.onClickDlgCancel();
+            }
+        });
+    }
+
     @OnClick(R.id.btn_movie_rate)
     void onClickRate() {
         presenter.onClickRate();
@@ -79,6 +111,7 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
     void onClickFavorite() {
         presenter.onClickFavorite();
     }
+
 
     @Nullable
     @Override
@@ -96,34 +129,15 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        ratingDialog = new RatingDialog();
-        ratingDialog.setOnClickListener(dialogView -> {
+        initAdapter();
 
-            if (dialogView.getId() == R.id.btn_dialog_rate) {
-                presenter.onClickDlgRate(ratingDialog.getRating());
+        initRatingDialog();
 
-            } else {
-                presenter.onClickDlgClear();
-            }
-        });
-
-        adapter = new SimpleMovieAdapter();
-        adapter.setListener(new MovieAdapterListener() {
-            @Override
-            public void onClick(int movieId) {
-                presenter.onClickSimilar(movieId);
-            }
-
-            @Override
-            public void onBottomReached() {
-
-            }
-        });
-
-        recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
 
-        presenter.initPresenter(getActivity().getIntent().getIntExtra("movie_id", 0));
+        int movieId = getActivity().getIntent().getIntExtra("movie_id", 0);
+
+        presenter.initPresenter(movieId);
         presenter.loadMovieData();
     }
 
@@ -165,35 +179,35 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
         ratingDialog.dismiss();
     }
 
+    @Override
+    public void displayUserActionError() {
+        Toast.makeText(getActivity(),
+                "Something went wrong, please try again.",
+                Toast.LENGTH_SHORT).show();
+    }
+
     // movie details
     @Override
     public void displayMovieDetails(MovieDetails movieDetails) {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar()
-                .setTitle(MovieUtils.formatTitle(movieDetails.getTitle(), movieDetails.getReleaseDate()));
+                .setTitle(movieDetails.getTitle());
 
         imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movieDetails.getPosterPath()));
-
         txtReleaseDate.setText(movieDetails.getReleaseDate());
-
         txtDesc.setText(movieDetails.getOverview());
 
         txtGenre.setText(MovieUtils.getGenres(movieDetails));
-
         txtLanguage.setText(movieDetails.getSpokenLanguages().get(0).getName());
 
         txtRating.setText(String.valueOf(movieDetails.getVoteAverage()));
-
         txtVotes.setText(String.valueOf(movieDetails.getVoteCount()));
 
         txtBudget.setText(String.valueOf(movieDetails.getBudget() + "$"));
-
         txtRevenue.setText(String.valueOf(movieDetails.getRevenue() + "$"));
 
         txtRuntime.setText(String.valueOf(movieDetails.getRuntime() + " min"));
-
         txtOriginalTitle.setText(movieDetails.getOriginalTitle());
-
         txtStatus.setText(movieDetails.getStatus());
     }
 

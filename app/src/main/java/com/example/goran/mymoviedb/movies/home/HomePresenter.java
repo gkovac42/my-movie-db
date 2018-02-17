@@ -22,10 +22,12 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void initView() {
-
+    public void initView(int itemId) {
         if (interactor.getActiveUser() != null) {
-            view.displayActiveUser(interactor.getActiveUser().getUsername());
+            String username = interactor.getActiveUser().getUsername();
+            view.displayActiveUser(username);
+            view.navigateToMenuItem(itemId);
+
 
         } else {
             view.hideFavorites();
@@ -34,7 +36,6 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void onClickLoginOut() {
-
         if (interactor.getActiveUser() != null) {
             interactor.deleteActiveUser();
             interactor.deleteSavedUser();

@@ -38,9 +38,9 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
 
     @Override
     public void initPresenter(int movieId) {
-        this.movieId = movieId;
-
         view.showProgressDialog();
+
+        this.movieId = movieId;
 
         if (interactor.userNotNull()) {
             view.enableUserFeatures();
@@ -55,23 +55,35 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
     @Override
     public void onDataReady(MovieData data) {
 
-        title = data.getMovieDetails().getTitle();
-        releaseDate = MovieUtils.dateStringToLong(data.getMovieDetails().getReleaseDate());
+        title = MovieUtils.formatTitle(
+                data.getMovieDetails().getTitle(),
+                data.getMovieDetails().getReleaseDate());
+
+        data.getMovieDetails().setTitle(title);
+
+        releaseDate = MovieUtils.dateStringToLong(
+                data.getMovieDetails().getReleaseDate());
 
         if (data.getAccountStates() != null) {
+
+            // API returns boolean false if not rated / Rated object if rated
             if (data.getAccountStates().getRated().getClass() != Boolean.class) {
-                view.checkRated();
-                rated = true;
+                setRated(true);
             }
 
-            if (data.getAccountStates().getFavorite()) {
-                view.checkFavorite();
-                favorite = true;
+            if (data.getAccountStates().isFavorite()) {
+                setFavorite(true);
             }
         }
 
         view.displayMovieDetails(data.getMovieDetails());
         view.displaySimilarMovies(data.getSimilarMovies());
+        view.hideProgressDialog();
+    }
+
+    @Override
+    public void onError() {
+        // TODO - display error dialog
         view.hideProgressDialog();
     }
 
@@ -87,33 +99,43 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
             view.showRatingDialog();
 
         } else {
-            rated = false;
             interactor.deleteRating(movieId);
-            view.uncheckRated();
         }
     }
 
     @Override
     public void onClickDlgRate(double rating) {
-        rated = true;
-        interactor.setRating(movieId, rating);
-        view.checkRated();
+        interactor.postRating(movieId, rating);
+
+    }
+
+    @Override
+    public void onRatingSuccess() {
+        setRated(true);
         view.dismissRatingDialog();
+    }
+
+    @Override
+    public void onDeleteRatingSuccess() {
+        setRated(false);
     }
 
 
     @Override
-    public void onClickDlgClear() {
+    public void onClickDlgCancel() {
         view.dismissRatingDialog();
     }
 
     @Override
     public void onClickFavorite() {
+        interactor.postFavorite(!favorite, movieId);
+    }
 
-        if (!favorite) {
-            interactor.setFavorite(true, movieId);
-            favorite = true;
-            view.checkFavorite();
+    @Override
+    public void onFavoriteSuccess(boolean favorite) {
+        setFavorite(favorite);
+
+        if (this.favorite) {
 
             if (DateUtils.isToday(releaseDate)) {
                 view.showNotification(title);
@@ -123,15 +145,33 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
             }
 
         } else {
-            interactor.setFavorite(false, movieId);
-            favorite = false;
-            view.uncheckFavorite();
             view.cancelNotification(title);
         }
     }
 
     @Override
-    public void onError() {
-        view.hideProgressDialog();
+    public void onUserActionError() {
+        view.displayUserActionError();
+    }
+
+
+    private void setFavorite(boolean favorite) {
+        if (favorite) {
+            this.favorite = true;
+            view.checkFavorite();
+        } else {
+            this.favorite = false;
+            view.uncheckFavorite();
+        }
+    }
+
+    private void setRated(boolean rated) {
+        if (rated) {
+            this.rated = true;
+            view.checkRated();
+        } else {
+            this.rated = false;
+            view.uncheckRated();
+        }
     }
 }

@@ -22,13 +22,13 @@ import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity implements LoginContract.View {
 
-    @Inject
-    LoginContract.Presenter presenter;
-
     @BindView(R.id.txt_username) EditText txtUsername;
     @BindView(R.id.txt_password) EditText txtPassword;
     @BindView(R.id.txt_reset_password) TextView txtResetPassword;
     @BindView(R.id.chk_stay_logged_in) AppCompatCheckBox chkStayLoggedIn;
+
+    @Inject
+    LoginContract.Presenter presenter;
 
     @OnClick(R.id.btn_login)
     public void onClickLogin() {
@@ -39,6 +39,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     public void onClickGuest() {
         presenter.onClickGuest();
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

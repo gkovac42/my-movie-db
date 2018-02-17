@@ -39,7 +39,7 @@ public class AccountStates {
         this.id = id;
     }
 
-    public Boolean getFavorite() {
+    public Boolean isFavorite() {
         return favorite;
     }
 

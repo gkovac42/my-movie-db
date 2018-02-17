@@ -21,7 +21,7 @@ public interface HomeContract {
 
     interface Presenter {
 
-        void initView();
+        void initView(int itemId);
 
         void onClickLoginOut();
 

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.example.goran.mymoviedb.BaseActivity;
@@ -27,6 +26,10 @@ import butterknife.ButterKnife;
 
 public class PersonActivity extends BaseActivity implements PersonContract.View {
 
+    @BindView(R.id.img_person_profile) SimpleDraweeView imgProfile;
+    @BindView(R.id.txt_person_about) TextView txtAbout;
+    @BindView(R.id.recycler_person_related) RecyclerView recyclerView;
+
     private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
     @Inject
@@ -34,20 +37,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
 
     private SimpleMovieAdapter adapter;
 
-    @BindView(R.id.img_person_profile) SimpleDraweeView imgProfile;
-    @BindView(R.id.txt_person_about) TextView txtAbout;
-    @BindView(R.id.recycler_person_related) RecyclerView recyclerView;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_person);
-        ButterKnife.bind(this);
-
-        (((BaseApplication) getApplication()).getAppComponent())
-                .personActivitySubcomponent(new PersonActivityModule(this))
-                .inject(this);
-
+    private void initAdapter() {
         adapter = new SimpleMovieAdapter();
         adapter.setListener(new MovieAdapterListener() {
             @Override
@@ -62,9 +52,26 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
         });
 
         recyclerView.setAdapter(adapter);
+    }
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_person);
+        ButterKnife.bind(this);
+
+        (((BaseApplication) getApplication()).getAppComponent())
+                .personActivitySubcomponent(new PersonActivityModule(this))
+                .inject(this);
+
+        initAdapter();
+
         recyclerView.setNestedScrollingEnabled(false);
 
-        presenter.initPresenter(getIntent().getIntExtra("person_id", 0));
+        int personId = getIntent().getIntExtra("person_id", 0);
+
+        presenter.initPresenter(personId);
         presenter.loadPersonData();
 
     }
@@ -72,12 +79,8 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
 
     @Override
     public void displayPersonDetails(Person person) {
-
         getSupportActionBar().setTitle(person.getName());
-
         imgProfile.setImageURI(Uri.parse(IMG_BASE_URL + person.getProfilePath()));
-
-        Log.e("profile", person.getProfilePath());
         txtAbout.setText(person.getBiography());
     }
 

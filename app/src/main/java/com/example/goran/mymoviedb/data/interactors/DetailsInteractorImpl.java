@@ -39,6 +39,13 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
 
         void onError();
 
+        void onFavoriteSuccess(boolean favorite);
+
+        void onRatingSuccess();
+
+        void onDeleteRatingSuccess();
+
+        void onUserActionError();
     }
 
 
@@ -88,7 +95,7 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
     }
 
     @Override
-    public void setFavorite(boolean favorite, int movieId) {
+    public void postFavorite(boolean favorite, int movieId) {
 
         FavoriteRequest favoriteRequest = new FavoriteRequest(movieId, favorite);
 
@@ -96,17 +103,14 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        favoriteResponse -> {
-                        },
-                        throwable -> {
-                        },
-                        () -> {
-                        },
+                        favoriteResponse -> ((DetailsListener) getListener()).onFavoriteSuccess(favorite),
+                        throwable -> ((DetailsListener) getListener()).onUserActionError(),
+                        () -> {},
                         disposable -> getCompositeDisposable().add(disposable));
     }
 
     @Override
-    public void setRating(int movieId, double rating) {
+    public void postRating(int movieId, double rating) {
 
         RateRequest rateRequest = new RateRequest(rating * 2);
 
@@ -114,12 +118,9 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        rateResponse -> {
-                        },
-                        throwable -> {
-                        },
-                        () -> {
-                        },
+                        rateResponse -> ((DetailsListener) getListener()).onRatingSuccess(),
+                        throwable -> ((DetailsListener) getListener()).onUserActionError(),
+                        () -> {},
                         disposable -> getCompositeDisposable().add(disposable));
     }
 
@@ -130,12 +131,9 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        rateResponse -> {
-                        },
-                        throwable -> {
-                        },
-                        () -> {
-                        },
+                        rateResponse -> ((DetailsListener) getListener()).onDeleteRatingSuccess(),
+                        throwable -> ((DetailsListener) getListener()).onUserActionError(),
+                        () -> {},
                         disposable -> getCompositeDisposable().add(disposable));
     }
 

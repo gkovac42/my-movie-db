@@ -28,6 +28,8 @@ public interface MovieDetailsContract {
 
         void dismissRatingDialog();
 
+        void displayUserActionError();
+
         void displayMovieDetails(MovieDetails movieDetails);
 
         void displaySimilarMovies(List<Movie> movieList);
@@ -54,7 +56,7 @@ public interface MovieDetailsContract {
 
         void onClickDlgRate(double rating);
 
-        void onClickDlgClear();
+        void onClickDlgCancel();
 
         void onClickFavorite();
 

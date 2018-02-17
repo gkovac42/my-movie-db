@@ -31,18 +31,33 @@ import butterknife.OnClick;
 public class HomeActivity extends AppCompatActivity
         implements HomeContract.View, NavigationView.OnNavigationItemSelectedListener {
 
+    @BindView(R.id.txt_nav_user) TextView txtUser;
+    @BindView(R.id.txt_nav_login) TextView txtLogInOut;
+
     @Inject
     HomeContract.Presenter presenter;
 
-    private int selectedItemId;
+    private int selectedItem;
 
     private Toolbar toolbar;
+    private FragmentManager fragmentManager;
     private NavigationView navigationView;
     private DrawerLayout drawer;
-    private FragmentManager fragmentManager;
 
-    @BindView(R.id.txt_nav_user) TextView txtUser;
-    @BindView(R.id.txt_nav_login) TextView txtLogInOut;
+    private void initNavDrawer() {
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ButterKnife.bind(this, navigationView.getHeaderView(0));
+
+        drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+    }
 
     @OnClick(R.id.txt_nav_login)
     public void onClickLoginOut() {
@@ -61,25 +76,15 @@ public class HomeActivity extends AppCompatActivity
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        ButterKnife.bind(this, navigationView.getHeaderView(0));
-
-        drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        initNavDrawer();
 
         fragmentManager = getSupportFragmentManager();
 
-        presenter.initView();
-
         if (savedInstanceState != null) {
-            selectedItemId = savedInstanceState.getInt("selected_item");
+            selectedItem = savedInstanceState.getInt("selected_item");
         }
 
-        presenter.onClickMenuItem(selectedItemId);
+        presenter.initView(selectedItem);
     }
 
     private void showFragment(Fragment fragment) {
@@ -100,11 +105,8 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        selectedItemId = item.getItemId();
-
-        presenter.onClickMenuItem(selectedItemId);
-
+        selectedItem = item.getItemId();
+        presenter.onClickMenuItem(selectedItem);
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
@@ -112,7 +114,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("selected_item", selectedItemId);
+        outState.putInt("selected_item", selectedItem);
         super.onSaveInstanceState(outState);
     }
 
@@ -130,58 +132,41 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void navigateToMenuItem(int itemId) {
 
-        switch (selectedItemId) {
+        switch (selectedItem) {
+
             case R.id.nav_playing_now:
-                showPlayingNow();
+                getSupportActionBar().setTitle(R.string.title_playing_now);
+                showFragment(MovieListFragment.newInstance(Category.NOW_PLAYING));
                 break;
+
             case R.id.nav_upcoming:
-                showUpcoming();
+                getSupportActionBar().setTitle(R.string.title_upcoming);
+                showFragment(MovieListFragment.newInstance(Category.UPCOMING));
                 break;
+
             case R.id.nav_popular:
-                showPopular();
+                getSupportActionBar().setTitle(R.string.title_popular);
+                showFragment(MovieListFragment.newInstance(Category.POPULAR));
                 break;
+
             case R.id.nav_top_rated:
-                showTopRated();
+                getSupportActionBar().setTitle(R.string.title_top_rated);
+                showFragment(MovieListFragment.newInstance(Category.TOP_RATED));
                 break;
+
             case R.id.nav_search:
-                showSearch();
+                getSupportActionBar().setTitle(R.string.title_search);
+                showFragment(new MovieSearchFragment());
                 break;
+
             case R.id.nav_favorite:
-                showFavorite();
+                getSupportActionBar().setTitle(R.string.title_favorite);
+                showFragment(MovieListFragment.newInstance(Category.FAVORITE));
                 break;
             default:
-                showPlayingNow();
+                getSupportActionBar().setTitle(R.string.title_playing_now);
+                showFragment(MovieListFragment.newInstance(Category.NOW_PLAYING));
         }
-    }
-
-    private void showPlayingNow() {
-        getSupportActionBar().setTitle(R.string.title_playing_now);
-        showFragment(MovieListFragment.newInstance(Category.NOW_PLAYING));
-    }
-
-    private void showUpcoming() {
-        getSupportActionBar().setTitle(R.string.title_upcoming);
-        showFragment(MovieListFragment.newInstance(Category.UPCOMING));
-    }
-
-    private void showPopular() {
-        getSupportActionBar().setTitle(R.string.title_popular);
-        showFragment(MovieListFragment.newInstance(Category.POPULAR));
-    }
-
-    private void showTopRated() {
-        getSupportActionBar().setTitle(R.string.title_top_rated);
-        showFragment(MovieListFragment.newInstance(Category.TOP_RATED));
-    }
-
-    private void showSearch() {
-        getSupportActionBar().setTitle(R.string.title_search);
-        showFragment(new MovieSearchFragment());
-    }
-
-    private void showFavorite() {
-        getSupportActionBar().setTitle(R.string.title_favorite);
-        showFragment(MovieListFragment.newInstance(Category.FAVORITE));
     }
 
     @Override

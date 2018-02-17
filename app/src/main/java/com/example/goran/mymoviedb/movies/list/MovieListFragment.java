@@ -32,21 +32,41 @@ import butterknife.ButterKnife;
 
 public class MovieListFragment extends BaseFragment implements MovieListContract.View {
 
-    @Inject
-    MovieListContract.Presenter presenter;
-
     @BindView(R.id.recycler_list) RecyclerView recyclerView;
     @BindView(R.id.progress_list) ProgressBar progressBar;
 
+    @Inject
+    MovieListContract.Presenter presenter;
+
     private LargeMovieAdapter adapter;
 
+    private void initAdapter() {
+        adapter = new LargeMovieAdapter();
+        adapter.setListener(new MovieAdapterListener() {
+            @Override
+            public void onClick(int movieId) {
+                presenter.onClickMovie(movieId);
+            }
+
+            @Override
+            public void onBottomReached() {
+                presenter.onBottomReached();
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
+    }
+
     public static MovieListFragment newInstance(int category) {
+
         MovieListFragment fragment = new MovieListFragment();
         Bundle args = new Bundle();
         args.putInt("category", category);
         fragment.setArguments(args);
+
         return fragment;
     }
+
 
     @Nullable
     @Override
@@ -64,29 +84,15 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, getActivity());
 
-        adapter = new LargeMovieAdapter();
-        adapter.setListener(new MovieAdapterListener() {
-            @Override
-            public void onClick(int movieId) {
-                presenter.onClickMovie(movieId);
-            }
+        initAdapter();
 
-            @Override
-            public void onBottomReached() {
-                presenter.onBottomReached();
-            }
-        });
+        int category = getArguments().getInt("category");
 
-        recyclerView.setAdapter(adapter);
-
-        presenter.initPresenter(getCategory());
+        presenter.initPresenter(category);
         presenter.loadMovies();
 
     }
 
-    private int getCategory() {
-        return getArguments().getInt("category");
-    }
 
     @Override
     public void showProgressDialog() {
