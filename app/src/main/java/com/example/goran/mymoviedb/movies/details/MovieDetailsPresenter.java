@@ -64,7 +64,7 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter, De
         releaseDate = MovieUtils.dateStringToLong(
                 data.getMovieDetails().getReleaseDate());
 
-        if (data.getAccountStates() != null) {
+        if (interactor.userNotNull()) {
 
             // API returns boolean false if not rated / Rated object if rated
             if (data.getAccountStates().getRated().getClass() != Boolean.class) {

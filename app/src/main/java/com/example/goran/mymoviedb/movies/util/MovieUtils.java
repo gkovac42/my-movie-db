@@ -17,20 +17,16 @@ import java.util.Locale;
 
 public class MovieUtils {
 
-    public static String formatTitle(String title, String date) {
-        return title + " (" + date.substring(0, 4) + ")";
+    public static String formatTitle(String title, String date) throws IndexOutOfBoundsException {
+        try {
+            return title + " (" + date.substring(0, 4) + ")";
+
+            //some movies don't have a proper release date which causes exception
+        } catch (IndexOutOfBoundsException e) {
+            return title + " (n/a)";
+        }
     }
 
-    // converts Date to HR date format
-    public static String formatDate(String date) {
-        String year = date.substring(0, 4);
-        String month = date.substring(5, 7);
-        String day = date.substring(8, 10);
-
-        return day + "." + month + "." + year + ".";
-    }
-
-    // converts String to Date
     public static Long dateStringToLong(String date) {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
@@ -44,7 +40,7 @@ public class MovieUtils {
         return null;
     }
 
-    // formats movie genres into a single String, separated by , and new line
+    // formats movie genres into a single String, separated by comma
     public static String getGenres(MovieDetails movieDetails) {
         ArrayList<String> genres = new ArrayList<>();
 

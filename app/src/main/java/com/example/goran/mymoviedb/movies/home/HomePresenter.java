@@ -23,15 +23,16 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void initView(int itemId) {
+
         if (interactor.getActiveUser() != null) {
             String username = interactor.getActiveUser().getUsername();
             view.displayActiveUser(username);
-            view.navigateToMenuItem(itemId);
-
 
         } else {
             view.hideFavorites();
         }
+
+        view.navigateToMenuItem(itemId);
     }
 
     @Override

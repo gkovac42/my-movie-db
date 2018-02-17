@@ -52,8 +52,6 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        try {
-
         CardView listItem = holder.listItem;
 
         Movie movie = movies.get(position);
@@ -75,9 +73,6 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
         if (position == movies.size() - 1) {
 
             listener.onBottomReached();
-        }
-
-        } catch (Exception e) {
         }
     }
 

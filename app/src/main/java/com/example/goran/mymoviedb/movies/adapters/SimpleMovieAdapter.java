@@ -51,23 +51,20 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        try {
-            CardView listItem = holder.listItem;
 
-            Movie movie = movies.get(position);
+        CardView listItem = holder.listItem;
 
-            SimpleDraweeView imgPoster = listItem.findViewById(R.id.img_item_poster_s);
-            TextView txtTitle = listItem.findViewById(R.id.txt_item_title_s);
+        Movie movie = movies.get(position);
 
-            txtTitle.setText(MovieUtils.formatTitle(movie.getTitle(), movie.getReleaseDate()));
-            imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movie.getPosterPath()));
+        SimpleDraweeView imgPoster = listItem.findViewById(R.id.img_item_poster_s);
+        TextView txtTitle = listItem.findViewById(R.id.txt_item_title_s);
 
-            if (position == movies.size() - 1) {
+        txtTitle.setText(MovieUtils.formatTitle(movie.getTitle(), movie.getReleaseDate()));
+        imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movie.getPosterPath()));
 
-                listener.onBottomReached();
-            }
+        if (position == movies.size() - 1) {
 
-        } catch (Exception e) {
+            listener.onBottomReached();
         }
     }
 
