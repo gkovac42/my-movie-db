@@ -99,6 +99,7 @@
         android:layout_marginTop="@dimen/margin_small"
         android:gravity="center"
         android:hint="@string/txt_password"
+        android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_normal"

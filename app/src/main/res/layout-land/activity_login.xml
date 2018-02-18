@@ -44,6 +44,7 @@
         android:layout_marginTop="@dimen/margin_normal"
         android:gravity="center"
         android:hint="@string/txt_password"
+        android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/chk_stay_logged_in"
