@@ -84,16 +84,16 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     public void displayUsernameError() {
-        Toast.makeText(this, "Username too short!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.login_username_error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void displayPasswordError() {
-        Toast.makeText(this, "Password too short!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.login_password_error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void displayLoginError() {
-        Toast.makeText(this, "Invalid username or password!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.login_error, Toast.LENGTH_SHORT).show();
     }
 }

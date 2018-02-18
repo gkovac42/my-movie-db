@@ -23,6 +23,9 @@
     <string name="txt_login">Login</string>
     <string name="txt_sign_up">or continue as Guest</string>
     <string name="txt_forgot_password"><a href="https://www.themoviedb.org/account/reset-password">Forgot password?</a></string>
+    <string name="login_username_error">Username too short!</string>
+    <string name="login_password_error">Password too short!</string>
+    <string name="login_error">Invalid username or password!</string>
 
     <!--Navigation Bar-->
     <string name="nav_guest">Guest</string>
@@ -34,20 +37,6 @@
     <string name="title_popular">MyMovieDb - Popular</string>
     <string name="title_search">MyMovieDb - Search</string>
     <string name="title_favorite">MyMovieDb - Favorite</string>
-
-    <!--Genres-->
-    <string name="action">action</string>
-    <string name="drama">drama</string>
-    <string name="comedy">comedy</string>
-    <string name="history">history</string>
-    <string name="romance">romance</string>
-    <string name="sci_fi">sci - fi</string>
-    <string name="fantasy">fantasy</string>
-    <string name="thriller">thriller</string>
-    <string name="horror">horror</string>
-    <string name="sport">sport</string>
-    <string name="mystery">mystery</string>
-    <string name="adventure">adventure</string>
 
     <!--Search-->
     <string name="by_title">by title</string>
@@ -78,5 +67,19 @@
     <string name="related_movies">Related Movies:</string>
     <string name="about">About:</string>
     <string name="user_action_error">Something went wrong, please try again.</string>
+
+    <!--Genres-->
+    <string name="action">action</string>
+    <string name="drama">drama</string>
+    <string name="comedy">comedy</string>
+    <string name="history">history</string>
+    <string name="romance">romance</string>
+    <string name="sci_fi">sci - fi</string>
+    <string name="fantasy">fantasy</string>
+    <string name="thriller">thriller</string>
+    <string name="horror">horror</string>
+    <string name="sport">sport</string>
+    <string name="mystery">mystery</string>
+    <string name="adventure">adventure</string>
 
 </resources>
