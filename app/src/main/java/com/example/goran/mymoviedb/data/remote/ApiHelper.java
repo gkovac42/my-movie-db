@@ -29,7 +29,6 @@ import io.reactivex.Observable;
 @Singleton
 public class ApiHelper {
 
-    private static final String BASE_URL = "https://api.themoviedb.org/3/";
     private static final String API_KEY = "2a7ab626f8d7895759f131e9fa35222f";
 
     private TMDbApiService apiService;
@@ -38,6 +37,7 @@ public class ApiHelper {
     public ApiHelper(TMDbApiService apiService) {
         this.apiService = apiService;
     }
+
 
     // auth
 
@@ -118,7 +118,7 @@ public class ApiHelper {
     }
 
     public Observable<ListResponse> getPersonRelatedMovies(int personId) {
-        return apiService.getPersonRelatedMovies(API_KEY, String.valueOf(personId), "popularity.asc");
+        return apiService.getPersonRelatedMovies(API_KEY, String.valueOf(personId), "popularity.desc");
     }
 
     // account
@@ -153,5 +153,4 @@ public class ApiHelper {
     public Observable<AccountStates> getAccountStates(int movieId) {
         return apiService.getAccountStates(movieId, API_KEY, UserManager.getActiveUser().getSessionId());
     }
-
 }

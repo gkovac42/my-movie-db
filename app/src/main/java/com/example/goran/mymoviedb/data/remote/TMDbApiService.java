@@ -45,7 +45,6 @@ public interface TMDbApiService {
     @GET("authentication/session/new")
     Observable<Session> createSession(@Query("api_key") String apiKey, @Query("request_token") String requestToken);
 
-
     // MOVIES REQUESTS
 
     @GET("movie/popular")
@@ -95,9 +94,6 @@ public interface TMDbApiService {
 
     @GET("genre/movie/list")
     Observable<GenreList> getGenreList(@Query("api_key") String apiKey);
-
-
-
 
     // PERSON REQUESTS
 

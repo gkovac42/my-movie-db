@@ -13,7 +13,7 @@
         android:layout_marginRight="@dimen/margin_normal"
         android:scaleType="centerCrop"
         app:failureImage="@drawable/ic_person_outline_transparent_24dp"
-        app:failureImageScaleType="centerCrop"
+        app:failureImageScaleType="fitStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cardView"
         app:layout_constraintHorizontal_bias="0.5"

@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/person_height_port"
             android:layout_marginBottom="@dimen/margin_normal"
-            android:scaleType="centerCrop"
+            android:scaleType="fitStart"
             app:failureImage="@drawable/ic_person_outline_transparent_24dp"
             app:failureImageScaleType="centerCrop" />
 

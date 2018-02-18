@@ -4,10 +4,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <!-- Base URLs -->
-    <string name="base_url_small">"https://image.tmdb.org/t/p/w185"</string>
-    <string name="base_url_normal">"https://image.tmdb.org/t/p/w500"</string>
-
     <!-- Titles-->
     <string name="title_activity_movie_details">MovieDetailsActivity</string>
     <string name="title_activity_movie_details_activity">MovieDetailsActivity</string>

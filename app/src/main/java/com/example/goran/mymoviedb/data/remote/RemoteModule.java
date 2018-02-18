@@ -19,10 +19,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class RemoteModule {
 
+    private static final String API_URL = "https://api.themoviedb.org/3/";
+    private static final int CACHE_SIZE = 20 * 1024 * 1024;
+
     @Provides
     @Singleton
     Cache provideCache(Context context) {
-        return new Cache(context.getCacheDir(), 10 * 1024 * 1024);
+        return new Cache(context.getCacheDir(), CACHE_SIZE);
     }
 
     @Provides
@@ -37,7 +40,7 @@ public class RemoteModule {
     @Singleton
     Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/3/")
+                .baseUrl(API_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

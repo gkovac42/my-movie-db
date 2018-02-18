@@ -34,6 +34,6 @@ public class KeystoreModule {
     @Provides
     @Singleton
     SharedPreferences provideSharedPreferences(Context context) {
-        return context.getSharedPreferences("moviesDb", Context.MODE_PRIVATE);
+        return context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
     }
 }
