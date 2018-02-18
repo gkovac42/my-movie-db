@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.list.Movie;
+import com.example.goran.mymoviedb.movies.util.BaseUrl;
 import com.example.goran.mymoviedb.movies.util.MovieUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -20,8 +21,6 @@ import java.util.List;
  */
 
 public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.ViewHolder> implements BaseMovieAdapter {
-
-    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w185";
 
     private List<Movie> movies;
     private MovieAdapterListener listener;
@@ -60,7 +59,7 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
         TextView txtTitle = listItem.findViewById(R.id.txt_item_title_s);
 
         txtTitle.setText(MovieUtils.formatTitle(movie.getTitle(), movie.getReleaseDate()));
-        imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movie.getPosterPath()));
+        imgPoster.setImageURI(Uri.parse(BaseUrl.IMG_SMALL + movie.getPosterPath()));
 
         if (position == movies.size() - 1) {
 

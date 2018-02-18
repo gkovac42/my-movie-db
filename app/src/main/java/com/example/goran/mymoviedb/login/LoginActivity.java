@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.text.method.LinkMovementMethod;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @OnClick(R.id.btn_login)
     public void onClickLogin() {
-        presenter.onClickLogin(txtUsername.getText().toString(), txtPassword.getText().toString());
+        presenter.onClickLogin(
+                txtUsername.getText().toString(),
+                txtPassword.getText().toString());
     }
 
     @OnClick(R.id.txt_guest)
@@ -50,6 +53,17 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         (((BaseApplication) getApplication()).getAppComponent())
                 .loginActivitySubcomponent(new LoginActivityModule(this))
                 .inject(this);
+
+        txtPassword.setOnEditorActionListener((textView, i, keyEvent) -> {
+
+            if (i == EditorInfo.IME_ACTION_DONE) {
+
+                presenter.onClickLogin(
+                        txtUsername.getText().toString(),
+                        txtPassword.getText().toString());
+            }
+            return false;
+        });
 
         txtResetPassword.setMovementMethod(LinkMovementMethod.getInstance());
 

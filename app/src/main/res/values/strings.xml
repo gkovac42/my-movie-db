@@ -4,9 +4,13 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <!-- Base URLs -->
+    <string name="base_url_small">"https://image.tmdb.org/t/p/w185"</string>
+    <string name="base_url_normal">"https://image.tmdb.org/t/p/w500"</string>
+
+    <!-- Titles-->
     <string name="title_activity_movie_details">MovieDetailsActivity</string>
-    <string name="title_activity_movie_details_activity">MovieDetailsActivty</string>
+    <string name="title_activity_movie_details_activity">MovieDetailsActivity</string>
     <string name="title_activity_single_movie"></string>
     <string name="tab_details">Details</string>
     <string name="tab_credits">Credits</string>
@@ -31,7 +35,7 @@
     <string name="title_search">MyMovieDb - Search</string>
     <string name="title_favorite">MyMovieDb - Favorite</string>
 
-    Genres-->
+    <!--Genres-->
     <string name="action">action</string>
     <string name="drama">drama</string>
     <string name="comedy">comedy</string>
@@ -73,5 +77,6 @@
     <string name="rate">Rate</string>
     <string name="related_movies">Related Movies:</string>
     <string name="about">About:</string>
+    <string name="user_action_error">Something went wrong, please try again.</string>
 
 </resources>

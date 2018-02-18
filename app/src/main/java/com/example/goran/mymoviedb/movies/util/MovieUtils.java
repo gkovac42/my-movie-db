@@ -17,6 +17,8 @@ import java.util.Locale;
 
 public class MovieUtils {
 
+
+
     public static String formatTitle(String title, String date) throws IndexOutOfBoundsException {
         try {
             return title + " (" + date.substring(0, 4) + ")";
@@ -115,7 +117,7 @@ public class MovieUtils {
                 genreName = "Western";
                 break;
             default:
-                genreName = "N/A";
+                genreName = "n/a";
         }
         return genreName;
     }

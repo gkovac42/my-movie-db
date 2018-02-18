@@ -22,6 +22,7 @@ import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.MovieDetailsFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
+import com.example.goran.mymoviedb.movies.util.BaseUrl;
 import com.example.goran.mymoviedb.movies.util.MovieUtils;
 import com.example.goran.mymoviedb.movies.util.RatingDialog;
 import com.example.goran.mymoviedb.notifications.NotificationUtils;
@@ -62,8 +63,6 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
     @BindDrawable(R.drawable.ic_favorite_border_black_24dp) Drawable drwNotFavorite;
     @BindDrawable(R.drawable.ic_star_accent_24dp) Drawable drwRated;
     @BindDrawable(R.drawable.ic_star_border_accent_24dp) Drawable drwNotRated;
-
-    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w300";
 
     @Inject
     MovieDetailsContract.Presenter presenter;
@@ -182,7 +181,7 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
     @Override
     public void displayUserActionError() {
         Toast.makeText(getActivity(),
-                "Something went wrong, please try again.",
+                R.string.user_action_error,
                 Toast.LENGTH_SHORT).show();
     }
 
@@ -193,7 +192,7 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
         ((AppCompatActivity) getActivity()).getSupportActionBar()
                 .setTitle(movieDetails.getTitle());
 
-        imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movieDetails.getPosterPath()));
+        imgPoster.setImageURI(Uri.parse(BaseUrl.IMG_NORMAL + movieDetails.getPosterPath()));
         txtReleaseDate.setText(movieDetails.getReleaseDate());
         txtDesc.setText(movieDetails.getOverview());
 

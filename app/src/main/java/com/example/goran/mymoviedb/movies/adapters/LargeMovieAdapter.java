@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.goran.mymoviedb.R;
+import com.example.goran.mymoviedb.movies.util.BaseUrl;
 import com.example.goran.mymoviedb.movies.util.MovieUtils;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -20,8 +21,6 @@ import java.util.List;
  */
 
 public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.ViewHolder> implements BaseMovieAdapter {
-
-    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
     private List<Movie> movies;
     private MovieAdapterListener listener;
@@ -68,7 +67,7 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
         txtRating.setText(String.valueOf(movie.getVoteAverage()));
         txtVotes.setText(String.valueOf(movie.getVoteCount()));
         txtGenre.setText(MovieUtils.getGenreById(movie.getGenreIds().get(0)));
-        imgPoster.setImageURI(Uri.parse(IMG_BASE_URL + movie.getBackdropPath()));
+        imgPoster.setImageURI(Uri.parse(BaseUrl.IMG_LARGE + movie.getBackdropPath()));
 
         if (position == movies.size() - 1) {
 

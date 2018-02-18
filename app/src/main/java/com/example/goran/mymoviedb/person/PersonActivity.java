@@ -15,6 +15,7 @@ import com.example.goran.mymoviedb.di.PersonActivityModule;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsActivity;
+import com.example.goran.mymoviedb.movies.util.BaseUrl;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -29,8 +30,6 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
     @BindView(R.id.img_person_profile) SimpleDraweeView imgProfile;
     @BindView(R.id.txt_person_about) TextView txtAbout;
     @BindView(R.id.recycler_person_related) RecyclerView recyclerView;
-
-    private static final String IMG_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
     @Inject
     PersonContract.Presenter presenter;
@@ -80,7 +79,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
     @Override
     public void displayPersonDetails(Person person) {
         getSupportActionBar().setTitle(person.getName());
-        imgProfile.setImageURI(Uri.parse(IMG_BASE_URL + person.getProfilePath()));
+        imgProfile.setImageURI(Uri.parse(BaseUrl.IMG_LARGE + person.getProfilePath()));
         txtAbout.setText(person.getBiography());
     }
 

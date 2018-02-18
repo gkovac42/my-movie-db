@@ -3,12 +3,12 @@ package com.example.goran.mymoviedb.data.interactors;
 import android.arch.lifecycle.LifecycleOwner;
 
 import com.example.goran.mymoviedb.data.local.UserManager;
-import com.example.goran.mymoviedb.data.model.user.FavoriteRequest;
-import com.example.goran.mymoviedb.data.model.user.RateRequest;
-import com.example.goran.mymoviedb.data.model.user.AccountStates;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.list.ListResponse;
 import com.example.goran.mymoviedb.data.model.list.MovieData;
+import com.example.goran.mymoviedb.data.model.user.AccountStates;
+import com.example.goran.mymoviedb.data.model.user.FavoriteRequest;
+import com.example.goran.mymoviedb.data.model.user.RateRequest;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
 import com.example.goran.mymoviedb.di.scope.PerFragment;
 
@@ -63,8 +63,7 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
                 .subscribe(
 
                         movieData -> ((DetailsListener) getListener()).onDataReady(movieData),
-                        throwable -> ((DetailsListener) getListener()).onError(), () -> {
-                        },
+                        throwable -> ((DetailsListener) getListener()).onError(), () -> {},
                         disposable -> getCompositeDisposable().add(disposable));
     }
 
@@ -72,15 +71,14 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
 
         apiHelper.getMovieDetails(movieId)
                 .zipWith(apiHelper.getSimilarMovies(movieId, 1), (movieDetails, listResponse)
-                        -> new MovieData(movieDetails, listResponse.getMovies()))
+                        -> new MovieData(movieDetails, null, listResponse.getMovies()))
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
 
                         movieData -> ((DetailsListener) getListener()).onDataReady(movieData),
-                        throwable -> ((DetailsListener) getListener()).onError(), () -> {
-                        },
+                        throwable -> ((DetailsListener) getListener()).onError(), () -> {},
                         disposable -> getCompositeDisposable().add(disposable));
     }
 

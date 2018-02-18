@@ -54,12 +54,12 @@ public class MovieSearchFragment extends BaseFragment implements MovieSearchCont
     private ArrayAdapter<Keyword> keywordAdapter;
     private SimpleMovieAdapter resultAdapter;
 
-    void initKeywordAdapter() {
+    private void initKeywordAdapter() {
         keywordAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_list_item_1);
     }
 
-    void initResultAdapter() {
+    private void initResultAdapter() {
         resultAdapter = new SimpleMovieAdapter();
         resultAdapter.setListener(new MovieAdapterListener() {
 

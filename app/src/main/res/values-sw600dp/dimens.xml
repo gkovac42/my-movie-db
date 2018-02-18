@@ -24,7 +24,7 @@
     <dimen name="backdrop_width_land">256dp</dimen>
     <dimen name="backdrop_height_portrait">192dp</dimen>
 
-    <dimen name="person_height_port">384dp</dimen>
+    <dimen name="person_height_port">392dp</dimen>
 
     <dimen name="list_item_width">96dp</dimen>
     <dimen name="list_item_height">96dp</dimen>
