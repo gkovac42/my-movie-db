@@ -3,10 +3,7 @@ package com.example.goran.mymoviedb.data.interactors;
 import android.arch.lifecycle.LifecycleOwner;
 
 import com.example.goran.mymoviedb.data.local.UserManager;
-import com.example.goran.mymoviedb.data.model.details.MovieDetails;
-import com.example.goran.mymoviedb.data.model.list.ListResponse;
 import com.example.goran.mymoviedb.data.model.list.MovieData;
-import com.example.goran.mymoviedb.data.model.user.AccountStates;
 import com.example.goran.mymoviedb.data.model.user.FavoriteRequest;
 import com.example.goran.mymoviedb.data.model.user.RateRequest;
 import com.example.goran.mymoviedb.data.remote.ApiHelper;
@@ -51,12 +48,14 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
 
     private void getUserData(int movieId) {
 
-        Observable<MovieDetails> detailsObs = apiHelper.getMovieDetails(movieId);
-        Observable<AccountStates> statesObs = apiHelper.getAccountStates(movieId);
-        Observable<ListResponse> similarObs = apiHelper.getSimilarMovies(movieId, 1);
+        Observable.zip(
+                apiHelper.getMovieDetails(movieId),
+                apiHelper.getAccountStates(movieId),
+                apiHelper.getSimilarMovies(movieId, 1),
 
-        Observable.zip(detailsObs, statesObs, similarObs, (movieDetails, accountStates, listResponse)
-                -> new MovieData(movieDetails, accountStates, listResponse.getMovies()))
+                (movieDetails, accountStates, listResponse)
+
+                        -> new MovieData(movieDetails, accountStates, listResponse.getMovies()))
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
