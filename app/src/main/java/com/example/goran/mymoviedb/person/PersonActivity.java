@@ -36,23 +36,6 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
 
     private SimpleMovieAdapter adapter;
 
-    private void initAdapter() {
-        adapter = new SimpleMovieAdapter();
-        adapter.setListener(new MovieAdapterListener() {
-            @Override
-            public void onClick(int movieId) {
-                presenter.onClickRelatedMovie(movieId);
-            }
-
-            @Override
-            public void onBottomReached() {
-
-            }
-        });
-
-        recyclerView.setAdapter(adapter);
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +59,23 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
     }
 
 
+    private void initAdapter() {
+        adapter = new SimpleMovieAdapter();
+        adapter.setListener(new MovieAdapterListener() {
+            @Override
+            public void onClick(int movieId) {
+                presenter.onClickRelatedMovie(movieId);
+            }
+
+            @Override
+            public void onBottomReached() {
+
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
+    }
+
     @Override
     public void displayPersonDetails(Person person) {
         getSupportActionBar().setTitle(person.getName());
@@ -85,8 +85,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
 
     @Override
     public void displayRelatedMovies(List<Movie> movies) {
-        adapter.setDataSource(movies);
-        adapter.notifyDataSetChanged();
+        adapter.addMovies(movies);
     }
 
     @Override

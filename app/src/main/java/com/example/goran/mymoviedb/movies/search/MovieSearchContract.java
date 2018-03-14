@@ -20,6 +20,8 @@ public interface MovieSearchContract {
 
         void removeTextWatcher();
 
+        void clearSearchResults();
+
         void displaySearchResults(List<Movie> movieList);
 
         void displayKeywords(List<Keyword> keywordList);

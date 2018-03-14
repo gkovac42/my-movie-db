@@ -23,7 +23,6 @@ import com.example.goran.mymoviedb.di.MovieDetailsFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.util.BaseUrl;
-import com.example.goran.mymoviedb.movies.util.MovieUtils;
 import com.example.goran.mymoviedb.movies.util.RatingDialog;
 import com.example.goran.mymoviedb.notifications.NotificationUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -43,69 +42,32 @@ import butterknife.OnClick;
 
 public class MovieDetailsFragment extends BaseFragment implements MovieDetailsContract.View {
 
-    @BindView(R.id.img_movie_poster)
-    SimpleDraweeView imgPoster;
-    @BindView(R.id.txt_movie_release)
-    TextView txtReleaseDate;
-    @BindView(R.id.txt_movie_desc)
-    TextView txtDesc;
-    @BindView(R.id.txt_movie_genre)
-    TextView txtGenre;
-    @BindView(R.id.txt_movie_language)
-    TextView txtLanguage;
-    @BindView(R.id.txt_movie_rating)
-    TextView txtRating;
-    @BindView(R.id.txt_movie_votes)
-    TextView txtVotes;
-    @BindView(R.id.txt_movie_status)
-    TextView txtStatus;
-    @BindView(R.id.txt_movie_original_title)
-    TextView txtOriginalTitle;
-    @BindView(R.id.txt_movie_budget)
-    TextView txtBudget;
-    @BindView(R.id.txt_movie_revenue)
-    TextView txtRevenue;
-    @BindView(R.id.txt_movie_runtime)
-    TextView txtRuntime;
-    @BindView(R.id.btn_movie_rate)
-    ImageButton btnRate;
-    @BindView(R.id.btn_movie_favorite)
-    ImageButton btnFavorite;
-    @BindView(R.id.recycler_movie_similar)
-    RecyclerView recyclerView;
+    @BindView(R.id.img_movie_poster) SimpleDraweeView imgPoster;
+    @BindView(R.id.txt_movie_release) TextView txtReleaseDate;
+    @BindView(R.id.txt_movie_desc) TextView txtDesc;
+    @BindView(R.id.txt_movie_genre) TextView txtGenre;
+    @BindView(R.id.txt_movie_language) TextView txtLanguage;
+    @BindView(R.id.txt_movie_rating) TextView txtRating;
+    @BindView(R.id.txt_movie_votes) TextView txtVotes;
+    @BindView(R.id.txt_movie_status) TextView txtStatus;
+    @BindView(R.id.txt_movie_original_title) TextView txtOriginalTitle;
+    @BindView(R.id.txt_movie_budget) TextView txtBudget;
+    @BindView(R.id.txt_movie_revenue) TextView txtRevenue;
+    @BindView(R.id.txt_movie_runtime) TextView txtRuntime;
+    @BindView(R.id.btn_movie_rate) ImageButton btnRate;
+    @BindView(R.id.btn_movie_favorite) ImageButton btnFavorite;
+    @BindView(R.id.recycler_movie_similar) RecyclerView recyclerView;
 
-    @BindDrawable(R.drawable.ic_favorite_black_24dp)
-    Drawable drwFavorite;
-    @BindDrawable(R.drawable.ic_favorite_border_black_24dp)
-    Drawable drwNotFavorite;
-    @BindDrawable(R.drawable.ic_star_accent_24dp)
-    Drawable drwRated;
-    @BindDrawable(R.drawable.ic_star_border_accent_24dp)
-    Drawable drwNotRated;
+    @BindDrawable(R.drawable.ic_favorite_black_24dp) Drawable drwFavorite;
+    @BindDrawable(R.drawable.ic_favorite_border_black_24dp) Drawable drwNotFavorite;
+    @BindDrawable(R.drawable.ic_star_accent_24dp) Drawable drwRated;
+    @BindDrawable(R.drawable.ic_star_border_accent_24dp) Drawable drwNotRated;
 
     @Inject
     MovieDetailsContract.Presenter presenter;
 
     private SimpleMovieAdapter adapter;
     private RatingDialog ratingDialog;
-
-    private void initAdapter() {
-        adapter = new SimpleMovieAdapter();
-        adapter.setListener(new MovieAdapterListener() {
-
-            @Override
-            public void onClick(int movieId) {
-                presenter.onClickSimilar(movieId);
-            }
-
-            @Override
-            public void onBottomReached() {
-
-            }
-        });
-
-        recyclerView.setAdapter(adapter);
-    }
 
     private void initRatingDialog() {
         ratingDialog = new RatingDialog();
@@ -119,17 +81,6 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
             }
         });
     }
-
-    @OnClick(R.id.btn_movie_rate)
-    void onClickRate() {
-        presenter.onClickRate();
-    }
-
-    @OnClick(R.id.btn_movie_favorite)
-    void onClickFavorite() {
-        presenter.onClickFavorite();
-    }
-
 
     @Nullable
     @Override
@@ -160,11 +111,39 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
     }
 
 
+    private void initAdapter() {
+        adapter = new SimpleMovieAdapter();
+        adapter.setListener(new MovieAdapterListener() {
+
+            @Override
+            public void onClick(int movieId) {
+                presenter.onClickSimilar(movieId);
+            }
+
+            @Override
+            public void onBottomReached() {
+
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
+    }
+
     // user interaction
     @Override
     public void enableUserFeatures() {
         btnFavorite.setVisibility(View.VISIBLE);
         btnRate.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.btn_movie_rate)
+    void onClickRate() {
+        presenter.onClickRate();
+    }
+
+    @OnClick(R.id.btn_movie_favorite)
+    void onClickFavorite() {
+        presenter.onClickFavorite();
     }
 
     @Override
@@ -206,33 +185,32 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
 
     // movie details
     @Override
-    public void displayMovieDetails(MovieDetails movieDetails) {
+    public void displayMovieDetails(MovieDetails details) {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar()
-                .setTitle(movieDetails.getTitle());
+                .setTitle(details.getTitle());
 
-        imgPoster.setImageURI(Uri.parse(BaseUrl.IMG_NORMAL + movieDetails.getPosterPath()));
+        imgPoster.setImageURI(Uri.parse(BaseUrl.IMG_NORMAL + details.getPosterPath()));
 
-        txtReleaseDate.setText(movieDetails.getReleaseDate());
-        txtDesc.setText(movieDetails.getOverview());
-        txtGenre.setText(MovieUtils.getGenres(movieDetails));
+        txtReleaseDate.setText(details.getReleaseDate());
+        txtDesc.setText(details.getOverview());
+        txtGenre.setText(details.getGenres());
 
-        txtLanguage.setText(movieDetails.getSpokenLanguages().get(0).getName());
-        txtRating.setText(String.valueOf(movieDetails.getVoteAverage()));
-        txtVotes.setText(String.valueOf(movieDetails.getVoteCount()));
+        txtLanguage.setText(details.getSpokenLanguage());
+        txtRating.setText(String.valueOf(details.getVoteAverage()));
+        txtVotes.setText(String.valueOf(details.getVoteCount()));
 
-        txtBudget.setText(String.valueOf(movieDetails.getBudget() + "$"));
-        txtRevenue.setText(String.valueOf(movieDetails.getRevenue() + "$"));
-        txtRuntime.setText(String.valueOf(movieDetails.getRuntime() + " min"));
+        txtBudget.setText(details.getBudget());
+        txtRevenue.setText(details.getRevenue());
+        txtRuntime.setText(details.getRuntime());
 
-        txtOriginalTitle.setText(movieDetails.getOriginalTitle());
-        txtStatus.setText(movieDetails.getStatus());
+        txtOriginalTitle.setText(details.getOriginalTitle());
+        txtStatus.setText(details.getStatus());
     }
 
     @Override
     public void displaySimilarMovies(List<Movie> movieList) {
-        adapter.setDataSource(movieList);
-        adapter.notifyDataSetChanged();
+        adapter.addMovies(movieList);
     }
 
     @Override

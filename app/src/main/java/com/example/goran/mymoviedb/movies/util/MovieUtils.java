@@ -3,12 +3,12 @@ package com.example.goran.mymoviedb.movies.util;
 import android.text.TextUtils;
 
 import com.example.goran.mymoviedb.data.model.details.Genre;
-import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -42,15 +42,16 @@ public class MovieUtils {
         return null;
     }
 
-    // formats movie genres into a single String, separated by comma
-    public static String getGenres(MovieDetails movieDetails) {
-        ArrayList<String> genres = new ArrayList<>();
+    // formats movie genres into a single String, separated by ,
+    public static String getGenres(List<Genre> genres) {
 
-        for (Genre genre : movieDetails.getGenres()) {
-            genres.add(genre.getName());
+        ArrayList<String> formattedGenres = new ArrayList<>();
+
+        for (Genre genre : genres) {
+            formattedGenres.add(genre.getName());
         }
 
-        return TextUtils.join(", ", genres);
+        return TextUtils.join(", ", formattedGenres);
     }
 
     // localized id to genre name converter to avoid unnecessary network calls

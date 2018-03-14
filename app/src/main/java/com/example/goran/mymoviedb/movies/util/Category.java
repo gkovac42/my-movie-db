@@ -11,4 +11,6 @@ public class Category {
     public static final int POPULAR = 2;
     public static final int TOP_RATED = 3;
     public static final int FAVORITE = 4;
+    public static final int SEARCH = 5;
+
 }

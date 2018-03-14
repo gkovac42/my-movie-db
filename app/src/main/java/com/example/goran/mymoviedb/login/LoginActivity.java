@@ -31,18 +31,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     @Inject
     LoginContract.Presenter presenter;
 
-    @OnClick(R.id.btn_login)
-    public void onClickLogin() {
-        presenter.onClickLogin(
-                txtUsername.getText().toString(),
-                txtPassword.getText().toString());
-    }
-
-    @OnClick(R.id.txt_guest)
-    public void onClickGuest() {
-        presenter.onClickGuest();
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +56,18 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         txtResetPassword.setMovementMethod(LinkMovementMethod.getInstance());
 
         presenter.checkForSavedUser();
+    }
+
+    @OnClick(R.id.btn_login)
+    public void onClickLogin() {
+        presenter.onClickLogin(
+                txtUsername.getText().toString(),
+                txtPassword.getText().toString());
+    }
+
+    @OnClick(R.id.txt_guest)
+    public void onClickGuest() {
+        presenter.onClickGuest();
     }
 
 

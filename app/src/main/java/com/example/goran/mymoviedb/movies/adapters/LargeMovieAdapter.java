@@ -30,8 +30,9 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
     }
 
     @Override
-    public void setDataSource(List<Movie> movies) {
-        this.movies = movies;
+    public void addMovies(List<Movie> movies) {
+        this.movies.addAll(movies);
+        notifyDataSetChanged();
     }
 
     @Override

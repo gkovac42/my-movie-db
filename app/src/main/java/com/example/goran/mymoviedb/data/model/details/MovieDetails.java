@@ -1,5 +1,6 @@
 package com.example.goran.mymoviedb.data.model.details;
 
+import com.example.goran.mymoviedb.movies.util.MovieUtils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -75,16 +76,16 @@ public class MovieDetails {
         this.backdropPath = backdropPath;
     }
 
-    public Integer getBudget() {
-        return budget;
+    public String getBudget() {
+        return budget + "$";
     }
 
     public void setBudget(Integer budget) {
         this.budget = budget;
     }
 
-    public List<Genre> getGenres() {
-        return genres;
+    public String getGenres() {
+        return MovieUtils.getGenres(this.genres);
     }
 
     public void setGenres(List<Genre> genres) {
@@ -147,24 +148,24 @@ public class MovieDetails {
         this.releaseDate = releaseDate;
     }
 
-    public Integer getRevenue() {
-        return revenue;
+    public String getRevenue() {
+        return revenue + "$";
     }
 
     public void setRevenue(Integer revenue) {
         this.revenue = revenue;
     }
 
-    public Integer getRuntime() {
-        return runtime;
+    public String getRuntime() {
+        return runtime + " min";
     }
 
     public void setRuntime(Integer runtime) {
         this.runtime = runtime;
     }
 
-    public List<SpokenLanguage> getSpokenLanguages() {
-        return spokenLanguages;
+    public String getSpokenLanguage() {
+        return spokenLanguages.get(0).getName();
     }
 
     public void setSpokenLanguages(List<SpokenLanguage> spokenLanguages) {

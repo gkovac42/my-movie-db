@@ -12,6 +12,6 @@ public interface BaseMovieAdapter {
 
     void setListener(MovieAdapterListener listener);
 
-    void setDataSource(List<Movie> movies);
+    void addMovies(List<Movie> movies);
 
 }

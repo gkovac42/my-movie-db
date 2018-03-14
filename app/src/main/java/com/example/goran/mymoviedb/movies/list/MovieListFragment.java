@@ -40,33 +40,6 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
 
     private LargeMovieAdapter adapter;
 
-    private void initAdapter() {
-        adapter = new LargeMovieAdapter();
-        adapter.setListener(new MovieAdapterListener() {
-            @Override
-            public void onClick(int movieId) {
-                presenter.onClickMovie(movieId);
-            }
-
-            @Override
-            public void onBottomReached() {
-                presenter.onBottomReached();
-            }
-        });
-
-        recyclerView.setAdapter(adapter);
-    }
-
-    public static MovieListFragment newInstance(int category) {
-
-        MovieListFragment fragment = new MovieListFragment();
-        Bundle args = new Bundle();
-        args.putInt("category", category);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
 
     @Nullable
     @Override
@@ -93,6 +66,32 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
 
     }
 
+    public static MovieListFragment newInstance(int category) {
+
+        MovieListFragment fragment = new MovieListFragment();
+        Bundle args = new Bundle();
+        args.putInt("category", category);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    private void initAdapter() {
+        adapter = new LargeMovieAdapter();
+        adapter.setListener(new MovieAdapterListener() {
+            @Override
+            public void onClick(int movieId) {
+                presenter.onClickMovie(movieId);
+            }
+
+            @Override
+            public void onBottomReached() {
+                presenter.onBottomReached();
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
+    }
 
     @Override
     public void showProgressDialog() {
@@ -106,8 +105,7 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
 
     @Override
     public void updateAdapter(List<Movie> movies) {
-        adapter.setDataSource(movies);
-        adapter.notifyDataSetChanged();
+        adapter.addMovies(movies);
     }
 
     @Override

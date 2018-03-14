@@ -54,44 +54,6 @@ public class MovieSearchFragment extends BaseFragment implements MovieSearchCont
     private ArrayAdapter<Keyword> keywordAdapter;
     private SimpleMovieAdapter resultAdapter;
 
-    private void initKeywordAdapter() {
-        keywordAdapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_list_item_1);
-    }
-
-    private void initResultAdapter() {
-        resultAdapter = new SimpleMovieAdapter();
-        resultAdapter.setListener(new MovieAdapterListener() {
-
-            @Override
-            public void onClick(int movieId) {
-                presenter.onClickResult(movieId);
-            }
-
-            @Override
-            public void onBottomReached() {
-                presenter.onBottomReached(rbtnTitle.isChecked());
-            }
-        });
-
-        recyclerView.setAdapter(resultAdapter);
-    }
-
-    @OnClick(R.id.btn_search)
-    public void onClickSearch() {
-        presenter.onClickSearch(txtSearchQuery.getText().toString(),
-                rbtnTitle.isChecked());
-    }
-
-    @OnClick(R.id.rbtn_search_keyword)
-    public void onSelectKeyword() {
-        presenter.onSelectByKeyword();
-    }
-
-    @OnClick(R.id.rbtn_search_title)
-    public void onSelectTitle() {
-        presenter.onSelectByTitle();
-    }
 
     @Nullable
     @Override
@@ -138,6 +100,45 @@ public class MovieSearchFragment extends BaseFragment implements MovieSearchCont
         progressBar.setVisibility(View.GONE);
     }
 
+    private void initKeywordAdapter() {
+        keywordAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_list_item_1);
+    }
+
+    private void initResultAdapter() {
+        resultAdapter = new SimpleMovieAdapter();
+        resultAdapter.setListener(new MovieAdapterListener() {
+
+            @Override
+            public void onClick(int movieId) {
+                presenter.onClickResult(movieId);
+            }
+
+            @Override
+            public void onBottomReached() {
+                presenter.onBottomReached(rbtnTitle.isChecked());
+            }
+        });
+
+        recyclerView.setAdapter(resultAdapter);
+    }
+
+    @OnClick(R.id.btn_search)
+    public void onClickSearch() {
+        presenter.onClickSearch(txtSearchQuery.getText().toString(),
+                rbtnTitle.isChecked());
+    }
+
+    @OnClick(R.id.rbtn_search_keyword)
+    public void onSelectKeyword() {
+        presenter.onSelectByKeyword();
+    }
+
+    @OnClick(R.id.rbtn_search_title)
+    public void onSelectTitle() {
+        presenter.onSelectByTitle();
+    }
+
     @Override
     public void hideKeyboard() {
 
@@ -152,8 +153,7 @@ public class MovieSearchFragment extends BaseFragment implements MovieSearchCont
 
     @Override
     public void displaySearchResults(List<Movie> movieList) {
-        resultAdapter.setDataSource(movieList);
-        resultAdapter.notifyDataSetChanged();
+        resultAdapter.addMovies(movieList);
     }
 
     @Override
@@ -180,6 +180,11 @@ public class MovieSearchFragment extends BaseFragment implements MovieSearchCont
         keywordAdapter.clear();
         txtSearchQuery.setAdapter(null);
         txtSearchQuery.removeTextChangedListener(this);
+    }
+
+    @Override
+    public void clearSearchResults() {
+        resultAdapter.clear();
     }
 
     @Override

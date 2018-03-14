@@ -30,8 +30,14 @@ public class SimpleMovieAdapter extends RecyclerView.Adapter<SimpleMovieAdapter.
     }
 
     @Override
-    public void setDataSource(List<Movie> movies) {
-        this.movies = movies;
+    public void addMovies(List<Movie> movies) {
+        this.movies.addAll(movies);
+        notifyDataSetChanged();
+    }
+
+    public void clear() {
+        movies.clear();
+        notifyDataSetChanged();
     }
 
     @Override

@@ -23,7 +23,6 @@ public class MovieSearchPresenter implements
     private SearchInteractor interactor;
 
     private List<Keyword> keywords;
-    private List<Movie> results;
 
     private String query;
     private int keywordId;
@@ -36,7 +35,6 @@ public class MovieSearchPresenter implements
         this.interactor.setListener(this);
 
         keywords = new ArrayList<>();
-        results = new ArrayList<>();
     }
 
     @Override
@@ -44,10 +42,10 @@ public class MovieSearchPresenter implements
 
         view.showProgressDialog();
         view.hideKeyboard();
+        view.clearSearchResults();
 
         this.currentPage = 1;
         this.query = query;
-        this.results.clear();
 
         search(byTitle);
     }
@@ -101,8 +99,7 @@ public class MovieSearchPresenter implements
 
     @Override
     public void onResultsReady(List<Movie> movieList) {
-        results.addAll(movieList);
-        view.displaySearchResults(results);
+        view.displaySearchResults(movieList);
         view.hideProgressDialog();
     }
 
