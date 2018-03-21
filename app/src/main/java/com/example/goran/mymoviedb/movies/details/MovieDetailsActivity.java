@@ -1,6 +1,8 @@
 package com.example.goran.mymoviedb.movies.details;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -69,5 +71,11 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
             return null;
         }
+    }
+
+    public static Intent newIntent(Context context, int movieId) {
+        Intent intent = new Intent(context, MovieDetailsActivity.class);
+        intent.putExtra("movie_id", movieId);
+        return intent;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.goran.mymoviedb.person;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -55,7 +56,6 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
 
         presenter.initPresenter(personId);
         presenter.loadPersonData();
-
     }
 
 
@@ -90,8 +90,12 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
 
     @Override
     public void navigateToRelatedMovie(int movieId) {
-        Intent intent = new Intent(this, MovieDetailsActivity.class);
-        intent.putExtra("movie_id", movieId);
-        startActivity(intent);
+        startActivity(MovieDetailsActivity.newIntent(this, movieId));
+    }
+
+    public static Intent newIntent(Context context, int personId) {
+        Intent intent = new Intent(context, PersonActivity.class);
+        intent.putExtra("person_id", personId);
+        return intent;
     }
 }

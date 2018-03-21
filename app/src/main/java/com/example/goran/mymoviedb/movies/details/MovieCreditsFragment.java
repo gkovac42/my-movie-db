@@ -1,6 +1,5 @@
 package com.example.goran.mymoviedb.movies.details;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -89,8 +88,6 @@ public class MovieCreditsFragment extends Fragment implements MovieCreditsContra
 
     @Override
     public void navigateToPerson(int personId) {
-        Intent intent = new Intent(getActivity(), PersonActivity.class);
-        intent.putExtra("person_id", personId);
-        startActivity(intent);
+        startActivity(PersonActivity.newIntent(getActivity(), personId));
     }
 }

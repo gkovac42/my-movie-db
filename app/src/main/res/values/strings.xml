@@ -1,15 +1,19 @@
 <resources>
     <string name="app_name">MyMovieDb</string>
 
+    <string name="title_activity_movie_details"></string>
+    <string name="title_activity_single_movie"></string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!-- Titles-->
-    <string name="title_activity_movie_details">MovieDetailsActivity</string>
-    <string name="title_activity_movie_details_activity">MovieDetailsActivity</string>
-    <string name="title_activity_single_movie"></string>
-    <string name="tab_details">Details</string>
-    <string name="tab_credits">Credits</string>
+    <string name="title_playing_now">MyMovieDb - Playing Now</string>
+    <string name="title_upcoming">MyMovieDb - Upcoming</string>
+    <string name="title_top_rated">MyMovieDb - Top Rated</string>
+    <string name="title_popular">MyMovieDb - Popular</string>
+    <string name="title_search">MyMovieDb - Search</string>
+    <string name="title_favorite">MyMovieDb - Favorite</string>
 
     <!--Login Screen-->
     <string name="txt_intro">Welcome to MyMovieDb!\n Please login with an existing account or continue as guest.</string>
@@ -27,12 +31,12 @@
     <string name="nav_guest">Guest</string>
     <string name="nav_log_in">Log in</string>
     <string name="nav_log_out">Log out</string>
-    <string name="title_playing_now">MyMovieDb - Playing Now</string>
-    <string name="title_upcoming">MyMovieDb - Upcoming</string>
-    <string name="title_top_rated">MyMovieDb - Top Rated</string>
-    <string name="title_popular">MyMovieDb - Popular</string>
-    <string name="title_search">MyMovieDb - Search</string>
-    <string name="title_favorite">MyMovieDb - Favorite</string>
+    <string name="nav_playing_now">Playing Now</string>
+    <string name="nav_upcoming">Upcoming</string>
+    <string name="nav_popular">Popular</string>
+    <string name="nav_top_rated">Top Rated</string>
+    <string name="nav_favorite">Favorite</string>
+    <string name="nav_search">Search</string>
 
     <!--Search-->
     <string name="by_title">by title</string>
@@ -40,6 +44,8 @@
     <string name="by_keyword">by keyword</string>
 
     <!--Details-->
+    <string name="tab_details">Details</string>
+    <string name="tab_credits">Credits</string>
     <string name="description">Description:</string>
     <string name="more_info">More Info:</string>
     <string name="release_date">Release Date:</string>
@@ -50,19 +56,15 @@
     <string name="revenue">Revenue:</string>
     <string name="homepage">Homepage :</string>
     <string name="similar_movies">Similar Movies:</string>
-    <string name="crew">Crew:</string>
-    <string name="cast">Cast:</string>
-    <string name="nav_playing_now">Playing Now</string>
-    <string name="nav_upcoming">Upcoming</string>
-    <string name="nav_popular">Popular</string>
-    <string name="nav_top_rated">Top Rated</string>
-    <string name="nav_favorite">Favorite</string>
-    <string name="nav_search">Search</string>
     <string name="cancel">Cancel</string>
     <string name="rate">Rate</string>
+    <string name="user_action_error">Something went wrong, please try again.</string>
+
+    <string name="crew">Crew:</string>
+    <string name="cast">Cast:</string>
+
     <string name="related_movies">Related Movies:</string>
     <string name="about">About:</string>
-    <string name="user_action_error">Something went wrong, please try again.</string>
 
     <!--Genres-->
     <string name="action">action</string>

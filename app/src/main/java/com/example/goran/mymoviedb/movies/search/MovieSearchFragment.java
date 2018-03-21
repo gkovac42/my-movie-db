@@ -2,7 +2,6 @@ package com.example.goran.mymoviedb.movies.search;
 
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -164,9 +163,7 @@ public class MovieSearchFragment extends BaseFragment implements MovieSearchCont
 
     @Override
     public void navigateToResult(int movieId) {
-        Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
-        intent.putExtra("movie_id", movieId);
-        startActivity(intent);
+        startActivity(MovieDetailsActivity.newIntent(getActivity(), movieId));
     }
 
     @Override

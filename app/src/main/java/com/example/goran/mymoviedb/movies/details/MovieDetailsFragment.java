@@ -1,6 +1,5 @@
 package com.example.goran.mymoviedb.movies.details;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -69,18 +68,6 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
     private SimpleMovieAdapter adapter;
     private RatingDialog ratingDialog;
 
-    private void initRatingDialog() {
-        ratingDialog = new RatingDialog();
-        ratingDialog.setOnClickListener(dialogView -> {
-
-            if (dialogView.getId() == R.id.btn_dialog_rate) {
-                presenter.onClickDlgRate(ratingDialog.getRating());
-
-            } else {
-                presenter.onClickDlgCancel();
-            }
-        });
-    }
 
     @Nullable
     @Override
@@ -100,14 +87,15 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
 
         initAdapter();
 
-        initRatingDialog();
-
+        recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
 
         int movieId = getActivity().getIntent().getIntExtra("movie_id", 0);
 
         presenter.initPresenter(movieId);
         presenter.loadMovieData();
+
+        initRatingDialog();
     }
 
 
@@ -125,11 +113,24 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
 
             }
         });
-
-        recyclerView.setAdapter(adapter);
     }
 
     // user interaction
+
+    private void initRatingDialog() {
+        ratingDialog = new RatingDialog();
+
+        ratingDialog.setOnClickListener(dialogView -> {
+
+            if (dialogView.getId() == R.id.btn_dialog_rate) {
+                presenter.onClickDlgRate(ratingDialog.getRating());
+
+            } else {
+                presenter.onClickDlgCancel();
+            }
+        });
+    }
+
     @Override
     public void enableUserFeatures() {
         btnFavorite.setVisibility(View.VISIBLE);
@@ -215,9 +216,7 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
 
     @Override
     public void navigateToSimilar(int movieId) {
-        Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
-        intent.putExtra("movie_id", movieId);
-        startActivity(intent);
+        startActivity(MovieDetailsActivity.newIntent(getActivity(), movieId));
     }
 
     // notifications

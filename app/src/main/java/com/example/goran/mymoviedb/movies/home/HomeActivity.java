@@ -31,6 +31,8 @@ import butterknife.OnClick;
 public class HomeActivity extends AppCompatActivity
         implements HomeContract.View, NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int FAVORITES_MENU_POSITION = 4;
+
     @BindView(R.id.txt_nav_user) TextView txtUser;
     @BindView(R.id.txt_nav_login) TextView txtLogInOut;
 
@@ -41,7 +43,7 @@ public class HomeActivity extends AppCompatActivity
     private NavigationView navigationView;
     private DrawerLayout drawer;
 
-    private int selectedItem;
+    private int selectedMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +60,10 @@ public class HomeActivity extends AppCompatActivity
         initNavDrawer();
 
         if (savedInstanceState != null) {
-            selectedItem = savedInstanceState.getInt("selected_item");
+            selectedMenuItem = savedInstanceState.getInt("selected_item");
         }
 
-        presenter.initView(selectedItem);
+        presenter.initView(selectedMenuItem);
     }
 
 
@@ -81,26 +83,12 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();
     }
 
-    private void showFragment(int category) {
+    private void showFragment(Fragment fragment) {
+        FragmentTransaction ft = getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_main, fragment);
 
-        String tag = String.valueOf(category);
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
-
-        if (fragment == null) {
-
-            if (category != Category.SEARCH) {
-                fragment = MovieListFragment.newInstance(category);
-
-            } else {
-                fragment = new MovieSearchFragment();
-            }
-
-            fragmentTransaction.addToBackStack(tag);
-        }
-
-        fragmentTransaction.replace(R.id.content_main, fragment, tag)
-                .commit();
+        ft.commit();
     }
 
     @Override
@@ -115,8 +103,8 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        selectedItem = item.getItemId();
-        presenter.onClickMenuItem(selectedItem);
+        selectedMenuItem = item.getItemId();
+        presenter.onClickMenuItem(selectedMenuItem);
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
@@ -124,7 +112,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("selected_item", selectedItem);
+        outState.putInt("selected_item", selectedMenuItem);
         super.onSaveInstanceState(outState);
     }
 
@@ -141,46 +129,46 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void hideFavorites() {
-        navigationView.getMenu().getItem(4).setVisible(false);
+        navigationView.getMenu().getItem(FAVORITES_MENU_POSITION).setVisible(false);
     }
 
     @Override
     public void navigateToMenuItem(int itemId) {
 
-        switch (selectedItem) {
+        switch (selectedMenuItem) {
 
             case R.id.nav_playing_now:
                 getSupportActionBar().setTitle(R.string.title_playing_now);
-                showFragment(Category.NOW_PLAYING);
+                showFragment(MovieListFragment.newInstance(Category.NOW_PLAYING));
                 break;
 
             case R.id.nav_upcoming:
                 getSupportActionBar().setTitle(R.string.title_upcoming);
-                showFragment(Category.UPCOMING);
+                showFragment(MovieListFragment.newInstance(Category.UPCOMING));
                 break;
 
             case R.id.nav_popular:
                 getSupportActionBar().setTitle(R.string.title_popular);
-                showFragment(Category.POPULAR);
+                showFragment(MovieListFragment.newInstance(Category.POPULAR));
                 break;
 
             case R.id.nav_top_rated:
                 getSupportActionBar().setTitle(R.string.title_top_rated);
-                showFragment(Category.TOP_RATED);
+                showFragment(MovieListFragment.newInstance(Category.TOP_RATED));
                 break;
 
             case R.id.nav_search:
                 getSupportActionBar().setTitle(R.string.title_search);
-                showFragment(Category.SEARCH);
+                showFragment(new MovieSearchFragment());
                 break;
 
             case R.id.nav_favorite:
                 getSupportActionBar().setTitle(R.string.title_favorite);
-                showFragment(Category.FAVORITE);
+                showFragment(MovieListFragment.newInstance(Category.FAVORITE));
                 break;
             default:
                 getSupportActionBar().setTitle(R.string.title_playing_now);
-                showFragment(Category.NOW_PLAYING);
+                showFragment(MovieListFragment.newInstance(Category.NOW_PLAYING));
         }
     }
 

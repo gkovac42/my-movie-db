@@ -5,7 +5,6 @@ import com.example.goran.mymoviedb.data.interactors.ListInteractorImpl;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.scope.PerFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,8 +18,6 @@ public class MovieListPresenter implements MovieListContract.Presenter, ListInte
     private MovieListContract.View view;
     private ListInteractor interactor;
 
-    private List<Movie> movies;
-
     private int category;
     private int currentPage;
 
@@ -33,21 +30,19 @@ public class MovieListPresenter implements MovieListContract.Presenter, ListInte
 
     @Override
     public void initPresenter(int category) {
+        view.showProgressDialog();
         this.category = category;
         this.currentPage = 1;
-        this.movies = new ArrayList<>();
     }
 
     @Override
     public void loadMovies() {
-        view.showProgressDialog();
         interactor.getMovieList(category, currentPage++);
     }
 
     @Override
     public void onDataReady(List<Movie> movieList) {
-        movies.addAll(movieList);
-        view.updateAdapter(movies);
+        view.updateAdapter(movieList);
         view.hideProgressDialog();
     }
 
