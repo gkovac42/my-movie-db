@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.example.goran.mymoviedb.BaseApplication;
 import com.example.goran.mymoviedb.BaseFragment;
@@ -32,7 +31,6 @@ import butterknife.ButterKnife;
 public class MovieListFragment extends BaseFragment implements MovieListContract.View {
 
     @BindView(R.id.recycler_list) RecyclerView recyclerView;
-    @BindView(R.id.progress_list) ProgressBar progressBar;
 
     @Inject
     MovieListContract.Presenter presenter;
