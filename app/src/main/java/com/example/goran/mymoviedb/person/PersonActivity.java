@@ -7,8 +7,9 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.example.goran.mymoviedb.BaseActivity;
-import com.example.goran.mymoviedb.BaseApplication;
+import com.example.goran.mymoviedb.base.BaseActivity;
+import com.example.goran.mymoviedb.base.BaseApplication;
+import com.example.goran.mymoviedb.Constants;
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.data.model.person.Person;
@@ -16,7 +17,7 @@ import com.example.goran.mymoviedb.di.PersonActivityModule;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsActivity;
-import com.example.goran.mymoviedb.movies.util.BaseUrl;
+import com.example.goran.mymoviedb.Urls;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -52,7 +53,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
 
         recyclerView.setNestedScrollingEnabled(false);
 
-        int personId = getIntent().getIntExtra("person_id", 0);
+        int personId = getIntent().getIntExtra(Constants.EXTRA_PERSON_ID, 0);
 
         presenter.initPresenter(personId);
         presenter.loadPersonData();
@@ -79,7 +80,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
     @Override
     public void displayPersonDetails(Person person) {
         getSupportActionBar().setTitle(person.getName());
-        imgProfile.setImageURI(Uri.parse(BaseUrl.IMG_LARGE + person.getProfilePath()));
+        imgProfile.setImageURI(Uri.parse(Urls.IMG_LARGE + person.getProfilePath()));
         txtAbout.setText(person.getBiography());
     }
 
@@ -95,7 +96,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
 
     public static Intent newIntent(Context context, int personId) {
         Intent intent = new Intent(context, PersonActivity.class);
-        intent.putExtra("person_id", personId);
+        intent.putExtra(Constants.EXTRA_PERSON_ID, personId);
         return intent;
     }
 }

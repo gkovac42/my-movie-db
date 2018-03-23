@@ -1,4 +1,4 @@
-package com.example.goran.mymoviedb;
+package com.example.goran.mymoviedb.base;
 
 /**
  * Created by Goran on 7.2.2018..

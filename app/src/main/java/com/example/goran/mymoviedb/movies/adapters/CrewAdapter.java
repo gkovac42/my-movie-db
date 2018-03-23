@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.details.Crew;
-import com.example.goran.mymoviedb.movies.util.BaseUrl;
+import com.example.goran.mymoviedb.Urls;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class CrewAdapter extends RecyclerView.Adapter<CrewAdapter.ViewHolder> {
         TextView txtName = listItem.findViewById(R.id.txt_item_name);
         TextView txtCharacter = listItem.findViewById(R.id.txt_item_character);
 
-        imgPoster.setImageURI(Uri.parse(BaseUrl.IMG_SMALL + movieCrew.getProfilePath()));
+        imgPoster.setImageURI(Uri.parse(Urls.IMG_SMALL + movieCrew.getProfilePath()));
         txtName.setText((movieCrew.getName()));
         txtCharacter.setText(movieCrew.getJob());
     }

@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.movies.details;
 
-import com.example.goran.mymoviedb.BaseView;
+import com.example.goran.mymoviedb.base.BaseView;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 

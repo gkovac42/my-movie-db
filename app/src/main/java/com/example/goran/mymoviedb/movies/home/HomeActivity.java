@@ -14,13 +14,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.goran.mymoviedb.BaseApplication;
+import com.example.goran.mymoviedb.base.BaseApplication;
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.di.HomeActivityModule;
 import com.example.goran.mymoviedb.login.LoginActivity;
 import com.example.goran.mymoviedb.movies.list.MovieListFragment;
 import com.example.goran.mymoviedb.movies.search.MovieSearchFragment;
 import com.example.goran.mymoviedb.movies.util.Category;
+import com.example.goran.mymoviedb.Constants;
 
 import javax.inject.Inject;
 
@@ -60,7 +61,7 @@ public class HomeActivity extends AppCompatActivity
         initNavDrawer();
 
         if (savedInstanceState != null) {
-            selectedMenuItem = savedInstanceState.getInt("selected_item");
+            selectedMenuItem = savedInstanceState.getInt(Constants.STATE_SELECTED_ITEM);
         }
 
         presenter.initView(selectedMenuItem);
@@ -112,7 +113,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("selected_item", selectedMenuItem);
+        outState.putInt(Constants.STATE_SELECTED_ITEM, selectedMenuItem);
         super.onSaveInstanceState(outState);
     }
 

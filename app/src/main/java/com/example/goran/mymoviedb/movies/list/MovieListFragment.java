@@ -7,14 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.goran.mymoviedb.BaseApplication;
-import com.example.goran.mymoviedb.BaseFragment;
+import com.example.goran.mymoviedb.base.BaseApplication;
+import com.example.goran.mymoviedb.base.BaseFragment;
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.MovieListFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.LargeMovieAdapter;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.details.MovieDetailsActivity;
+import com.example.goran.mymoviedb.Constants;
 
 import java.util.List;
 
@@ -37,6 +38,15 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
 
     private LargeMovieAdapter adapter;
 
+    public static MovieListFragment newInstance(int category) {
+        MovieListFragment fragment = new MovieListFragment();
+        Bundle args = new Bundle();
+        args.putInt(Constants.EXTRA_CATEGORY, category);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
 
     @Nullable
     @Override
@@ -58,20 +68,10 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
 
         recyclerView.setAdapter(adapter);
 
-        int category = getArguments().getInt("category");
+        int category = getArguments().getInt(Constants.EXTRA_CATEGORY);
 
         presenter.initPresenter(category);
         presenter.loadMovies();
-    }
-
-
-    public static MovieListFragment newInstance(int category) {
-        MovieListFragment fragment = new MovieListFragment();
-        Bundle args = new Bundle();
-        args.putInt("category", category);
-        fragment.setArguments(args);
-
-        return fragment;
     }
 
     private void initAdapter() {

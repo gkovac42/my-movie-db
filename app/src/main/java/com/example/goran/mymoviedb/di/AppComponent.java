@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.di;
 
-import com.example.goran.mymoviedb.BaseApplication;
+import com.example.goran.mymoviedb.base.BaseApplication;
 import com.example.goran.mymoviedb.data.local.KeystoreModule;
 import com.example.goran.mymoviedb.data.remote.RemoteModule;
 

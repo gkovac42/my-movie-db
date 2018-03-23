@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.goran.mymoviedb.R;
+import com.example.goran.mymoviedb.Constants;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
@@ -75,7 +76,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     public static Intent newIntent(Context context, int movieId) {
         Intent intent = new Intent(context, MovieDetailsActivity.class);
-        intent.putExtra("movie_id", movieId);
+        intent.putExtra(Constants.EXTRA_MOVIE_ID, movieId);
         return intent;
     }
 }

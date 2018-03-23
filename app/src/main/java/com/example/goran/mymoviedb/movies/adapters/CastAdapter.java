@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.details.Cast;
-import com.example.goran.mymoviedb.movies.util.BaseUrl;
+import com.example.goran.mymoviedb.Urls;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
         TextView txtName = listItem.findViewById(R.id.txt_item_name);
         TextView txtCharacter = listItem.findViewById(R.id.txt_item_character);
 
-        imgPoster.setImageURI(Uri.parse(BaseUrl.IMG_SMALL + movieCast.getProfilePath()));
+        imgPoster.setImageURI(Uri.parse(Urls.IMG_SMALL + movieCast.getProfilePath()));
         txtName.setText((movieCast.getName()));
         txtCharacter.setText(movieCast.getCharacter());
     }

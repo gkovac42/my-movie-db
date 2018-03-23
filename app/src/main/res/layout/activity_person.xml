@@ -59,7 +59,8 @@
                 android:id="@+id/recycler_person_related"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:spanCount="@integer/simple_adapter_span_count"/>
 
         </android.support.v7.widget.CardView>
     </LinearLayout>

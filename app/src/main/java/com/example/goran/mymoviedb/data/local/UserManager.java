@@ -17,6 +17,10 @@ import javax.inject.Singleton;
 @Singleton
 public class UserManager {
 
+    private static final String ALIAS = "alias";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
+
     private Crypto crypto;
     private Store store;
     private SharedPreferences sharedPreferences;
@@ -40,7 +44,7 @@ public class UserManager {
 
     private SecretKey getSecretKey() {
 
-        final String alias = "password_key";
+        final String alias = ALIAS;
 
         if (!store.hasKey(alias)) {
             return store.generateSymmetricKey(alias, null);
@@ -64,17 +68,17 @@ public class UserManager {
         String encryptedPassword = encrypt(user.getPassword());
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("username", user.getUsername());
-        editor.putString("password", encryptedPassword);
+        editor.putString(USERNAME, user.getUsername());
+        editor.putString(PASSWORD, encryptedPassword);
         editor.apply();
 
     }
 
     public User loadUser() {
-        String username = sharedPreferences.getString("username", null);
+        String username = sharedPreferences.getString(USERNAME, null);
 
         if (username != null) {
-            String password = sharedPreferences.getString("password", null);
+            String password = sharedPreferences.getString(PASSWORD, null);
             String decryptedPassword = decrypt(password);
             return new User(username, decryptedPassword);
 
@@ -85,8 +89,8 @@ public class UserManager {
 
     public void deleteUser() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("username");
-        editor.remove("password");
+        editor.remove(USERNAME);
+        editor.remove(PASSWORD);
         editor.apply();
     }
 }

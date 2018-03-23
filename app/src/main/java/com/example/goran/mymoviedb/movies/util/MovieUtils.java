@@ -15,7 +15,7 @@ import java.util.Locale;
  * Created by Goran on 23.12.2017..
  */
 
-public class MovieUtils {
+public abstract class MovieUtils {
 
 
 

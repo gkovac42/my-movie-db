@@ -1,4 +1,4 @@
-package com.example.goran.mymoviedb;
+package com.example.goran.mymoviedb.base;
 
 import android.app.Application;
 

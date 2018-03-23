@@ -9,8 +9,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.goran.mymoviedb.BaseActivity;
-import com.example.goran.mymoviedb.BaseApplication;
+import com.example.goran.mymoviedb.base.BaseActivity;
+import com.example.goran.mymoviedb.base.BaseApplication;
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.di.LoginActivityModule;
 import com.example.goran.mymoviedb.movies.home.HomeActivity;

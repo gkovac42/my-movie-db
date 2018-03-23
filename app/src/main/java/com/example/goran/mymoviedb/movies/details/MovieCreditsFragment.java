@@ -8,13 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.goran.mymoviedb.BaseApplication;
+import com.example.goran.mymoviedb.base.BaseApplication;
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.details.Cast;
 import com.example.goran.mymoviedb.data.model.details.Crew;
 import com.example.goran.mymoviedb.di.MovieCreditsFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.CastAdapter;
 import com.example.goran.mymoviedb.movies.adapters.CrewAdapter;
+import com.example.goran.mymoviedb.Constants;
 import com.example.goran.mymoviedb.person.PersonActivity;
 
 import java.util.List;
@@ -67,7 +68,7 @@ public class MovieCreditsFragment extends Fragment implements MovieCreditsContra
         recyclerViewCast.setAdapter(castAdapter);
         recyclerViewCast.setNestedScrollingEnabled(false);
 
-        int movieId = getActivity().getIntent().getIntExtra("movie_id", 0);
+        int movieId = getActivity().getIntent().getIntExtra(Constants.EXTRA_MOVIE_ID, 0);
 
         presenter.initPresenter(movieId);
         presenter.loadCredits();

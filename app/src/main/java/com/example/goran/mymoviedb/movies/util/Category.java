@@ -4,7 +4,7 @@ package com.example.goran.mymoviedb.movies.util;
  * Created by Goran on 13.1.2018..
  */
 
-public class Category {
+public abstract class Category {
 
     public static final int NOW_PLAYING = 0;
     public static final int UPCOMING = 1;

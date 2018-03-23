@@ -13,15 +13,16 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.goran.mymoviedb.BaseApplication;
-import com.example.goran.mymoviedb.BaseFragment;
+import com.example.goran.mymoviedb.base.BaseApplication;
+import com.example.goran.mymoviedb.base.BaseFragment;
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.example.goran.mymoviedb.di.MovieDetailsFragmentModule;
 import com.example.goran.mymoviedb.movies.adapters.MovieAdapterListener;
 import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
-import com.example.goran.mymoviedb.movies.util.BaseUrl;
+import com.example.goran.mymoviedb.Urls;
+import com.example.goran.mymoviedb.Constants;
 import com.example.goran.mymoviedb.movies.util.RatingDialog;
 import com.example.goran.mymoviedb.notifications.NotificationUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -90,7 +91,7 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
 
-        int movieId = getActivity().getIntent().getIntExtra("movie_id", 0);
+        int movieId = getActivity().getIntent().getIntExtra(Constants.EXTRA_MOVIE_ID, 0);
 
         presenter.initPresenter(movieId);
         presenter.loadMovieData();
@@ -191,7 +192,7 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
         ((AppCompatActivity) getActivity()).getSupportActionBar()
                 .setTitle(details.getTitle());
 
-        imgPoster.setImageURI(Uri.parse(BaseUrl.IMG_NORMAL + details.getPosterPath()));
+        imgPoster.setImageURI(Uri.parse(Urls.IMG_NORMAL + details.getPosterPath()));
 
         txtReleaseDate.setText(details.getReleaseDate());
         txtDesc.setText(details.getOverview());

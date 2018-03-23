@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.goran.mymoviedb.R;
-import com.example.goran.mymoviedb.movies.util.BaseUrl;
+import com.example.goran.mymoviedb.Urls;
 import com.example.goran.mymoviedb.movies.util.MovieUtils;
 import com.example.goran.mymoviedb.data.model.list.Movie;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -68,7 +68,7 @@ public class LargeMovieAdapter extends RecyclerView.Adapter<LargeMovieAdapter.Vi
         txtRating.setText(String.valueOf(movie.getVoteAverage()));
         txtVotes.setText(String.valueOf(movie.getVoteCount()));
         txtGenre.setText(MovieUtils.getGenreById(movie.getGenreIds().get(0)));
-        imgPoster.setImageURI(Uri.parse(BaseUrl.IMG_LARGE + movie.getBackdropPath()));
+        imgPoster.setImageURI(Uri.parse(Urls.IMG_LARGE + movie.getBackdropPath()));
 
         if (position == movies.size() - 1) {
 

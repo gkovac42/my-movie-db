@@ -1,6 +1,6 @@
 package com.example.goran.mymoviedb.login;
 
-import com.example.goran.mymoviedb.BaseView;
+import com.example.goran.mymoviedb.base.BaseView;
 
 /**
  * Created by Goran on 10.1.2018..

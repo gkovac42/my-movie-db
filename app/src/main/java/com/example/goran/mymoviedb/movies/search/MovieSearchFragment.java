@@ -17,8 +17,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 
-import com.example.goran.mymoviedb.BaseApplication;
-import com.example.goran.mymoviedb.BaseFragment;
+import com.example.goran.mymoviedb.base.BaseApplication;
+import com.example.goran.mymoviedb.base.BaseFragment;
 import com.example.goran.mymoviedb.R;
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
 import com.example.goran.mymoviedb.data.model.list.Movie;
@@ -52,6 +52,8 @@ public class MovieSearchFragment extends BaseFragment implements MovieSearchCont
 
     private ArrayAdapter<Keyword> keywordAdapter;
     private SimpleMovieAdapter resultAdapter;
+
+
 
 
     @Nullable

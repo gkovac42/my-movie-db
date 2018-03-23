@@ -1,6 +1,6 @@
-package com.example.goran.mymoviedb;
+package com.example.goran.mymoviedb.base;
 
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 
 import com.example.goran.mymoviedb.movies.util.ProgressDialog;
 
@@ -8,7 +8,7 @@ import com.example.goran.mymoviedb.movies.util.ProgressDialog;
  * Created by Goran on 7.2.2018..
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements BaseView {
+public abstract class BaseFragment extends Fragment implements BaseView {
 
     private ProgressDialog progressDialog;
 
@@ -17,7 +17,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         if (progressDialog == null) {
             progressDialog = new ProgressDialog();
         }
-        progressDialog.show(getSupportFragmentManager(), "");
+        progressDialog.show(getActivity().getSupportFragmentManager(), "");
     }
 
     @Override
