@@ -4,24 +4,18 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
-import com.example.goran.mymoviedb.Constants;
 import com.example.goran.mymoviedb.R;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.Trigger;
-
-import java.util.Calendar;
 
 /**
  * Created by Goran on 27.1.2018..
  */
 
 public class NotificationUtils {
+
+    private static final String CHANNEL_ID = "channel_id";
+    private static final String CHANNEL_NAME = "notification_channel";
 
     public static void showNotification(Context context, String message) {
 
@@ -30,57 +24,19 @@ public class NotificationUtils {
 
         // Android O must specify a notification channel
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel(
-                    "channel_id",
-                    "notification_channel",
-                    NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel notificationChannel =
+                    new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
 
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "channel_id")
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_local_movies_white_24dp)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.tmdb_logo))
-                .setContentTitle("Playing now!")
+                .setContentTitle(context.getString(R.string.notification_title))
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         notificationManager.notify(1, notificationBuilder.build());
-    }
-
-    public static void scheduleJob(String title, Long releaseDate, Context context) {
-
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-
-        Job job = createJob(dispatcher, title, releaseDate);
-
-        dispatcher.mustSchedule(job);
-    }
-
-    private static Job createJob(FirebaseJobDispatcher dispatcher, String title, long releaseDate) {
-
-        Bundle extras = new Bundle();
-        extras.putString(Constants.EXTRA_MOVIE_TITLE, title);
-
-        long currentDate = Calendar.getInstance().getTimeInMillis();
-
-        int triggerDelay = (int) ((releaseDate - currentDate) / 1000); // in seconds
-
-        return dispatcher.newJobBuilder()
-                .setExtras(extras)
-                .setLifetime(Lifetime.FOREVER)
-                .setService(NotificationService.class)
-                .setTag(title)
-                .setReplaceCurrent(false)
-                .setRecurring(false)
-                .setTrigger(Trigger.executionWindow(triggerDelay, triggerDelay + 60*60))
-                .build();
-    }
-
-    public static void cancelJob(Context context, String title) {
-
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-
-        dispatcher.cancel(title);
     }
 }

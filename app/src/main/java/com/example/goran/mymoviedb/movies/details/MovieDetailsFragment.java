@@ -24,6 +24,7 @@ import com.example.goran.mymoviedb.movies.adapters.SimpleMovieAdapter;
 import com.example.goran.mymoviedb.Urls;
 import com.example.goran.mymoviedb.Constants;
 import com.example.goran.mymoviedb.movies.util.RatingDialog;
+import com.example.goran.mymoviedb.notifications.NotificationService;
 import com.example.goran.mymoviedb.notifications.NotificationUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -223,12 +224,12 @@ public class MovieDetailsFragment extends BaseFragment implements MovieDetailsCo
     // notifications
     @Override
     public void scheduleNotification(String title, Long releaseDate) {
-        NotificationUtils.scheduleJob(title, releaseDate, getActivity());
+        NotificationService.scheduleJob(title, releaseDate, getActivity());
     }
 
     @Override
     public void cancelNotification(String title) {
-        NotificationUtils.cancelJob(getActivity(), title);
+        NotificationService.cancelJob(getActivity(), title);
     }
 
     @Override

@@ -67,29 +67,10 @@ public class HomeActivity extends AppCompatActivity
         presenter.initView(selectedMenuItem);
     }
 
-
-    private void initNavDrawer() {
-        navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        ButterKnife.bind(this, navigationView.getHeaderView(0));
-
-        drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close);
-
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-    }
-
-    private void showFragment(Fragment fragment) {
-        FragmentTransaction ft = getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.content_main, fragment);
-
-        ft.commit();
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(BUNDLE_SELECTED_ITEM, selectedMenuItem);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -109,28 +90,6 @@ public class HomeActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(BUNDLE_SELECTED_ITEM, selectedMenuItem);
-        super.onSaveInstanceState(outState);
-    }
-
-    @OnClick(R.id.txt_nav_login)
-    public void onClickLoginOut() {
-        presenter.onClickLoginOut();
-    }
-
-    @Override
-    public void displayActiveUser(String username) {
-        txtUser.setText(username);
-        txtLogInOut.setText(R.string.nav_log_out);
-    }
-
-    @Override
-    public void hideFavorites() {
-        navigationView.getMenu().getItem(FAVORITES_MENU_POSITION).setVisible(false);
     }
 
     @Override
@@ -171,6 +130,46 @@ public class HomeActivity extends AppCompatActivity
                 getSupportActionBar().setTitle(R.string.title_playing_now);
                 showFragment(MovieListFragment.newInstance(Category.NOW_PLAYING));
         }
+    }
+
+    private void showFragment(Fragment fragment) {
+        FragmentTransaction ft = getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_main, fragment);
+
+        ft.commit();
+    }
+
+    private void initNavDrawer() {
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ButterKnife.bind(this, navigationView.getHeaderView(0));
+
+        drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    @OnClick(R.id.txt_nav_login)
+    public void onClickLoginOut() {
+        presenter.onClickLoginOut();
+    }
+
+    @Override
+    public void displayActiveUser(String username) {
+        txtUser.setText(username);
+        txtLogInOut.setText(R.string.nav_log_out);
+    }
+
+    @Override
+    public void hideFavorites() {
+        navigationView.getMenu().getItem(FAVORITES_MENU_POSITION).setVisible(false);
     }
 
     @Override

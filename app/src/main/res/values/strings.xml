@@ -80,4 +80,6 @@
     <string name="mystery">mystery</string>
     <string name="adventure">adventure</string>
 
+    <string name="notification_title">Playing Now</string>
+
 </resources>
