@@ -33,8 +33,7 @@ public class MovieSearchPresenter implements
         this.view = view;
         this.interactor = interactor;
         this.interactor.setListener(this);
-
-        keywords = new ArrayList<>();
+        this.keywords = new ArrayList<>();
     }
 
     @Override

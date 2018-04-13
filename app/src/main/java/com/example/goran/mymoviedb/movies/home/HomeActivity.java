@@ -14,14 +14,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.goran.mymoviedb.base.BaseApplication;
 import com.example.goran.mymoviedb.R;
+import com.example.goran.mymoviedb.base.BaseApplication;
 import com.example.goran.mymoviedb.di.HomeActivityModule;
 import com.example.goran.mymoviedb.login.LoginActivity;
 import com.example.goran.mymoviedb.movies.list.MovieListFragment;
 import com.example.goran.mymoviedb.movies.search.MovieSearchFragment;
 import com.example.goran.mymoviedb.movies.util.Category;
-import com.example.goran.mymoviedb.Constants;
 
 import javax.inject.Inject;
 
@@ -32,6 +31,7 @@ import butterknife.OnClick;
 public class HomeActivity extends AppCompatActivity
         implements HomeContract.View, NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String BUNDLE_SELECTED_ITEM = "selected_item";
     private static final int FAVORITES_MENU_POSITION = 4;
 
     @BindView(R.id.txt_nav_user) TextView txtUser;
@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity
         initNavDrawer();
 
         if (savedInstanceState != null) {
-            selectedMenuItem = savedInstanceState.getInt(Constants.STATE_SELECTED_ITEM);
+            selectedMenuItem = savedInstanceState.getInt(BUNDLE_SELECTED_ITEM);
         }
 
         presenter.initView(selectedMenuItem);
@@ -113,7 +113,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(Constants.STATE_SELECTED_ITEM, selectedMenuItem);
+        outState.putInt(BUNDLE_SELECTED_ITEM, selectedMenuItem);
         super.onSaveInstanceState(outState);
     }
 
@@ -160,7 +160,7 @@ public class HomeActivity extends AppCompatActivity
 
             case R.id.nav_search:
                 getSupportActionBar().setTitle(R.string.title_search);
-                showFragment(new MovieSearchFragment());
+                showFragment(MovieSearchFragment.newInstance());
                 break;
 
             case R.id.nav_favorite:

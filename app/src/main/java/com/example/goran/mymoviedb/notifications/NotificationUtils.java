@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
+import com.example.goran.mymoviedb.Constants;
 import com.example.goran.mymoviedb.R;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
@@ -47,10 +48,19 @@ public class NotificationUtils {
         notificationManager.notify(1, notificationBuilder.build());
     }
 
+    public static void scheduleJob(String title, Long releaseDate, Context context) {
+
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
+
+        Job job = createJob(dispatcher, title, releaseDate);
+
+        dispatcher.mustSchedule(job);
+    }
+
     private static Job createJob(FirebaseJobDispatcher dispatcher, String title, long releaseDate) {
 
         Bundle extras = new Bundle();
-        extras.putString("movie_title", title);
+        extras.putString(Constants.EXTRA_MOVIE_TITLE, title);
 
         long currentDate = Calendar.getInstance().getTimeInMillis();
 
@@ -65,15 +75,6 @@ public class NotificationUtils {
                 .setRecurring(false)
                 .setTrigger(Trigger.executionWindow(triggerDelay, triggerDelay + 60*60))
                 .build();
-    }
-
-    public static void scheduleJob(String title, Long releaseDate, Context context) {
-
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-
-        Job job = createJob(dispatcher, title, releaseDate);
-
-        dispatcher.mustSchedule(job);
     }
 
     public static void cancelJob(Context context, String title) {

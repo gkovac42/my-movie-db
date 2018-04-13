@@ -9,6 +9,6 @@ public abstract class Constants {
     public static final String EXTRA_CATEGORY = "category";
     public static final String EXTRA_MOVIE_ID = "movie_id";
     public static final String EXTRA_PERSON_ID = "person_id";
+    public static final String EXTRA_MOVIE_TITLE = "movie_title";
 
-    public static final String STATE_SELECTED_ITEM = "selected_item";
 }

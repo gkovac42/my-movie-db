@@ -1,6 +1,7 @@
 package com.example.goran.mymoviedb.notifications;
 
 
+import com.example.goran.mymoviedb.Constants;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 
@@ -14,7 +15,7 @@ public class NotificationService extends JobService {
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
 
-        String title = jobParameters.getExtras().getString("movie_title");
+        String title = jobParameters.getExtras().getString(Constants.EXTRA_MOVIE_TITLE);
 
         NotificationUtils.showNotification(this, title);
 

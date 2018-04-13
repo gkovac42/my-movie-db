@@ -51,6 +51,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
 
         initAdapter();
 
+        recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
 
         int personId = getIntent().getIntExtra(Constants.EXTRA_PERSON_ID, 0);
@@ -73,8 +74,6 @@ public class PersonActivity extends BaseActivity implements PersonContract.View 
 
             }
         });
-
-        recyclerView.setAdapter(adapter);
     }
 
     @Override

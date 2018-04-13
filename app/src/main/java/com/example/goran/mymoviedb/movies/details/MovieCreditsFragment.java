@@ -56,17 +56,17 @@ public class MovieCreditsFragment extends Fragment implements MovieCreditsContra
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        crewAdapter = new CrewAdapter();
-        crewAdapter.setListener(personId -> presenter.onClickPerson(personId));
-
         castAdapter = new CastAdapter();
         castAdapter.setListener(personId -> presenter.onClickPerson(personId));
 
-        recyclerViewCrew.setAdapter(crewAdapter);
-        recyclerViewCrew.setNestedScrollingEnabled(false);
-
         recyclerViewCast.setAdapter(castAdapter);
         recyclerViewCast.setNestedScrollingEnabled(false);
+
+        crewAdapter = new CrewAdapter();
+        crewAdapter.setListener(personId -> presenter.onClickPerson(personId));
+
+        recyclerViewCrew.setAdapter(crewAdapter);
+        recyclerViewCrew.setNestedScrollingEnabled(false);
 
         int movieId = getActivity().getIntent().getIntExtra(Constants.EXTRA_MOVIE_ID, 0);
 

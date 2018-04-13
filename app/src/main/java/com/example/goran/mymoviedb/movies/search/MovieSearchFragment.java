@@ -53,7 +53,9 @@ public class MovieSearchFragment extends BaseFragment implements MovieSearchCont
     private ArrayAdapter<Keyword> keywordAdapter;
     private SimpleMovieAdapter resultAdapter;
 
-
+    public static MovieSearchFragment newInstance() {
+        return new MovieSearchFragment();
+    }
 
 
     @Nullable
@@ -74,9 +76,11 @@ public class MovieSearchFragment extends BaseFragment implements MovieSearchCont
 
         rbtnTitle.setChecked(true);
 
+        initKeywordAdapter();
+
         initResultAdapter();
 
-        initKeywordAdapter();
+        recyclerView.setAdapter(resultAdapter);
 
         txtSearchQuery.setOnEditorActionListener((textView, i, keyEvent) -> {
 
@@ -121,7 +125,6 @@ public class MovieSearchFragment extends BaseFragment implements MovieSearchCont
             }
         });
 
-        recyclerView.setAdapter(resultAdapter);
     }
 
     @OnClick(R.id.btn_search)

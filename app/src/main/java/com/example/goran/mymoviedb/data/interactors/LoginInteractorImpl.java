@@ -71,10 +71,8 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
         apiHelper.createRequestToken()
                 .flatMap(requestToken ->
                         apiHelper.validateRequestToken(username, password, requestToken.getRequestToken()))
-
                 .flatMap(tokenValidation ->
                         apiHelper.createSession(tokenValidation.getRequestToken()))
-
                 .flatMap(session -> {
                     UserManager.getActiveUser().setSessionId(session.getSessionId());
                     return apiHelper.getAccountId(session.getSessionId());
@@ -87,7 +85,8 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
                             UserManager.getActiveUser().setAccountId(account.getId());
                             ((LoginListener) getListener()).onLoginSuccess(username, password);
                         },
-                        throwable -> ((LoginListener) getListener()).onLoginError(), () -> {
+                        throwable -> ((LoginListener) getListener()).onLoginError(),
+                        () -> {
                         },
                         disposable -> getCompositeDisposable().add(disposable));
     }

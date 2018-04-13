@@ -1,21 +1,21 @@
 package com.example.goran.mymoviedb.data.remote;
 
 import com.example.goran.mymoviedb.data.local.UserManager;
-import com.example.goran.mymoviedb.data.model.user.FavoriteRequest;
-import com.example.goran.mymoviedb.data.model.user.FavoriteResponse;
-import com.example.goran.mymoviedb.data.model.user.RateRequest;
-import com.example.goran.mymoviedb.data.model.user.RateResponse;
-import com.example.goran.mymoviedb.data.model.user.Account;
-import com.example.goran.mymoviedb.data.model.user.AccountStates;
-import com.example.goran.mymoviedb.data.model.user.RequestToken;
-import com.example.goran.mymoviedb.data.model.user.Session;
-import com.example.goran.mymoviedb.data.model.user.TokenValidation;
 import com.example.goran.mymoviedb.data.model.details.Credits;
 import com.example.goran.mymoviedb.data.model.details.GenreList;
 import com.example.goran.mymoviedb.data.model.details.MovieDetails;
 import com.example.goran.mymoviedb.data.model.keywords.KeywordResponse;
 import com.example.goran.mymoviedb.data.model.list.ListResponse;
 import com.example.goran.mymoviedb.data.model.person.Person;
+import com.example.goran.mymoviedb.data.model.user.Account;
+import com.example.goran.mymoviedb.data.model.user.AccountStates;
+import com.example.goran.mymoviedb.data.model.user.FavoriteRequest;
+import com.example.goran.mymoviedb.data.model.user.FavoriteResponse;
+import com.example.goran.mymoviedb.data.model.user.RateRequest;
+import com.example.goran.mymoviedb.data.model.user.RateResponse;
+import com.example.goran.mymoviedb.data.model.user.RequestToken;
+import com.example.goran.mymoviedb.data.model.user.Session;
+import com.example.goran.mymoviedb.data.model.user.TokenValidation;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -126,15 +126,6 @@ public class ApiHelper {
     public Observable<ListResponse> getFavoriteMovies(int page) {
         return apiService.getFavoriteMovies(UserManager.getActiveUser().getAccountId(),
                 API_KEY, UserManager.getActiveUser().getSessionId(), page);
-    }
-
-    public Observable<ListResponse> getFavoriteMovies(int accountId, String sessionId, int page) {
-        return apiService.getFavoriteMovies(accountId, API_KEY, sessionId, page);
-    }
-
-    public Observable<ListResponse> getRatedMovies(int page) {
-        return apiService.getRatedMovies(UserManager.getActiveUser().getAccountId(), API_KEY,
-                UserManager.getActiveUser().getSessionId(), page);
     }
 
     public Observable<FavoriteResponse> postFavoriteMovie(FavoriteRequest favoriteRequest) {

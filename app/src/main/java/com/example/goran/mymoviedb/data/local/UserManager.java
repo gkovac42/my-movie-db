@@ -17,9 +17,9 @@ import javax.inject.Singleton;
 @Singleton
 public class UserManager {
 
-    private static final String ALIAS = "alias";
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
+    private static final String PREF_ALIAS = "alias";
+    private static final String PREF_USERNAME = "username";
+    private static final String PREF_PASSWORD = "password";
 
     private Crypto crypto;
     private Store store;
@@ -44,7 +44,7 @@ public class UserManager {
 
     private SecretKey getSecretKey() {
 
-        final String alias = ALIAS;
+        final String alias = PREF_ALIAS;
 
         if (!store.hasKey(alias)) {
             return store.generateSymmetricKey(alias, null);
@@ -68,17 +68,17 @@ public class UserManager {
         String encryptedPassword = encrypt(user.getPassword());
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(USERNAME, user.getUsername());
-        editor.putString(PASSWORD, encryptedPassword);
+        editor.putString(PREF_USERNAME, user.getUsername());
+        editor.putString(PREF_PASSWORD, encryptedPassword);
         editor.apply();
 
     }
 
     public User loadUser() {
-        String username = sharedPreferences.getString(USERNAME, null);
+        String username = sharedPreferences.getString(PREF_USERNAME, null);
 
         if (username != null) {
-            String password = sharedPreferences.getString(PASSWORD, null);
+            String password = sharedPreferences.getString(PREF_PASSWORD, null);
             String decryptedPassword = decrypt(password);
             return new User(username, decryptedPassword);
 
@@ -89,8 +89,8 @@ public class UserManager {
 
     public void deleteUser() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(USERNAME);
-        editor.remove(PASSWORD);
+        editor.remove(PREF_USERNAME);
+        editor.remove(PREF_PASSWORD);
         editor.apply();
     }
 }
