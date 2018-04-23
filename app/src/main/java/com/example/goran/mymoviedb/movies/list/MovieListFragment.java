@@ -39,9 +39,10 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
     private LargeMovieAdapter adapter;
 
     public static MovieListFragment newInstance(int category) {
-        MovieListFragment fragment = new MovieListFragment();
         Bundle args = new Bundle();
         args.putInt(Constants.EXTRA_CATEGORY, category);
+
+        MovieListFragment fragment = new MovieListFragment();
         fragment.setArguments(args);
 
         return fragment;

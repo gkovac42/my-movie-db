@@ -65,29 +65,36 @@ public class LoginInteractorImpl extends BaseInteractorImpl implements LoginInte
 
     @Override
     public void initLogin(String username, String password) {
-
-        UserManager.setActiveUser(new User(username, password));
-
         apiHelper.createRequestToken()
                 .flatMap(requestToken ->
                         apiHelper.validateRequestToken(username, password, requestToken.getRequestToken()))
                 .flatMap(tokenValidation ->
                         apiHelper.createSession(tokenValidation.getRequestToken()))
                 .flatMap(session -> {
-                    UserManager.getActiveUser().setSessionId(session.getSessionId());
+                    User newUser = new User();
+                    newUser.setUsername(username);
+                    newUser.setPassword(password);
+                    newUser.setSessionId(session.getSessionId());
+
+                    UserManager.setActiveUser(newUser);
+
                     return apiHelper.getAccountId(session.getSessionId());
                 })
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
+
                         account -> {
                             UserManager.getActiveUser().setAccountId(account.getId());
                             ((LoginListener) getListener()).onLoginSuccess(username, password);
                         },
-                        throwable -> ((LoginListener) getListener()).onLoginError(),
-                        () -> {
-                        },
+
+                        throwable -> {
+                            UserManager.setActiveUser(null);
+                            ((LoginListener) getListener()).onLoginError();
+                        }, () -> {},
+
                         disposable -> getCompositeDisposable().add(disposable));
     }
 }

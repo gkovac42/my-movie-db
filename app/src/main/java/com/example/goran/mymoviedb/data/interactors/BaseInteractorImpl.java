@@ -21,8 +21,9 @@ public abstract class BaseInteractorImpl implements BaseInteractor, LifecycleObs
         compositeDisposable = new CompositeDisposable();
     }
 
+    // interactor listeners extend this
     public interface BaseListener {
-        // interactor listeners extend this
+
     }
 
     public BaseListener getListener() {

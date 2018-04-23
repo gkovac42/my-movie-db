@@ -35,7 +35,6 @@ public class PersonInteractorImpl extends BaseInteractorImpl implements PersonIn
 
     @Override
     public void getPersonData(int personId) {
-
         apiHelper.getPerson(personId)
                 .zipWith(apiHelper.getPersonRelatedMovies(personId), (person, listResponse) -> {
 

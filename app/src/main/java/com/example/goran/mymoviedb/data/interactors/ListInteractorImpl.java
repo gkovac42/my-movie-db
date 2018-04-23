@@ -60,7 +60,6 @@ public class ListInteractorImpl extends BaseInteractorImpl implements ListIntera
 
     @Override
     public void getMovieList(int category, int page) {
-
         Observable<ListResponse> listObservable;
 
         switch (category) {

@@ -47,7 +47,6 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
 
 
     private void getUserData(int movieId) {
-
         Observable.zip(
                 apiHelper.getMovieDetails(movieId),
                 apiHelper.getAccountStates(movieId),
@@ -67,7 +66,6 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
     }
 
     private void getGuestData(int movieId) {
-
         apiHelper.getMovieDetails(movieId)
                 .zipWith(apiHelper.getSimilarMovies(movieId, 1), (movieDetails, listResponse)
                         -> new MovieData(movieDetails, null, listResponse.getMovies()))
@@ -93,7 +91,6 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
 
     @Override
     public void postFavorite(boolean favorite, int movieId) {
-
         FavoriteRequest favoriteRequest = new FavoriteRequest(movieId, favorite);
 
         apiHelper.postFavoriteMovie(favoriteRequest)
@@ -108,7 +105,6 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
 
     @Override
     public void postRating(int movieId, double rating) {
-
         RateRequest rateRequest = new RateRequest(rating * 2);
 
         apiHelper.postMovieRating(movieId, rateRequest)
@@ -123,7 +119,6 @@ public class DetailsInteractorImpl extends BaseInteractorImpl implements Details
 
     @Override
     public void deleteRating(int movieId) {
-
         apiHelper.deleteMovieRating(movieId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

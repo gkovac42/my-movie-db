@@ -1,7 +1,6 @@
 package com.example.goran.mymoviedb.data.interactors;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.util.Log;
 
 import com.example.goran.mymoviedb.data.model.keywords.Keyword;
 import com.example.goran.mymoviedb.data.model.list.Movie;
@@ -41,39 +40,34 @@ public class SearchInteractorImpl extends BaseInteractorImpl implements SearchIn
 
     @Override
     public void searchByTitle(String query, int page) {
-
         apiHelper.searchByTitle(query, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         listResponse -> ((SearchListener) getListener()).onResultsReady(listResponse.getMovies()),
-                        throwable -> ((SearchListener) getListener()).onError(), () -> Log.i("LOG", "Complete"),
+                        throwable -> ((SearchListener) getListener()).onError(), () -> {},
                         disposable -> getCompositeDisposable().add(disposable));
     }
 
     @Override
     public void getKeywords(String query) {
-
         apiHelper.getKeywords(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         keywords -> ((SearchListener) getListener()).onKeywordsReady(keywords.getKeywords()),
-                        throwable -> ((SearchListener) getListener()).onError(),
-                        () -> Log.i("LOG", "Complete"),
+                        throwable -> ((SearchListener) getListener()).onError(), () -> {},
                         disposable -> getCompositeDisposable().add(disposable));
     }
 
     @Override
     public void searchByKeywordId(int keywordId, int page) {
-
         apiHelper.searchByKeywordId(keywordId, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         listResponse -> ((SearchListener) getListener()).onResultsReady(listResponse.getMovies()),
-                        throwable -> ((SearchListener) getListener()).onError(),
-                        () -> Log.i("LOG", "Complete"),
+                        throwable -> ((SearchListener) getListener()).onError(), () -> {},
                         disposable -> getCompositeDisposable().add(disposable));
     }
 }

@@ -36,7 +36,6 @@ public class CreditsInteractorImpl extends BaseInteractorImpl implements Credits
 
     @Override
     public void getCredits(int movieId) {
-
         apiHelper.getMovieCredits(movieId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
